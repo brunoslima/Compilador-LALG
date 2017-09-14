@@ -1,0 +1,81 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package lexico;
+
+/**
+ *
+ * @author leandroungari
+ */
+public class Item {
+    
+    private String simbolo;
+    private int tipo;
+    private int numLinha;
+    private int numColunaInicial;
+    private int numColunaFinal;
+
+    public Item(String simbolo, int tipo, int numLinha, int numColunaInicial, int numColunaFinal) {
+        this.simbolo = simbolo;
+        this.tipo = tipo;
+        this.numLinha = numLinha;
+        this.numColunaInicial = numColunaInicial;
+        this.numColunaFinal = numColunaFinal;
+    }
+
+    public String getSimbolo() {
+        return simbolo;
+    }
+
+    public void setSimbolo(String simbolo) {
+        this.simbolo = simbolo;
+    }
+
+    public int getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(int tipo) {
+        this.tipo = tipo;
+    }
+
+    public int getNumLinha() {
+        return numLinha;
+    }
+
+    public void setNumLinha(int numLinha) {
+        this.numLinha = numLinha;
+    }
+
+    public int getNumColunaInicial() {
+        return numColunaInicial;
+    }
+
+    public void setNumColunaInicial(int numColunaInicial) {
+        this.numColunaInicial = numColunaInicial;
+    }
+
+    public int getNumColunaFinal() {
+        return numColunaFinal;
+    }
+
+    public void setNumColunaFinal(int numColunaFinal) {
+        this.numColunaFinal = numColunaFinal;
+    }
+
+    @Override
+    public String toString() {
+        return "{"
+                + "\"simbolo\": " + this.getSimbolo() + ", "
+                + "\"tipo\": " + this.getTipo()+ ", "
+                + "\"numLinha\": " + this.getNumLinha()+ ", "
+                + "\"numColunaInicial\": " + this.getNumColunaInicial()+ ", "
+                + "\"numColunaFinal\": " + this.getNumColunaFinal()+ " }";
+                
+                
+    }
+    
+    
+}
