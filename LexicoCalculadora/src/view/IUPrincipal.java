@@ -14,7 +14,9 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import javax.swing.table.DefaultTableModel;
 import lexico.AnalisadorLexico;
+import lexico.Item;
 
 /**
  * @author brunoslima
@@ -69,6 +71,7 @@ public class IUPrincipal extends javax.swing.JFrame {
         MenuAbrir = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         MenuFechar = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
         MenuAnalisar = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
@@ -98,10 +101,7 @@ public class IUPrincipal extends javax.swing.JFrame {
 
         TabelaLexica.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
                 "Lexema", "Token", "Linha", "Coluna inicial", "Coluna final"
@@ -123,7 +123,20 @@ public class IUPrincipal extends javax.swing.JFrame {
         MenuAbrir.add(jMenuItem1);
 
         MenuFechar.setText("Fechar");
+        MenuFechar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MenuFecharActionPerformed(evt);
+            }
+        });
         MenuAbrir.add(MenuFechar);
+
+        jMenuItem4.setText("Sair");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        MenuAbrir.add(jMenuItem4);
 
         jMenuBar1.add(MenuAbrir);
 
@@ -142,6 +155,11 @@ public class IUPrincipal extends javax.swing.JFrame {
         jMenu3.setText("Ajuda");
 
         jMenuItem3.setText("Sobre");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
         jMenu3.add(jMenuItem3);
 
         jMenuBar1.add(jMenu3);
@@ -212,10 +230,59 @@ public class IUPrincipal extends javax.swing.JFrame {
 
             System.out.println(lexico.getTabela());
             JOptionPane.showMessageDialog(null, "Análise Léxica realizada com sucesso!");
+            
+            //Inserindo linhas na tabela
+            DefaultTableModel model = (DefaultTableModel) this.TabelaLexica.getModel();
+            String lexema, token, numLinha, numColunaInicial, numColunaFinal;
+            for(Item i : lexico.getTabela()){
+                
+                lexema = i.getSimbolo();
+                token = i.getTipo().toString();
+                numLinha = String.valueOf(i.getNumLinha());
+                numColunaInicial = String.valueOf(i.getNumColunaInicial());
+                numColunaFinal = String.valueOf(i.getNumColunaFinal());
+                
+                model.addRow(new String[]{lexema,token,numLinha,numColunaInicial,numColunaFinal});
+            }
+            
+            
         }
         else JOptionPane.showMessageDialog(null, "Arquivo não encontrado!\nAbra um arquivo texto primeiro!");
         
     }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        // TODO add your handling code here:
+        
+        this.dispose();
+        
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void MenuFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuFecharActionPerformed
+        // TODO add your handling code here:
+        
+        this.arq = null;
+        this.lexico = null;
+        this.TextArea.setText("");
+        this.Aba.setTitleAt(0,"Inicio");
+        
+        DefaultTableModel model = (DefaultTableModel) this.TabelaLexica.getModel();
+        if (model.getRowCount() > 0){
+            while (this.TabelaLexica.getModel().getRowCount() > 0) model.removeRow(0);         
+        }
+        
+    }//GEN-LAST:event_MenuFecharActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        // TODO add your handling code here:
+        
+        IUSobre cad = new IUSobre(this, true);
+        cad.setLocationRelativeTo(this);
+        cad.setVisible(true);
+        
+        cad.dispose();
+        
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -265,6 +332,7 @@ public class IUPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
