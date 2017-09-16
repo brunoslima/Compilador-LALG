@@ -11,17 +11,16 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 
 /**
  *
  * @author bruno
  */
 public class AnalisadorLexico {
-    
-    
-    private static ArrayList<Item> tabela = new ArrayList<>();
-    
-    
+
+    private ArrayList<Item> tabela;
+
     // ^[0-9]+\.[0-9]{1,6}$ => número real com até 6 casas depois da vírgula
     // ^[0-9]+$             => número inteiro
     // ^\+$                 => adição
@@ -30,38 +29,63 @@ public class AnalisadorLexico {
     // ^\/$                 => divisão
     // ^\($                 => abre parentese
     // ^\)$                 => fecha parentese
-    
-    public AnalisadorLexico(){
-        
-        this.tabela.clear();
-        
+    public AnalisadorLexico() {
+
+        this.tabela = new ArrayList<>();
+
         //this.gerarLexico();
     }
-    
-    
-    public void gerarLexico(){
-        
+
+    /**
+     *
+     */
+    public void gerarLexico() {
+
         File file = new File("src/lexico/Lexer.flex");
-        
+
         jflex.Main.generate(file);
     }
-    
-    public void analisar(String texto){
+
+    /**
+     *
+     * @param texto Refere-se ao texto da linha do arquivo
+     * @param numLinha Refere-se ao número da linha do arquivo
+     */
+    public void analisar(String texto, int numLinha) {
+
+        String textoLinha = texto;
         
-        Lexer l = new Lexer(new StringReader(texto));
-        try {
-            l.yylex();
-        } catch (IOException ex) {
-            Logger.getLogger(AnalisadorLexico.class.getName()).log(Level.SEVERE, null, ex);
+        while (!textoLinha.isEmpty()) {
+
+            Lexer l = new Lexer(new StringReader(textoLinha));
+            Item item = null;
+            
+            try {
+
+                item = l.yylex();
+                
+                if (item == null) return; 
+                
+                int colunaInicial = texto.indexOf(item.getSimbolo());
+                int colunaFinal = colunaInicial + item.getSimbolo().length() - 1;
+                
+                item.setNumLinha(numLinha);
+                item.setNumColunaInicial(colunaInicial);
+                item.setNumColunaFinal(colunaFinal);
+                
+                this.tabela.add(item);
+            } catch (IOException ex) {
+                Logger.getLogger(AnalisadorLexico.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            
+            textoLinha = textoLinha.replaceFirst(Pattern.quote(item.getSimbolo()), "");
         }
-        
+
     }
 
-    public static ArrayList<Item> getTabela() {
+    public ArrayList<Item> getTabela() {
         return tabela;
     }
-    
-  
-    
-    
+
 }

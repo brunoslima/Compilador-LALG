@@ -22,11 +22,11 @@ public class Analise {
 
         for (String s : arq.getLinhas()) {
             
-            System.out.println(s);
-            a.analisar(s);
-
+            
+            a.analisar(s, arq.getLinhas().indexOf(s));
+            
         }
 
-        System.out.println(AnalisadorLexico.getTabela());
+        System.out.println(a.getTabela());
     }
 }

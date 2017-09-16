@@ -79,11 +79,6 @@ class Lexer {
         return j;
     }
 
-    private void add(Simbolo descricao, String lexema) {
-
-        AnalisadorLexico.getTabela().add(new Item(lexema, descricao, yyline, yycolumn, yycolumn + lexema.length() - 1));
-    }
-
     /**
      * Translates a state to a row index in the transition table
      */
@@ -175,6 +170,11 @@ class Lexer {
         int offset = 0;
         offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
         return result;
+    }
+
+    private Item add(Simbolo descricao, String lexema) {
+
+        return new Item(lexema, descricao, yyline, yycolumn, yycolumn + lexema.length() - 1);
     }
 
     private static int zzUnpackAttribute(String packed, int offset, int[] result) {
@@ -275,8 +275,6 @@ class Lexer {
     private int zzFinalHighSurrogate = 0;
 
     /* user code: */
-    public String lexema;
-
     /**
      * Creates a new scanner
      *
@@ -502,7 +500,7 @@ class Lexer {
      * @return the next token
      * @exception java.io.IOException if any I/O-Error occurs
      */
-    public void yylex() throws java.io.IOException {
+    public Item yylex() throws java.io.IOException {
         int zzInput;
         int zzAction;
 
@@ -583,15 +581,16 @@ class Lexer {
 
             if (zzInput == YYEOF && zzStartRead == zzCurrentPos) {
                 zzAtEOF = true;
+                return null;
             } else {
                 switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
                     case 1: {
-                        add(ERROR, yytext());
+                        return add(ERROR, yytext());
                     }
                     case 11:
                         break;
                     case 2: {
-                        add(NUM_INTEIRO, yytext());
+                        return add(NUM_INTEIRO, yytext());
                     }
                     case 12:
                         break;
@@ -601,37 +600,37 @@ class Lexer {
                     case 13:
                         break;
                     case 4: {
-                        add(OP_SOMA, yytext());
+                        return add(OP_SOMA, yytext());
                     }
                     case 14:
                         break;
                     case 5: {
-                        add(OP_MULTIPLICACAO, yytext());
+                        return add(OP_MULTIPLICACAO, yytext());
                     }
                     case 15:
                         break;
                     case 6: {
-                        add(OP_SUBTRACAO, yytext());
+                        return add(OP_SUBTRACAO, yytext());
                     }
                     case 16:
                         break;
                     case 7: {
-                        add(OP_DIVISAO, yytext());
+                        return add(OP_DIVISAO, yytext());
                     }
                     case 17:
                         break;
                     case 8: {
-                        add(PARENTESE_ABRE, yytext());
+                        return add(PARENTESE_ABRE, yytext());
                     }
                     case 18:
                         break;
                     case 9: {
-                        add(PARENTESE_FECHA, yytext());
+                        return add(PARENTESE_FECHA, yytext());
                     }
                     case 19:
                         break;
                     case 10: {
-                        add(NUM_REAL, yytext());
+                        return add(NUM_REAL, yytext());
                     }
                     case 20:
                         break;
