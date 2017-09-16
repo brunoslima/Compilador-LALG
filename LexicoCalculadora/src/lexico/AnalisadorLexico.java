@@ -14,8 +14,8 @@ import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 /**
- *
- * @author bruno
+ * @author brunoslima
+ * @author leandroungari
  */
 public class AnalisadorLexico {
 

@@ -6,7 +6,7 @@
 package lexico;
 
 /**
- *
+ * @author brunoslima
  * @author leandroungari
  */
 public class Item {

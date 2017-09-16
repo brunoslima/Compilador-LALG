@@ -9,15 +9,16 @@ import java.io.FileNotFoundException;
  */
 
 /**
- *
+ * @author brunoslima
  * @author leandroungari
  */
 public class LeituraArquivo {
     
     public static void main(String[] args) throws FileNotFoundException {
         
-        Arquivo arq = new Arquivo("testes.calculadora");
+        Arquivo arq = new Arquivo("testes.txt");
         
         System.out.println(arq.getLinhas());
+        System.out.println(arq.getTexto());
     }
 }

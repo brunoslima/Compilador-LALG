@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
- *
+ * @author brunoslima
  * @author leandroungari
  */
 public class Arquivo {
@@ -51,6 +51,17 @@ public class Arquivo {
     public ArrayList<String> getLinhas(){
         
         return linhas;
+    }
+    
+    public String getTexto(){
+        
+        String texto = "";
+        
+        for(String a : this.linhas){
+            texto += a + "\n";
+        }
+        
+        return(texto);
     }
     
     
