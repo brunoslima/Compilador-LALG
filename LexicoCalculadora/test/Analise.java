@@ -8,7 +8,6 @@ import lexico.AnalisadorLexico;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author leandroungari
@@ -16,16 +15,18 @@ import lexico.AnalisadorLexico;
 public class Analise {
 
     public static void main(String[] args) throws FileNotFoundException {
-        
+
         Arquivo arq = new Arquivo("testes.calculadora");
-        
+
         AnalisadorLexico a = new AnalisadorLexico();
-        
-        for (String s: arq.getLinhas()) {
+
+        for (String s : arq.getLinhas()) {
             
+            System.out.println(s);
             a.analisar(s);
+
         }
-        
-        
+
+        System.out.println(AnalisadorLexico.getTabela());
     }
 }

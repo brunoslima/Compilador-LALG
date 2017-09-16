@@ -12,12 +12,12 @@ package lexico;
 public class Item {
     
     private String simbolo;
-    private int tipo;
+    private Simbolo tipo;
     private int numLinha;
     private int numColunaInicial;
     private int numColunaFinal;
 
-    public Item(String simbolo, int tipo, int numLinha, int numColunaInicial, int numColunaFinal) {
+    public Item(String simbolo, Simbolo tipo, int numLinha, int numColunaInicial, int numColunaFinal) {
         this.simbolo = simbolo;
         this.tipo = tipo;
         this.numLinha = numLinha;
@@ -33,11 +33,11 @@ public class Item {
         this.simbolo = simbolo;
     }
 
-    public int getTipo() {
+    public Simbolo getTipo() {
         return tipo;
     }
 
-    public void setTipo(int tipo) {
+    public void setTipo(Simbolo tipo) {
         this.tipo = tipo;
     }
 
