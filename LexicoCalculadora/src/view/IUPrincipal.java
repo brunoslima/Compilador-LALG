@@ -10,10 +10,13 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.Icon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import javax.swing.filechooser.FileSystemView;
+import javax.swing.filechooser.FileView;
 import javax.swing.table.DefaultTableModel;
 import lexico.AnalisadorLexico;
 import lexico.Item;
@@ -188,8 +191,11 @@ public class IUPrincipal extends javax.swing.JFrame {
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
         
+       
         int returnVal = jFileChooser1.showOpenDialog(this);
         File file;
+        
+        
         
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             
