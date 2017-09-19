@@ -54,11 +54,12 @@ public class AnalisadorLexico {
     public void analisar(String texto, int numLinha) {
 
         String textoLinha = texto;
-        
+        int posicao = 0;
         while (!textoLinha.isEmpty()) {
 
             Lexer l = new Lexer(new StringReader(textoLinha));
             Item item = null;
+            
             
             try {
 
@@ -66,7 +67,7 @@ public class AnalisadorLexico {
                 
                 if (item == null) return; 
                 
-                int colunaInicial = texto.indexOf(item.getSimbolo());
+                int colunaInicial = posicao;
                 int colunaFinal = colunaInicial + item.getSimbolo().length() - 1;
                 
                 item.setNumLinha(numLinha);
@@ -78,7 +79,7 @@ public class AnalisadorLexico {
                 Logger.getLogger(AnalisadorLexico.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            
+            posicao += item.getSimbolo().length();
             textoLinha = textoLinha.replaceFirst(Pattern.quote(item.getSimbolo()), "");
         }
 

@@ -17,6 +17,8 @@ private Item add(Simbolo descricao, String lexema) {
 R = [0-9]+\.[0-9]{1,6}
 I = [0-9]+
 WHITE=[ \t\r\n]
+COMENTARIO_COMPLETO=[\/\*.*\*\/]
+COMENTARIO_ABRE=[\/\*.*]
 %{
 
 %}
