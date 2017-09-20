@@ -52,7 +52,7 @@ public class AnalisadorLexico {
      * @param numLinha Refere-se ao número da linha do arquivo
      */
     public void analisar(String texto, int numLinha) {
-        /*
+        
         String textoLinha = texto;
         int posicao = 0;
         while (!textoLinha.isEmpty()) {
@@ -82,7 +82,7 @@ public class AnalisadorLexico {
             posicao += item.getSimbolo().length();
             textoLinha = textoLinha.replaceFirst(Pattern.quote(item.getSimbolo()), "");
         }
-        */
+        
     }
 
     public ArrayList<Item> getTabela() {
