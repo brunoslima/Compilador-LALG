@@ -16,62 +16,62 @@ private Item add(Simbolo descricao, String lexema) {
 %type Item
 
 WHITE=[ \t\r\n]
-COMENTARIO_LINHA = [//.*\\n]
-COMENTARIO = [\{.*\}]
-COMENTARIO_ABRE = [\{.*]
-COMENTARIO_FECHA = [\}]
+COMENTARIO_LINHA=[//.*\\n]
+COMENTARIO=[\{.*\}]
+COMENTARIO_ABRE=[\{.*]
+COMENTARIO_FECHA=[\}]
 
-PROGRAM = [program]
-BEGIN = [begin]
-END = [end]
-PROCEDURE = [procedure]
-VAR = [var]
+PROGRAM=[program]
+BEGIN=[begin]
+END=[end]
+PROCEDURE=[procedure]
+VAR=[var]
 
-INT = [int]
-REAL = [real]
-BOOLEAN = [boolean]
-TRUE = [true]
-FALSE = [false]
+INT=[int]
+REAL=[real]
+BOOLEAN=[boolean]
+TRUE=[true]
+FALSE=[false]
 
-READ = [read]
-WHITE = [white]
+READ=[read]
+WHITE=[white]
 
-DOIS_PONTOS = [:]
-PONTO_VIRGULA = [;]
-VIRGULA = [,]
-PONTO = [.]
+DOIS_PONTOS=[:]
+PONTO_VIRGULA=[;]
+VIRGULA=[,]
+PONTO=[.]
 
-IF = [if]
-THEN = [then]
-ELSE = [else]
+IF=[if]
+THEN=[then]
+ELSE=[else]
 
-WHILE = [while]
-DO = [do]
+WHILE=[while]
+DO=[do]
 
-SIMBOLO_IGUAL = [=]
-SIMBOLO_DIFERENTE = [<>]
-SIMBOLO_MENOR = [<]
-SIMBOLO_MENOR_IGUAL = [<=]
-SIMBOLO_MAIOR = [>]
-SIMBOLO_MAIOR_IGUAL = [>=]
+SIMBOLO_IGUAL=[=]
+SIMBOLO_DIFERENTE=[<>]
+SIMBOLO_MENOR=[<]
+SIMBOLO_MENOR_IGUAL=[<=]
+SIMBOLO_MAIOR=[>]
+SIMBOLO_MAIOR_IGUAL=[>=]
 
-ATRIBUICAO = [:=]
-OP_ADICAO = [+]
-OP_SUBTRACAO = [-]
-OP_DIVISAO = [div]
-OP_MULTIPLICACAO = [*]
-OP_AND = [and]
-OP_OR = [or]
-OP_NOT = [not]
+OP_ATRIBUICAO=[:=]
+OP_ADICAO=[+]
+OP_SUBTRACAO=[-]
+OP_DIVISAO=[div]
+OP_MULTIPLICACAO=[*]
+OP_AND=[and]
+OP_OR=[or]
+OP_NOT=[not]
 
-PARENTESES_ABRE = [(]
-PARENTESES_FECHA = [)]
+PARENTESES_ABRE=[(]
+PARENTESES_FECHA=[)]
 
-NUMERO_INTEIRO = [DIGITO]+
-DIGITO = [0-9]
+NUMERO_INTEIRO=[DIGITO]+
+DIGITO=[0-9]
 
-IDENTIFICADOR = [LETRA][LETRA|DIGITO]*
-LETRA = [_|a-z|A-Z]+
+IDENTIFICADOR=[LETRA][LETRA|DIGITO]*
+LETRA=[_|a-z|A-Z]+
 
 %{
 
@@ -79,11 +79,22 @@ LETRA = [_|a-z|A-Z]+
 %%
 {WHITE} {/*Ignore*/}
 
+COMENTARIO_LINHA {/*Ignore*/}
+COMENTARIO {/*Ignore*/}
+COMENTARIO_ABRE {/*Ignore*/}
+COMENTARIO_FECHA {/*Ignore*/}
+
 {PROGRAM} {return add(PALAVRA_RESERVADA_PROGRAM, yytext());}
 {BEGIN} {return add(PALAVRA_RESERVADA_BEGIN, yytext());}
 {END} {return add(PALAVRA_RESERVADA_END, yytext());}
 {PROCEDURE} {return add(PALAVRA_RESERVADA_PROCEDURE, yytext());}
 {VAR} {return add(PALAVRA_RESERVADA_VAR, yytext());}
+
+{INT} {return add(TIPO_INTEIRO, yytext());}
+{REAL} {return add(TIPO_REAL, yytext());}
+{BOOLEAN} {return add(TIPO_BOOLEANO, yytext());}
+{TRUE} {return add(VALOR_LOGICO_TRUE, yytext());}
+{FALSE} {return add(VALOR_LOGICO_FALSE, yytext());}
 
 {READ} {return add(PALAVRA_RESERVADA_READ, yytext());}
 {WHITE} {return add(PALAVRA_RESERVADA_WHITE, yytext());}

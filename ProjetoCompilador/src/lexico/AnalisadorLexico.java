@@ -33,7 +33,7 @@ public class AnalisadorLexico {
 
         this.tabela = new ArrayList<>();
 
-        //this.gerarLexico();
+        this.gerarLexico();
     }
 
     /**
@@ -43,7 +43,7 @@ public class AnalisadorLexico {
 
         File file = new File("src/lexico/Lexer.flex");
 
-        jflex.Main.generate(file);
+//        jflex.Main.generate(file);
     }
 
     /**

@@ -719,5 +719,7 @@ class Lexer {
     private Item add(Simbolo descricao, String lexema) {
 
         return new Item(lexema, descricao, yyline, yycolumn, yycolumn + lexema.length() - 1);
+
     }
+
 }
