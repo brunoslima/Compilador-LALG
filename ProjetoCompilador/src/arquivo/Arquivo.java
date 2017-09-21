@@ -40,6 +40,11 @@ public class Arquivo {
         this.lerArquivo();
     }
     
+    public Arquivo(){
+        
+        this.texto = "";
+    }
+    
     private void lerArquivo() throws FileNotFoundException{
         
         Scanner leitura = new Scanner(this.arquivo);
@@ -69,6 +74,11 @@ public class Arquivo {
         
         return(texto);
     }*/
+    
+    public void setTexto(String fonte){
+        
+        this.texto = fonte;
+    }
     
     public String getTexto(){
         

@@ -28,6 +28,7 @@ import lexico.Item;
 public class IUPrincipal extends javax.swing.JFrame {
 
     public Arquivo arq;
+    public String fonte;
     public AnalisadorLexico lexico;
     
     /**
@@ -47,11 +48,12 @@ public class IUPrincipal extends javax.swing.JFrame {
         
         
         //Titulo da aplicação
-        this.setTitle("Analisador Lexico - Calculadora Simples");
+        this.setTitle("Compilador - Analisador Lexico");
         
         //Inicializando variaveis
-        this.arq = null;
+        this.arq = new Arquivo();
         this.lexico = null;
+        this.fonte = "";
     }
 
     /**
@@ -82,7 +84,6 @@ public class IUPrincipal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        TextArea.setEditable(false);
         TextArea.setColumns(20);
         TextArea.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
         TextArea.setRows(5);
@@ -101,6 +102,7 @@ public class IUPrincipal extends javax.swing.JFrame {
 
         Aba.addTab("Inicial", jPanel1);
 
+        TabelaLexica.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         TabelaLexica.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -173,7 +175,7 @@ public class IUPrincipal extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(Aba)
-            .addComponent(jScrollPane1)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -195,7 +197,6 @@ public class IUPrincipal extends javax.swing.JFrame {
         File file;
         
         
-        
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             
             file = jFileChooser1.getSelectedFile();
@@ -205,7 +206,8 @@ public class IUPrincipal extends javax.swing.JFrame {
             try {
                 
                 arq = new Arquivo(localizacao);
-                this.TextArea.setText(arq.getTexto());
+                this.fonte = arq.getTexto();
+                this.TextArea.setText(this.fonte);
                 this.Aba.setTitleAt(0,nomeArquivo);
                 JOptionPane.showMessageDialog(null, "Arquivo aberto com sucesso!");
                 
@@ -224,22 +226,23 @@ public class IUPrincipal extends javax.swing.JFrame {
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         // TODO add your handling code here:
         
-        if(arq != null){
+        this.fonte = this.TextArea.getText();
+        
+        DefaultTableModel model = (DefaultTableModel) this.TabelaLexica.getModel();
+        if (model.getRowCount() > 0){
+            while (this.TabelaLexica.getModel().getRowCount() > 0) model.removeRow(0);         
+        }
+        
+        if(!this.fonte.equals("")){
             
             this.lexico = new AnalisadorLexico();
-
-            /*for (String s : arq.getLinhas()) {
-
-                lexico.analisar(s, arq.getLinhas().indexOf(s));
-            }*/
             
-            lexico.analisar(arq.getTexto(), 0);
+            lexico.analisar(this.fonte, 0);
 
             System.out.println(lexico.getTabela());
             JOptionPane.showMessageDialog(null, "Análise Léxica realizada com sucesso!");
             
             //Inserindo linhas na tabela
-            DefaultTableModel model = (DefaultTableModel) this.TabelaLexica.getModel();
             String lexema, token, numLinha, numColunaInicial, numColunaFinal;
             for(Item i : lexico.getTabela()){
                 
@@ -254,7 +257,7 @@ public class IUPrincipal extends javax.swing.JFrame {
             
             
         }
-        else JOptionPane.showMessageDialog(null, "Arquivo não encontrado!\nAbra um arquivo texto primeiro!");
+        else JOptionPane.showMessageDialog(null, "Area de texto vazia!\nAbra um arquivo texto ou escreva um programa na area de texto!");
         
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
