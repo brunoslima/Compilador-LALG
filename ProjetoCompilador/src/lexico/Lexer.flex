@@ -16,6 +16,8 @@ private Item add(Simbolo descricao, String lexema) {
 %type Item
 
 WHITE=[ \t\r\n]
+FIM_LINHA=[\n]
+
 COMENTARIO_LINHA=[//.*\\n]
 COMENTARIO=[\{.*\}]
 COMENTARIO_ABRE=[\{.*]
@@ -78,11 +80,12 @@ LETRA=[_|a-z|A-Z]+
 %}
 %%
 {WHITE} {/*Ignore*/}
+{FIM_LINHA} {return add(FIM_LINHA, yytext());}
 
-COMENTARIO_LINHA {/*Ignore*/}
-COMENTARIO {/*Ignore*/}
-COMENTARIO_ABRE {/*Ignore*/}
-COMENTARIO_FECHA {/*Ignore*/}
+{COMENTARIO_LINHA} {/*Ignore*/}
+{COMENTARIO} {/*Ignore*/}
+{COMENTARIO_ABRE} {/*Ignore*/}
+{COMENTARIO_FECHA} {/*Ignore*/}
 
 {PROGRAM} {return add(PALAVRA_RESERVADA_PROGRAM, yytext());}
 {BEGIN} {return add(PALAVRA_RESERVADA_BEGIN, yytext());}
@@ -99,10 +102,10 @@ COMENTARIO_FECHA {/*Ignore*/}
 {READ} {return add(PALAVRA_RESERVADA_READ, yytext());}
 {WHITE} {return add(PALAVRA_RESERVADA_WHITE, yytext());}
 
-{DOIS_PONTOS} {return add(PALAVRA_RESERVADA_DOIS_PONTOS, yytext());}
-{PONTO_VIRGULA} {return add(PALAVRA_RESERVADA_PONTO_VIRGULA, yytext());}
-{VIRGULA} {return add(PALAVRA_RESERVADA_VIRGULA, yytext());}
-{PONTO} {return add(PALAVRA_RESERVADA_PONTO, yytext());}
+{DOIS_PONTOS} {return add(SIMBOLO_DOIS_PONTOS, yytext());}
+{PONTO_VIRGULA} {return add(SIMBOLO_PONTO_VIRGULA, yytext());}
+{VIRGULA} {return add(SIMBOLO_VIRGULA, yytext());}
+{PONTO} {return add(SIMBOLO_PONTO, yytext());}
 
 {IF} {return add(ESTRUTURA_CONDICAO_IF, yytext());}
 {THEN} {return add(ESTRUTURA_CONDICAO_THEN, yytext());}
@@ -124,8 +127,8 @@ COMENTARIO_FECHA {/*Ignore*/}
 {OP_DIVISAO} {return add(OPERADOR_DIVISAO, yytext());}
 {OP_MULTIPLICACAO} {return add(OPERADOR_MULTIPLICACAO, yytext());}
 {OP_AND} {return add(OPERADOR_AND, yytext());}
-{OP_NOT} {return add(OPERADOR_NOT, yytext());}
 {OP_OR} {return add(OPERADOR_OR, yytext());}
+{OP_NOT} {return add(OPERADOR_NOT, yytext());}
 
 {PARENTESES_ABRE} {return add(PARENTESES_ABRE, yytext());}
 {PARENTESES_FECHA} {return add(PARENTESES_FECHA, yytext());}

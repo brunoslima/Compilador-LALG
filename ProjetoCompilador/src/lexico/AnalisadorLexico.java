@@ -33,7 +33,7 @@ public class AnalisadorLexico {
 
         this.tabela = new ArrayList<>();
 
-        this.gerarLexico();
+        //this.gerarLexico();
     }
 
     /**
@@ -43,7 +43,7 @@ public class AnalisadorLexico {
 
         File file = new File("src/lexico/Lexer.flex");
 
-//        jflex.Main.generate(file);
+        jflex.Main.generate(file);
     }
 
     /**
@@ -60,21 +60,26 @@ public class AnalisadorLexico {
             Lexer l = new Lexer(new StringReader(textoLinha));
             Item item = null;
             
-            
             try {
+                
+                if(l.yylex().getTipo() == Simbolo.FIM_LINHA){
+                    numLinha++; //Fim de linha incrementa o numLinha e vai para a proxima linha
+                }
+                else{ //Se não é fim de linha faz normal
+                    item = l.yylex();
+                
+                    if (item == null) return; 
 
-                item = l.yylex();
+                    int colunaInicial = posicao;
+                    int colunaFinal = colunaInicial + item.getSimbolo().length() - 1;
+
+                    item.setNumLinha(numLinha);
+                    item.setNumColunaInicial(colunaInicial);
+                    item.setNumColunaFinal(colunaFinal);
+
+                    this.tabela.add(item);
+                }
                 
-                if (item == null) return; 
-                
-                int colunaInicial = posicao;
-                int colunaFinal = colunaInicial + item.getSimbolo().length() - 1;
-                
-                item.setNumLinha(numLinha);
-                item.setNumColunaInicial(colunaInicial);
-                item.setNumColunaFinal(colunaFinal);
-                
-                this.tabela.add(item);
             } catch (IOException ex) {
                 Logger.getLogger(AnalisadorLexico.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -82,6 +87,7 @@ public class AnalisadorLexico {
             posicao += item.getSimbolo().length();
             textoLinha = textoLinha.replaceFirst(Pattern.quote(item.getSimbolo()), "");
         }
+        
         
     }
 

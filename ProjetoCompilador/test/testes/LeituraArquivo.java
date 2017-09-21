@@ -20,7 +20,7 @@ public class LeituraArquivo {
         
         Arquivo arq = new Arquivo("testes.txt");
         
-        System.out.println(arq.getLinhas());
+        //System.out.println(arq.getLinhas());
         System.out.println(arq.getTexto());
     }
 }

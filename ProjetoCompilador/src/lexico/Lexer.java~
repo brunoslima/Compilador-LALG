@@ -650,22 +650,22 @@ class Lexer {
                     case 32:
                         break;
                     case 11: {
-                        return add(PALAVRA_RESERVADA_DOIS_PONTOS, yytext());
+                        return add(SIMBOLO_DOIS_PONTOS, yytext());
                     }
                     case 33:
                         break;
                     case 12: {
-                        return add(PALAVRA_RESERVADA_PONTO_VIRGULA, yytext());
+                        return add(SIMBOLO_PONTO_VIRGULA, yytext());
                     }
                     case 34:
                         break;
                     case 13: {
-                        return add(PALAVRA_RESERVADA_VIRGULA, yytext());
+                        return add(SIMBOLO_VIRGULA, yytext());
                     }
                     case 35:
                         break;
                     case 14: {
-                        return add(PALAVRA_RESERVADA_PONTO, yytext());
+                        return add(SIMBOLO_PONTO, yytext());
                     }
                     case 36:
                         break;
@@ -719,7 +719,6 @@ class Lexer {
     private Item add(Simbolo descricao, String lexema) {
 
         return new Item(lexema, descricao, yyline, yycolumn, yycolumn + lexema.length() - 1);
-
     }
 
 }

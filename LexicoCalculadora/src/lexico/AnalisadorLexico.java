@@ -75,6 +75,7 @@ public class AnalisadorLexico {
                 item.setNumColunaFinal(colunaFinal);
                 
                 this.tabela.add(item);
+                
             } catch (IOException ex) {
                 Logger.getLogger(AnalisadorLexico.class.getName()).log(Level.SEVERE, null, ex);
             }

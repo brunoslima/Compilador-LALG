@@ -38,14 +38,14 @@ class Lexer {
      * Translates characters to character classes
      */
     private static final String ZZ_CMAP_PACKED
-            = "\11\0\1\0\1\44\1\44\1\44\1\44\22\0\1\0\7\0\1\22"
-            + "\1\23\1\1\1\20\1\14\1\21\1\15\1\0\12\0\1\12\1\13"
-            + "\1\17\1\16\1\17\2\0\1\35\1\42\1\30\1\24\1\33\1\43"
-            + "\1\24\1\41\1\37\2\0\1\25\1\32\1\34\1\31\2\0\1\36"
-            + "\1\0\1\26\6\0\1\0\1\0\2\0\1\40\1\0\1\2\1\3"
-            + "\1\6\1\4\1\5\1\11\1\2\1\5\1\5\2\0\1\10\1\2"
-            + "\1\3\1\2\1\2\1\0\1\2\1\11\1\5\1\6\1\7\1\5"
-            + "\3\0\1\0\1\27\1\0\7\0\1\44\u1fa2\0\1\44\1\44\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\udfe6\0";
+            = "\11\0\1\0\1\1\1\27\1\27\1\27\22\0\1\0\7\0\1\21"
+            + "\1\22\1\2\1\17\1\14\1\20\1\2\1\2\12\0\1\12\1\13"
+            + "\1\16\1\15\1\16\2\0\1\24\2\0\1\23\1\24\1\0\1\23"
+            + "\1\0\1\23\2\0\1\24\2\0\1\23\2\0\1\24\1\0\1\25"
+            + "\6\0\1\0\1\2\2\0\1\0\1\0\1\3\1\4\1\6\1\5"
+            + "\1\2\1\11\1\3\1\2\1\2\2\0\1\10\1\3\1\2\1\3"
+            + "\1\3\1\0\1\3\1\11\1\2\1\6\1\7\1\2\3\0\1\2"
+            + "\1\26\1\2\7\0\1\27\u1fa2\0\1\27\1\27\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\udfe6\0";
 
     /**
      * Translates characters to character classes
@@ -60,11 +60,10 @@ class Lexer {
     private static final String ZZ_ACTION_PACKED_0
             = "\1\0\1\1\1\2\1\3\1\4\1\5\1\6\1\7"
             + "\1\10\1\11\1\12\1\13\1\14\1\15\1\16\1\17"
-            + "\1\20\1\21\1\22\1\23\1\24\1\25\1\26\1\25"
-            + "\1\1\10\0\1\6\12\0";
+            + "\1\20\1\21\1\22\1\23\1\24\1\25\1\24";
 
     private static int[] zzUnpackAction() {
-        int[] result = new int[44];
+        int[] result = new int[23];
         int offset = 0;
         offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
         return result;
@@ -92,15 +91,12 @@ class Lexer {
     private static final int[] ZZ_ROWMAP = zzUnpackRowMap();
 
     private static final String ZZ_ROWMAP_PACKED_0
-            = "\0\0\0\45\0\45\0\45\0\45\0\45\0\45\0\45"
-            + "\0\45\0\45\0\45\0\45\0\45\0\45\0\45\0\45"
-            + "\0\45\0\45\0\45\0\45\0\45\0\112\0\157\0\224"
-            + "\0\271\0\336\0\u0103\0\u0128\0\u014d\0\u0172\0\u0197\0\u01bc"
-            + "\0\u01e1\0\u0206\0\u022b\0\u0250\0\u0275\0\u029a\0\u02bf\0\u02e4"
-            + "\0\u0309\0\u032e\0\u0353\0\u0378";
+            = "\0\0\0\30\0\30\0\30\0\30\0\30\0\30\0\30"
+            + "\0\30\0\30\0\30\0\30\0\30\0\30\0\30\0\30"
+            + "\0\30\0\30\0\30\0\30\0\60\0\110\0\140";
 
     private static int[] zzUnpackRowMap() {
-        int[] result = new int[44];
+        int[] result = new int[23];
         int offset = 0;
         offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
         return result;
@@ -127,21 +123,12 @@ class Lexer {
     private static final String ZZ_TRANS_PACKED_0
             = "\1\2\1\3\1\4\1\5\1\6\1\7\1\10\1\11"
             + "\1\12\1\13\1\14\1\15\1\16\1\17\1\20\1\21"
-            + "\1\22\1\23\1\24\1\25\1\26\1\27\1\30\1\2"
-            + "\1\31\1\26\1\2\1\27\1\2\2\27\1\26\4\2"
-            + "\72\0\1\26\1\0\1\26\2\0\1\26\5\0\1\26"
-            + "\31\0\4\27\1\0\1\27\1\0\1\27\1\0\3\27"
-            + "\31\0\1\30\1\27\1\30\1\27\1\0\1\30\1\0"
-            + "\1\27\1\0\2\27\1\30\36\0\1\32\45\0\1\33"
-            + "\45\0\1\34\45\0\1\35\36\0\1\36\53\0\1\37"
-            + "\45\0\1\40\45\0\1\41\36\0\1\42\53\0\1\43"
-            + "\31\0\1\44\7\0\1\45\5\0\1\46\40\0\1\47"
-            + "\47\0\1\50\35\0\1\51\45\0\1\52\46\0\1\53"
-            + "\36\0\1\52\55\0\1\54\36\0\1\7\46\0\1\7"
-            + "\7\0";
+            + "\1\22\1\23\1\24\1\25\1\26\1\27\1\2\54\0"
+            + "\1\25\1\0\1\25\25\0\4\26\24\0\1\27\1\26"
+            + "\1\27\1\26\1\0";
 
     private static int[] zzUnpackTrans() {
-        int[] result = new int[925];
+        int[] result = new int[120];
         int offset = 0;
         offset = zzUnpackTrans(ZZ_TRANS_PACKED_0, offset, result);
         return result;
@@ -183,10 +170,10 @@ class Lexer {
     private static final int[] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
     private static final String ZZ_ATTRIBUTE_PACKED_0
-            = "\1\0\24\11\4\1\10\0\1\1\12\0";
+            = "\1\0\23\11\3\1";
 
     private static int[] zzUnpackAttribute() {
-        int[] result = new int[44];
+        int[] result = new int[23];
         int offset = 0;
         offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
         return result;
@@ -311,7 +298,7 @@ class Lexer {
         /* index in packed string  */
         int j = 0;
         /* index in unpacked array */
-        while (i < 192) {
+        while (i < 188) {
             int count = packed.charAt(i++);
             char value = packed.charAt(i++);
             do {
@@ -602,112 +589,107 @@ class Lexer {
                     case 1: {
                         return add(ERROR, yytext());
                     }
-                    case 23:
+                    case 22:
                         break;
                     case 2: {
-                        return add(OPERADOR_MULTIPLICACAO, yytext());
+                        return add(FIM_LINHA, yytext());
+                    }
+                    case 23:
+                        break;
+                    case 3: {
+                        /*Ignore*/
                     }
                     case 24:
                         break;
-                    case 3: {
+                    case 4: {
                         return add(PALAVRA_RESERVADA_PROGRAM, yytext());
                     }
                     case 25:
                         break;
-                    case 4: {
+                    case 5: {
                         return add(PALAVRA_RESERVADA_BEGIN, yytext());
                     }
                     case 26:
                         break;
-                    case 5: {
+                    case 6: {
                         return add(PALAVRA_RESERVADA_END, yytext());
                     }
                     case 27:
                         break;
-                    case 6: {
-                        /*Ignore*/
-                    }
-                    case 28:
-                        break;
                     case 7: {
                         return add(PALAVRA_RESERVADA_PROCEDURE, yytext());
                     }
-                    case 29:
+                    case 28:
                         break;
                     case 8: {
                         return add(PALAVRA_RESERVADA_VAR, yytext());
                     }
-                    case 30:
+                    case 29:
                         break;
                     case 9: {
                         return add(TIPO_REAL, yytext());
                     }
-                    case 31:
+                    case 30:
                         break;
                     case 10: {
                         return add(VALOR_LOGICO_FALSE, yytext());
                     }
-                    case 32:
+                    case 31:
                         break;
                     case 11: {
-                        return add(PALAVRA_RESERVADA_DOIS_PONTOS, yytext());
+                        return add(SIMBOLO_DOIS_PONTOS, yytext());
+                    }
+                    case 32:
+                        break;
+                    case 12: {
+                        return add(SIMBOLO_PONTO_VIRGULA, yytext());
                     }
                     case 33:
                         break;
-                    case 12: {
-                        return add(PALAVRA_RESERVADA_PONTO_VIRGULA, yytext());
+                    case 13: {
+                        return add(SIMBOLO_VIRGULA, yytext());
                     }
                     case 34:
                         break;
-                    case 13: {
-                        return add(PALAVRA_RESERVADA_VIRGULA, yytext());
+                    case 14: {
+                        return add(SIMBOLO_IGUAL, yytext());
                     }
                     case 35:
                         break;
-                    case 14: {
-                        return add(PALAVRA_RESERVADA_PONTO, yytext());
+                    case 15: {
+                        return add(SIMBOLO_DIFERENTE, yytext());
                     }
                     case 36:
                         break;
-                    case 15: {
-                        return add(SIMBOLO_IGUAL, yytext());
+                    case 16: {
+                        return add(OPERADOR_ADICAO, yytext());
                     }
                     case 37:
                         break;
-                    case 16: {
-                        return add(SIMBOLO_DIFERENTE, yytext());
+                    case 17: {
+                        return add(OPERADOR_SUBTRACAO, yytext());
                     }
                     case 38:
                         break;
-                    case 17: {
-                        return add(OPERADOR_ADICAO, yytext());
+                    case 18: {
+                        return add(PARENTESES_ABRE, yytext());
                     }
                     case 39:
                         break;
-                    case 18: {
-                        return add(OPERADOR_SUBTRACAO, yytext());
+                    case 19: {
+                        return add(PARENTESES_FECHA, yytext());
                     }
                     case 40:
                         break;
-                    case 19: {
-                        return add(PARENTESES_ABRE, yytext());
+                    case 20: {
+                        return add(NUMERO_INTEIRO, yytext());
                     }
                     case 41:
                         break;
-                    case 20: {
-                        return add(PARENTESES_FECHA, yytext());
-                    }
-                    case 42:
-                        break;
                     case 21: {
-                        return add(NUMERO_INTEIRO, yytext());
-                    }
-                    case 43:
-                        break;
-                    case 22: {
                         return add(IDENTIFICADOR, yytext());
                     }
-                    case 44:
+                    case 42:
                         break;
                     default:
                         zzScanError(ZZ_NO_MATCH);
@@ -720,4 +702,5 @@ class Lexer {
 
         return new Item(lexema, descricao, yyline, yycolumn, yycolumn + lexema.length() - 1);
     }
+
 }
