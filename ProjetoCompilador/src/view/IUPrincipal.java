@@ -228,10 +228,12 @@ public class IUPrincipal extends javax.swing.JFrame {
             
             this.lexico = new AnalisadorLexico();
 
-            for (String s : arq.getLinhas()) {
+            /*for (String s : arq.getLinhas()) {
 
                 lexico.analisar(s, arq.getLinhas().indexOf(s));
-            }
+            }*/
+            
+            lexico.analisar(arq.getTexto(), 0);
 
             System.out.println(lexico.getTabela());
             JOptionPane.showMessageDialog(null, "Análise Léxica realizada com sucesso!");

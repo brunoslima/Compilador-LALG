@@ -17,13 +17,15 @@ import java.util.Scanner;
 public class Arquivo {
     
     private File arquivo;
-    private ArrayList<String> linhas;
+    //private ArrayList<String> linhas;
+    private String texto;
 
     public Arquivo(File arquivo) throws FileNotFoundException {
     
         this.arquivo = arquivo;
         
-        linhas = new ArrayList<>();
+        //linhas = new ArrayList<>();
+        this.texto = "";
         
         this.lerArquivo();
     }
@@ -32,7 +34,8 @@ public class Arquivo {
     
         this.arquivo = new File(filename);
         
-        linhas = new ArrayList<>();
+        //linhas = new ArrayList<>();
+        this.texto = "";
         
         this.lerArquivo();
     }
@@ -43,16 +46,19 @@ public class Arquivo {
         
         while(leitura.hasNextLine()){
             
-            this.linhas.add(leitura.nextLine());
+            //this.linhas.add(leitura.nextLine());
+            this.texto += leitura.nextLine();
         }
         
     }
     
+    /*
     public ArrayList<String> getLinhas(){
         
         return linhas;
-    }
+    }*/
     
+    /*
     public String getTexto(){
         
         String texto = "";
@@ -62,6 +68,11 @@ public class Arquivo {
         }
         
         return(texto);
+    }*/
+    
+    public String getTexto(){
+        
+        return this.texto;
     }
     
     

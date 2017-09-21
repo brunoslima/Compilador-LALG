@@ -22,13 +22,16 @@ public class Analise {
         Arquivo arq = new Arquivo("testes.calculadora");
 
         AnalisadorLexico a = new AnalisadorLexico();
-
+        
+        /*
         for (String s : arq.getLinhas()) {
             
             
             a.analisar(s, arq.getLinhas().indexOf(s));
             
-        }
+        }*/
+        
+        a.analisar(arq.getTexto(), 0);
 
         System.out.println(a.getTabela());
     }
