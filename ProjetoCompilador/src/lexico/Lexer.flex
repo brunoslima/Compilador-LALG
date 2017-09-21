@@ -16,71 +16,68 @@ private Item add(Simbolo descricao, String lexema) {
 %type Item
 
 WHITE=[ \t\r\n]
-FIM_LINHA=[\n]
 
 COMENTARIO_LINHA=[//.*\\n]
 COMENTARIO=[\{.*\}]
 COMENTARIO_ABRE=[\{.*]
 COMENTARIO_FECHA=[\}]
 
-PROGRAM=[program]
-BEGIN=[begin]
-END=[end]
-PROCEDURE=[procedure]
-VAR=[var]
+PROGRAM="program"
+BEGIN="begin"
+END="end"
+PROCEDURE="procedure"
+VAR="var"
 
-INT=[int]
-REAL=[real]
-BOOLEAN=[boolean]
-TRUE=[true]
-FALSE=[false]
+INT="int"
+REAL="real"
+BOOLEAN="boolean"
+TRUE="true"
+FALSE="false"
 
-READ=[read]
-WHITE=[white]
+READ="read"
+WRITE="write"
 
-DOIS_PONTOS=[:]
-PONTO_VIRGULA=[;]
-VIRGULA=[,]
-PONTO=[.]
+DOIS_PONTOS=":"
+PONTO_VIRGULA=";"
+VIRGULA=","
+PONTO="."
 
-IF=[if]
-THEN=[then]
-ELSE=[else]
+IF="if"
+THEN="then"
+ELSE="else"
 
-WHILE=[while]
-DO=[do]
+WHILE="while"
+DO="do"
 
-SIMBOLO_IGUAL=[=]
-SIMBOLO_DIFERENTE=[<>]
-SIMBOLO_MENOR=[<]
-SIMBOLO_MENOR_IGUAL=[<=]
-SIMBOLO_MAIOR=[>]
-SIMBOLO_MAIOR_IGUAL=[>=]
+SIMBOLO_IGUAL="="
+SIMBOLO_DIFERENTE="<>"
+SIMBOLO_MENOR="<"
+SIMBOLO_MENOR_IGUAL="<="
+SIMBOLO_MAIOR=">"
+SIMBOLO_MAIOR_IGUAL=">="
 
-OP_ATRIBUICAO=[:=]
-OP_ADICAO=[+]
-OP_SUBTRACAO=[-]
-OP_DIVISAO=[div]
-OP_MULTIPLICACAO=[*]
-OP_AND=[and]
-OP_OR=[or]
-OP_NOT=[not]
+OP_ATRIBUICAO=":="
+OP_ADICAO=[\+]
+OP_SUBTRACAO="-"
+OP_DIVISAO="div"
+OP_MULTIPLICACAO="*"
+OP_AND="and"
+OP_OR="or"
+OP_NOT="not"
 
-PARENTESES_ABRE=[(]
-PARENTESES_FECHA=[)]
+PARENTESES_ABRE="("
+PARENTESES_FECHA=")"
 
-NUMERO_INTEIRO=[DIGITO]+
-DIGITO=[0-9]
+NUMERO_INTEIRO=[0-9]+
 
-IDENTIFICADOR=[LETRA][LETRA|DIGITO]*
-LETRA=[_|a-z|A-Z]+
+
+IDENTIFICADOR=[_|a-z|A-Z][a-z|A-Z|0-9]*
 
 %{
 
 %}
 %%
 {WHITE} {/*Ignore*/}
-{FIM_LINHA} {return add(FIM_LINHA, yytext());}
 
 {COMENTARIO_LINHA} {/*Ignore*/}
 {COMENTARIO} {/*Ignore*/}
@@ -100,7 +97,7 @@ LETRA=[_|a-z|A-Z]+
 {FALSE} {return add(VALOR_LOGICO_FALSE, yytext());}
 
 {READ} {return add(PALAVRA_RESERVADA_READ, yytext());}
-{WHITE} {return add(PALAVRA_RESERVADA_WHITE, yytext());}
+{WRITE} {return add(PALAVRA_RESERVADA_WRITE, yytext());}
 
 {DOIS_PONTOS} {return add(SIMBOLO_DOIS_PONTOS, yytext());}
 {PONTO_VIRGULA} {return add(SIMBOLO_PONTO_VIRGULA, yytext());}

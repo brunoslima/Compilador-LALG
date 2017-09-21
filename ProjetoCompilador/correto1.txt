@@ -7,7 +7,7 @@ int a, b, c;
 boolean d, e, f;
 begin
 	a:=1;
-	if (a<1)
+	if (a<=1)
 		a:=12
 end;
 
@@ -29,7 +29,7 @@ begin
 	end;
 	while (a>1)
 	begin
-		if (b>10)
+		if (b>=10)
 			b:=2;
 		a:=a-1
 	end

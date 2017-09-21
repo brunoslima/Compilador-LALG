@@ -52,34 +52,31 @@ public class AnalisadorLexico {
      * @param numLinha Refere-se ao número da linha do arquivo
      */
     public void analisar(String texto, int numLinha) {
-        
+
         String textoLinha = texto;
         int posicao = 0;
         while (!textoLinha.isEmpty()) {
 
             Lexer l = new Lexer(new StringReader(textoLinha));
             Item item = null;
-            
+
             try {
-                
-                if(l.yylex().getTipo() == Simbolo.FIM_LINHA){
-                    numLinha++; //Fim de linha incrementa o numLinha e vai para a proxima linha
+
+                item = l.yylex();
+
+                if (item == null) {
+                    return;
                 }
-                else{ //Se não é fim de linha faz normal
-                    item = l.yylex();
-                
-                    if (item == null) return; 
 
-                    int colunaInicial = posicao;
-                    int colunaFinal = colunaInicial + item.getSimbolo().length() - 1;
+                int colunaInicial = posicao;
+                int colunaFinal = colunaInicial + item.getSimbolo().length() - 1;
 
-                    item.setNumLinha(numLinha);
-                    item.setNumColunaInicial(colunaInicial);
-                    item.setNumColunaFinal(colunaFinal);
+                item.setNumLinha(numLinha);
+                item.setNumColunaInicial(colunaInicial);
+                item.setNumColunaFinal(colunaFinal);
 
-                    this.tabela.add(item);
-                }
-                
+                this.tabela.add(item);
+
             } catch (IOException ex) {
                 Logger.getLogger(AnalisadorLexico.class.getName()).log(Level.SEVERE, null, ex);
             }
