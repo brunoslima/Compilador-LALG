@@ -52,4 +52,10 @@ public enum Simbolo {
     IDENTIFICADOR,
     ERROR,
     
+    NOVA_LINHA,
+    COMENTARIO_LINHA,
+    COMENTARIO_MULTI,
+    ESPACO,
+    TAB,
+    
 }

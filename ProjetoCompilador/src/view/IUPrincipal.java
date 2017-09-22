@@ -54,6 +54,10 @@ public class IUPrincipal extends javax.swing.JFrame {
         this.arq = new Arquivo();
         this.lexico = null;
         this.fonte = "";
+        
+        
+        //tamanho do tab
+        TextArea.setTabSize(4);
     }
 
     /**

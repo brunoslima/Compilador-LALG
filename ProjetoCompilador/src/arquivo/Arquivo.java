@@ -48,12 +48,15 @@ public class Arquivo {
     private void lerArquivo() throws FileNotFoundException{
         
         Scanner leitura = new Scanner(this.arquivo);
-        
+        int num = 0;
         while(leitura.hasNextLine()){
             
             //this.linhas.add(leitura.nextLine());
-            this.texto += leitura.nextLine() + "\n";
+            this.texto += leitura.nextLine() + /*"\n"*/ System.lineSeparator();
+            num++;
         }
+        
+        System.out.println("Número de linhas: " + num);
         
     }
     

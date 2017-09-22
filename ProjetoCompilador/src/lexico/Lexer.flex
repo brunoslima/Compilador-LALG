@@ -2,20 +2,13 @@ package lexico;
 import static lexico.Simbolo.*;
 
 
-%{
-
-private Item add(Simbolo descricao, String lexema) {
-    
-    return new Item(lexema, descricao, yyline, yycolumn, yycolumn + lexema.length()-1);
-}
-
-%}
-
 %%
 %class Lexer
 %type Item
 
-WHITE=[ \t\r\n]
+WHITE=[ ]
+TAB=[\t]
+NOVA_LINHA = [\r|\n|\r\n]
 
 COMENTARIO_ABRE       = \{
 COMENTARIO_FECHA      = \}
@@ -80,12 +73,29 @@ IDENTIFICADOR=[_|a-z|A-Z][a-z|A-Z|0-9]*
 
 %{
 
+
+
+private Item add(Simbolo descricao, String lexema) {
+    
+    Item item = new Item(lexema, descricao, AnalisadorLexico.linha, yycolumn + AnalisadorLexico.coluna, yycolumn + lexema.length()-1  + AnalisadorLexico.coluna);
+    if(descricao == Simbolo.TAB){
+        AnalisadorLexico.coluna += 4;
+    } else if (descricao != Simbolo.NOVA_LINHA &&
+        descricao != Simbolo.COMENTARIO_LINHA
+    ) {
+        AnalisadorLexico.coluna += lexema.length();
+    }
+    return item;
+}
+
 %}
 %%
-{WHITE} {/*Ignore*/}
+{WHITE} {return add(ESPACO, yytext());}
+{TAB} {return add(TAB, yytext());}
+{NOVA_LINHA} {AnalisadorLexico.linha++; AnalisadorLexico.coluna = 0; return add(NOVA_LINHA, yytext());}
 
-{COMENTARIO_LINHA} {/*Ignore*/}
-{COMENTARIO_MULTI} {/*Ignore*/}
+{COMENTARIO_LINHA} {AnalisadorLexico.linha++; AnalisadorLexico.coluna = 0; return add(COMENTARIO_LINHA, yytext());}
+{COMENTARIO_MULTI} {return add(COMENTARIO_MULTI, yytext());}
 
 {PROGRAM} {return add(PALAVRA_RESERVADA_PROGRAM, yytext());}
 {BEGIN} {return add(PALAVRA_RESERVADA_BEGIN, yytext());}
