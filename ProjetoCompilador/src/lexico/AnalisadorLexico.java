@@ -23,18 +23,17 @@ public class AnalisadorLexico {
     public static int linha;
     public static int coluna;
 
-    // ^[0-9]+\.[0-9]{1,6}$ => número real com até 6 casas depois da vírgula
-    // ^[0-9]+$             => número inteiro
-    // ^\+$                 => adição
-    // ^\-$                 => subtração
-    // ^\*$                 => multiplicação
-    // ^\/$                 => divisão
-    // ^\($                 => abre parentese
-    // ^\)$                 => fecha parentese
+    private static final String[] palavrasReservadas  = new String[]{
+        "begin", "end",
+        "\n", "\t",
+        "program", "boolean", "int", "procedure",
+        "while", "if", "var", "div"
+    };
+
     public AnalisadorLexico() {
 
         this.tabela = new ArrayList<>();
-  
+
         //this.gerarLexico();
     }
 
@@ -54,7 +53,7 @@ public class AnalisadorLexico {
      * @param numLinha Refere-se ao número da linha do arquivo
      */
     public void analisar(String texto, int numLinha) {
-        
+
         String textoLinha = texto;
 
         while (!textoLinha.isEmpty()) {
@@ -70,27 +69,31 @@ public class AnalisadorLexico {
                     return;
                 }
 
-                
-
-                if (item.getTipo() != Simbolo.NOVA_LINHA && 
-                    item.getTipo() != Simbolo.COMENTARIO_LINHA &&
-                    item.getTipo() != Simbolo.ESPACO &&
-                    item.getTipo() != Simbolo.COMENTARIO_MULTI
-                    ) this.tabela.add(item);
+                if (       item.getTipo() != Simbolo.NOVA_LINHA
+                        && item.getTipo() != Simbolo.COMENTARIO_LINHA
+                        && item.getTipo() != Simbolo.ESPACO
+                        && item.getTipo() != Simbolo.COMENTARIO_MULTI
+                        && item.getTipo() != Simbolo.TAB) {
+                    this.tabela.add(item);
+                }
 
             } catch (IOException ex) {
                 Logger.getLogger(AnalisadorLexico.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-     
             textoLinha = textoLinha.replaceFirst(Pattern.quote(item.getSimbolo()), "");
         }
 
-        
     }
 
     public ArrayList<Item> getTabela() {
         return tabela;
     }
 
+    public static String[] getPalavrasReservadas() {
+        return palavrasReservadas;
+    }
+
+    
+    
 }

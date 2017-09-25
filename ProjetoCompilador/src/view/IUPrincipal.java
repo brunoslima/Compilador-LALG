@@ -6,17 +6,15 @@
 package view;
 
 import arquivo.Arquivo;
+import decoracao.TextoDecoracao;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.Icon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
-import javax.swing.filechooser.FileSystemView;
-import javax.swing.filechooser.FileView;
 import javax.swing.table.DefaultTableModel;
 import lexico.AnalisadorLexico;
 import lexico.Item;
@@ -30,34 +28,33 @@ public class IUPrincipal extends javax.swing.JFrame {
     public Arquivo arq;
     public String fonte;
     public AnalisadorLexico lexico;
-    
+    public TextoDecoracao decoracao;
+
     /**
      * Creates new form IUPrincipal
      */
     public IUPrincipal() {
         initComponents();
-        
+
         //Interface padrão ao sistema.
-        try {    
+        try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
             SwingUtilities.updateComponentTreeUI(this);
-            
-        } catch(Exception e){
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        
-        
+
         //Titulo da aplicação
         this.setTitle("Compilador - Analisador Lexico");
-        
+
         //Inicializando variaveis
         this.arq = new Arquivo();
         this.lexico = null;
         this.fonte = "";
-        
-        
-        //tamanho do tab
-        TextArea.setTabSize(4);
+
+
+       
     }
 
     /**
@@ -73,7 +70,7 @@ public class IUPrincipal extends javax.swing.JFrame {
         Aba = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        TextArea = new javax.swing.JTextArea();
+        jEditorPane = new javax.swing.JEditorPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         TabelaLexica = new javax.swing.JTable();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -88,10 +85,7 @@ public class IUPrincipal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        TextArea.setColumns(20);
-        TextArea.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
-        TextArea.setRows(5);
-        jScrollPane2.setViewportView(TextArea);
+        jScrollPane2.setViewportView(jEditorPane);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -195,107 +189,129 @@ public class IUPrincipal extends javax.swing.JFrame {
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
-        
-       
+
         int returnVal = jFileChooser1.showOpenDialog(this);
         File file;
-        
-        
+
         if (returnVal == JFileChooser.APPROVE_OPTION) {
-            
+
             file = jFileChooser1.getSelectedFile();
             String localizacao = file.getAbsolutePath();
             String nomeArquivo = file.getName();
-            
+
             try {
-                
+
                 arq = new Arquivo(localizacao);
                 this.fonte = arq.getTexto();
-                this.TextArea.setText(this.fonte);
-                this.Aba.setTitleAt(0,nomeArquivo);
+                this.jEditorPane.setText(this.fonte);
+                this.Aba.setTitleAt(0, nomeArquivo);
                 JOptionPane.showMessageDialog(null, "Arquivo aberto com sucesso!");
                 
-            } catch (FileNotFoundException ex) {
                 
+                decoracao = new TextoDecoracao(fonte);
+                
+                this.jEditorPane.setEditorKit(decoracao.getKit());
+                
+                
+                String[] s = AnalisadorLexico.getPalavrasReservadas();
+                
+                for (String a: s) {
+                    
+                    decoracao.apply(a);
+                }
+
+                this.jEditorPane.setText(decoracao.getTexto());
+
+                //imprime o texto original, removendo as tags
+                //System.out.println(decoracao.removerTags());
+                
+            } catch (FileNotFoundException ex) {
+
                 Logger.getLogger(IUPrincipal.class.getName()).log(Level.SEVERE, null, ex);
                 JOptionPane.showMessageDialog(null, "Erro na leitura do arquivo!");
-                
+
             }
         } else {
             System.out.println("Escolha do arquivo cancelada pelo usuário!");
         }
-                        
+
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        // TODO add your handling code here:
         
-        this.fonte = this.TextArea.getText();
         
+        decoracao.setTexto(this.jEditorPane.getText());
+        this.fonte = decoracao.removerTags();
+
+
         DefaultTableModel model = (DefaultTableModel) this.TabelaLexica.getModel();
-        if (model.getRowCount() > 0){
-            while (this.TabelaLexica.getModel().getRowCount() > 0) model.removeRow(0);         
+        if (model.getRowCount() > 0) {
+            while (this.TabelaLexica.getModel().getRowCount() > 0) {
+                model.removeRow(0);
+            }
         }
-        
-        if(!this.fonte.equals("")){
-            
+
+            if (!this.fonte.equals("")) {
+
             this.lexico = new AnalisadorLexico();
-            
+
             lexico.analisar(this.fonte, 0);
 
-            System.out.println(lexico.getTabela());
+            //System.out.println(lexico.getTabela());
             JOptionPane.showMessageDialog(null, "Análise Léxica realizada com sucesso!");
-            
+
             //Inserindo linhas na tabela
             String lexema, token, numLinha, numColunaInicial, numColunaFinal;
-            for(Item i : lexico.getTabela()){
-                
+            for (Item i : lexico.getTabela()) {
+
                 lexema = i.getSimbolo();
                 token = i.getTipo().toString();
                 numLinha = String.valueOf(i.getNumLinha());
                 numColunaInicial = String.valueOf(i.getNumColunaInicial());
                 numColunaFinal = String.valueOf(i.getNumColunaFinal());
-                
-                model.addRow(new String[]{lexema,token,numLinha,numColunaInicial,numColunaFinal});
+
+                model.addRow(new String[]{lexema, token, numLinha, numColunaInicial, numColunaFinal});
             }
-            
-            
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Area de texto vazia!\nAbra um arquivo texto ou escreva um programa na area de texto!");
         }
-        else JOptionPane.showMessageDialog(null, "Area de texto vazia!\nAbra um arquivo texto ou escreva um programa na area de texto!");
-        
+
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         // TODO add your handling code here:
-        
+
         this.dispose();
-        
+
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void MenuFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuFecharActionPerformed
         // TODO add your handling code here:
-        
+
         this.arq = null;
         this.lexico = null;
-        this.TextArea.setText("");
-        this.Aba.setTitleAt(0,"Inicio");
-        
+        this.jEditorPane.setText("");
+        this.Aba.setTitleAt(0, "Inicio");
+
         DefaultTableModel model = (DefaultTableModel) this.TabelaLexica.getModel();
-        if (model.getRowCount() > 0){
-            while (this.TabelaLexica.getModel().getRowCount() > 0) model.removeRow(0);         
+        if (model.getRowCount() > 0) {
+            while (this.TabelaLexica.getModel().getRowCount() > 0) {
+                model.removeRow(0);
+            }
         }
-        
+
     }//GEN-LAST:event_MenuFecharActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         // TODO add your handling code here:
-        
+
         IUSobre cad = new IUSobre(this, true);
         cad.setLocationRelativeTo(this);
         cad.setVisible(true);
-        
+
         cad.dispose();
-        
+
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     /**
@@ -340,7 +356,7 @@ public class IUPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu MenuAnalisar;
     private javax.swing.JMenuItem MenuFechar;
     private javax.swing.JTable TabelaLexica;
-    private javax.swing.JTextArea TextArea;
+    private javax.swing.JEditorPane jEditorPane;
     private javax.swing.JFileChooser jFileChooser1;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
