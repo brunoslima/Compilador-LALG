@@ -5,15 +5,7 @@
  */
 package decoracao;
 
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.DefaultHighlighter;
-import javax.swing.text.Highlighter;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.StyleSheet;
 
@@ -78,6 +70,10 @@ public class TextoDecoracao {
             
             this.texto = this.texto.replaceAll(Pattern.quote(simbolo), "<span class='quebra-linha'><br></span>");
         }
+        else if (simbolo.equals(" ")) {
+            
+            this.texto = this.texto.replaceAll(Pattern.quote(simbolo), "<span class='espaco-branco'> </span>");
+        }
         else {
             
             this.texto = this.texto.replaceAll(Pattern.quote(simbolo),"<span class='palavra-reservada'>" + simbolo + "</span>");
@@ -90,18 +86,26 @@ public class TextoDecoracao {
         
         
         String s = this.texto
-                         .replaceAll("<span class=\"quebra-linha\">", "\n")
-                         .replaceAll("<span class=\"tab\">", "\t")
-                         .replaceAll("<span[^>]*>", "")
-                         .replaceAll("</span>", "")
-                         .replaceAll("<br>", "")
+                         .replaceAll("\n", "")
+                         .replaceAll("<p[^>]*>", "")
+                         .replaceAll("<head>|</head>", "")
+                         .replaceAll("<html>|</html>", "")
+                         .replaceAll("<body>|</body>", "")
+                         .replaceAll("</[^>]>", "")
                          .replaceAll("&#9;", "")
                          .replaceAll("&gt;", ">")
                          .replaceAll("&lt;","<");
         
-        return s.substring(44, s.length()-19);
-                         
-                    
+        s = s.replaceAll("<span class=\"quebra-linha\">", "\n")
+             .replaceAll("<span class=\"tab\">", "\t")
+             .replaceAll("<br>", "")
+             .replaceAll("<span[^>]*>|</span>", "");
+        
+
+        
+        s = s.trim();
+        
+        return s;     
     }
 
 }

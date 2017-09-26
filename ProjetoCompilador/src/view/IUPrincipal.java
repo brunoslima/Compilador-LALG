@@ -11,8 +11,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.InputMap;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
@@ -53,7 +55,8 @@ public class IUPrincipal extends javax.swing.JFrame {
         this.lexico = null;
         this.fonte = "";
 
-
+        this.decoracao = new TextoDecoracao("");
+        this.jEditorPane.setEditorKit(this.decoracao.getKit());
        
     }
 
@@ -85,6 +88,11 @@ public class IUPrincipal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jEditorPane.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jEditorPaneKeyReleased(evt);
+            }
+        });
         jScrollPane2.setViewportView(jEditorPane);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -208,10 +216,8 @@ public class IUPrincipal extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Arquivo aberto com sucesso!");
                 
                 
-                decoracao = new TextoDecoracao(fonte);
-                
+                decoracao.setTexto(fonte);
                 this.jEditorPane.setEditorKit(decoracao.getKit());
-                
                 
                 String[] s = AnalisadorLexico.getPalavrasReservadas();
                 
@@ -313,6 +319,52 @@ public class IUPrincipal extends javax.swing.JFrame {
         cad.dispose();
 
     }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jEditorPaneKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jEditorPaneKeyReleased
+       
+
+        String text = this.jEditorPane.getText();
+        decoracao.setTexto(text);
+        
+        this.fonte = decoracao.removerTags();
+        
+        if (evt.getKeyChar() == ' ') {
+            
+            this.fonte += " ";
+            
+        } else if (evt.getKeyChar() == '\n') {
+            
+            this.fonte += "\n";
+        }
+        
+        decoracao.setTexto(fonte);
+        System.out.println(decoracao.getTexto());
+        String[] s = AnalisadorLexico.getPalavrasReservadas();
+        
+        for (String palavra: s) {
+            
+            decoracao.apply(palavra);
+        }
+        
+        System.out.println(decoracao.getTexto());
+        decoracao.setTexto(decoracao.getTexto());
+        jEditorPane.setText(decoracao.getTexto());
+        
+        
+        
+    
+        if (evt.getKeyChar() == ' ') {
+            
+            this.fonte += " ";
+            
+        } else if (evt.getKeyChar() == '\n') {
+            
+            this.fonte += "<span class='quebra-linha'><br></span>";
+            
+    
+        }
+
+    }//GEN-LAST:event_jEditorPaneKeyReleased
 
     /**
      * @param args the command line arguments

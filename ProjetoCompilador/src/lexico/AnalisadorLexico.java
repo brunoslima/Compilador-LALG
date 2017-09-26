@@ -24,10 +24,12 @@ public class AnalisadorLexico {
     public static int coluna;
 
     private static final String[] palavrasReservadas  = new String[]{
+        " ",
         "begin", "end",
         "\n", "\t",
         "program", "boolean", "int", "procedure",
-        "while", "if", "var", "div"
+        "while", "if", "var", "div",
+        "read","write"
     };
 
     public AnalisadorLexico() {
