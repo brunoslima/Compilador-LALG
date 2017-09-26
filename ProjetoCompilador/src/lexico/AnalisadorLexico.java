@@ -28,8 +28,7 @@ public class AnalisadorLexico {
         "begin", "end",
         "\n", "\t",
         "program", "boolean", "int", "procedure",
-        "while", "if", "var", "div",
-        "read","write"
+        "while", "if", "then", "else", "var", "div"
     };
 
     public AnalisadorLexico() {

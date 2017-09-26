@@ -41,8 +41,6 @@ public class TextoDecoracao {
 
     }
 
-    
-
     public String getTexto() {
         return texto;
     }
@@ -103,7 +101,7 @@ public class TextoDecoracao {
         
 
         
-        s = s.trim();
+        //s = s.trim();
         
         return s;     
     }

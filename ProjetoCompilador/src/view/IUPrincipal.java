@@ -18,6 +18,7 @@ import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.BadLocationException;
 import lexico.AnalisadorLexico;
 import lexico.Item;
 
@@ -324,6 +325,7 @@ public class IUPrincipal extends javax.swing.JFrame {
        
 
         String text = this.jEditorPane.getText();
+        System.out.println("AQUI ->" + text);
         decoracao.setTexto(text);
         
         this.fonte = decoracao.removerTags();
@@ -347,12 +349,9 @@ public class IUPrincipal extends javax.swing.JFrame {
         }
         
         System.out.println(decoracao.getTexto());
-        decoracao.setTexto(decoracao.getTexto());
         jEditorPane.setText(decoracao.getTexto());
         
         
-        
-    
         if (evt.getKeyChar() == ' ') {
             
             this.fonte += " ";
