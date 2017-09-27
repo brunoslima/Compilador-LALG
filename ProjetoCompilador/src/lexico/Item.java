@@ -16,6 +16,7 @@ public class Item {
     private int numLinha;
     private int numColunaInicial;
     private int numColunaFinal;
+    private int offset;
 
     public Item(String simbolo, Simbolo tipo, int numLinha, int numColunaInicial, int numColunaFinal) {
         this.simbolo = simbolo;
@@ -25,6 +26,16 @@ public class Item {
         this.numColunaFinal = numColunaFinal;
     }
 
+    public int getOffset() {
+        return offset;
+    }
+
+    public void setOffset(int offset) {
+        this.offset = offset;
+    }
+
+    
+    
     public String getSimbolo() {
         return simbolo;
     }

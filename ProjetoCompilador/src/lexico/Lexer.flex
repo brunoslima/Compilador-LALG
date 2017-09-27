@@ -3,8 +3,10 @@ import static lexico.Simbolo.*;
 
 
 %%
+%public
 %class Lexer
 %type Item
+%char
 
 WHITE=[ ]
 TAB=[\t]
@@ -78,6 +80,8 @@ IDENTIFICADOR=[_|a-z|A-Z][a-z|A-Z|0-9]*
 private Item add(Simbolo descricao, String lexema) {
     
     Item item = new Item(lexema, descricao, AnalisadorLexico.linha, yycolumn + AnalisadorLexico.coluna, yycolumn + lexema.length()-1  + AnalisadorLexico.coluna);
+    
+    item.setOffset(yychar);
     if(descricao == Simbolo.TAB){
         AnalisadorLexico.coluna += 4;
     } else if (descricao != Simbolo.NOVA_LINHA &&

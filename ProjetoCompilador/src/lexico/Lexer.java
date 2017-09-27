@@ -10,7 +10,7 @@ import static lexico.Simbolo.*;
  * <a href="http://www.jflex.de/">JFlex</a> 1.6.1
  * from the specification file <tt>src/lexico/Lexer.flex</tt>
  */
-class Lexer {
+public class Lexer {
 
   /** This character denotes the end of file */
   public static final int YYEOF = -1;
@@ -331,6 +331,8 @@ class Lexer {
 private Item add(Simbolo descricao, String lexema) {
     
     Item item = new Item(lexema, descricao, AnalisadorLexico.linha, yycolumn + AnalisadorLexico.coluna, yycolumn + lexema.length()-1  + AnalisadorLexico.coluna);
+    
+    item.setOffset(yychar);
     if(descricao == Simbolo.TAB){
         AnalisadorLexico.coluna += 4;
     } else if (descricao != Simbolo.NOVA_LINHA &&
@@ -348,7 +350,7 @@ private Item add(Simbolo descricao, String lexema) {
    *
    * @param   in  the java.io.Reader to read input from.
    */
-  Lexer(java.io.Reader in) {
+  public Lexer(java.io.Reader in) {
     this.zzReader = in;
   }
 
@@ -590,6 +592,8 @@ private Item add(Simbolo descricao, String lexema) {
 
     while (true) {
       zzMarkedPosL = zzMarkedPos;
+
+      yychar+= zzMarkedPosL-zzStartRead;
 
       zzAction = -1;
 

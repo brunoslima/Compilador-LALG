@@ -56,8 +56,8 @@ public class IUPrincipal extends javax.swing.JFrame {
         this.lexico = null;
         this.fonte = "";
 
-        this.decoracao = new TextoDecoracao("");
-        this.jEditorPane.setEditorKit(this.decoracao.getKit());
+        this.decoracao = new TextoDecoracao(jTextPane);
+
        
     }
 
@@ -73,8 +73,8 @@ public class IUPrincipal extends javax.swing.JFrame {
         jFileChooser1 = new javax.swing.JFileChooser();
         Aba = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jEditorPane = new javax.swing.JEditorPane();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTextPane = new javax.swing.JTextPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         TabelaLexica = new javax.swing.JTable();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -89,22 +89,22 @@ public class IUPrincipal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jEditorPane.addKeyListener(new java.awt.event.KeyAdapter() {
+        jTextPane.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                jEditorPaneKeyReleased(evt);
+                jTextPaneKeyReleased(evt);
             }
         });
-        jScrollPane2.setViewportView(jEditorPane);
+        jScrollPane3.setViewportView(jTextPane);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 839, Short.MAX_VALUE)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 839, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
         );
 
         Aba.addTab("Inicial", jPanel1);
@@ -212,25 +212,16 @@ public class IUPrincipal extends javax.swing.JFrame {
 
                 arq = new Arquivo(localizacao);
                 this.fonte = arq.getTexto();
-                this.jEditorPane.setText(this.fonte);
+                this.jTextPane.setText(this.fonte);
                 this.Aba.setTitleAt(0, nomeArquivo);
                 JOptionPane.showMessageDialog(null, "Arquivo aberto com sucesso!");
                 
                 
-                decoracao.setTexto(fonte);
-                this.jEditorPane.setEditorKit(decoracao.getKit());
-                
-                String[] s = AnalisadorLexico.getPalavrasReservadas();
-                
-                for (String a: s) {
-                    
-                    decoracao.apply(a);
-                }
-
-                this.jEditorPane.setText(decoracao.getTexto());
+                ///
 
                 //imprime o texto original, removendo as tags
                 //System.out.println(decoracao.removerTags());
+                decoracao.updateTextStyles();
                 
             } catch (FileNotFoundException ex) {
 
@@ -247,8 +238,8 @@ public class IUPrincipal extends javax.swing.JFrame {
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         
         
-        decoracao.setTexto(this.jEditorPane.getText());
-        this.fonte = decoracao.removerTags();
+
+        this.fonte = this.jTextPane.getText();
 
 
         DefaultTableModel model = (DefaultTableModel) this.TabelaLexica.getModel();
@@ -298,7 +289,7 @@ public class IUPrincipal extends javax.swing.JFrame {
 
         this.arq = null;
         this.lexico = null;
-        this.jEditorPane.setText("");
+        this.jTextPane.setText("");
         this.Aba.setTitleAt(0, "Inicio");
 
         DefaultTableModel model = (DefaultTableModel) this.TabelaLexica.getModel();
@@ -321,49 +312,11 @@ public class IUPrincipal extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
-    private void jEditorPaneKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jEditorPaneKeyReleased
-       
-
-        String text = this.jEditorPane.getText();
-        System.out.println("AQUI ->" + text);
-        decoracao.setTexto(text);
+    private void jTextPaneKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextPaneKeyReleased
         
-        this.fonte = decoracao.removerTags();
-        
-        if (evt.getKeyChar() == ' ') {
-            
-            this.fonte += " ";
-            
-        } else if (evt.getKeyChar() == '\n') {
-            
-            this.fonte += "\n";
-        }
-        
-        decoracao.setTexto(fonte);
-        System.out.println(decoracao.getTexto());
-        String[] s = AnalisadorLexico.getPalavrasReservadas();
-        
-        for (String palavra: s) {
-            
-            decoracao.apply(palavra);
-        }
-        
-        System.out.println(decoracao.getTexto());
-        jEditorPane.setText(decoracao.getTexto());
-        
-        
-        if (evt.getKeyChar() == ' ') {
-            
-            this.fonte += " ";
-            
-        } else if (evt.getKeyChar() == '\n') {
-            
-            this.fonte += "<span class='quebra-linha'><br></span>";
-            
-    
-        }
-
-    }//GEN-LAST:event_jEditorPaneKeyReleased
+        decoracao.updateTextStyles();
+        jTextPane.repaint();
+    }//GEN-LAST:event_jTextPaneKeyReleased
 
     /**
      * @param args the command line arguments
@@ -407,7 +360,6 @@ public class IUPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu MenuAnalisar;
     private javax.swing.JMenuItem MenuFechar;
     private javax.swing.JTable TabelaLexica;
-    private javax.swing.JEditorPane jEditorPane;
     private javax.swing.JFileChooser jFileChooser1;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
@@ -417,6 +369,7 @@ public class IUPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTextPane jTextPane;
     // End of variables declaration//GEN-END:variables
 }

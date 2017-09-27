@@ -1,109 +1,85 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package decoracao;
 
-import java.util.regex.Pattern;
-import javax.swing.text.html.HTMLEditorKit;
-import javax.swing.text.html.StyleSheet;
+import java.awt.Color;
+import java.io.IOException;
+import java.io.StringReader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-/**
- *
- * @author leandroungari
- */
-public class TextoDecoracao {
+import javax.swing.JEditorPane;
+import javax.swing.JTextPane;
+import javax.swing.SwingUtilities;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DocumentFilter;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyleContext;
+import javax.swing.text.StyledDocument;
+import lexico.Item;
+import lexico.Lexer;
 
-    private String texto;
-    private HTMLEditorKit kit;
-    
-    public TextoDecoracao(String texto) {
+public final class TextoDecoracao extends DocumentFilter {
 
-        kit = new HTMLEditorKit();
-        StyleSheet styleSheet = kit.getStyleSheet();
-        styleSheet.addRule(".palavra-reservada {color: blue;}"); 
-        styleSheet.addRule(".palavra-reservada:hover{font-weight: bold;}");
-        styleSheet.addRule("* {font-family: Consolas, sans-serif;}");
-        styleSheet.addRule(".tab {display: inline-block;}");
-        
-        this.texto = texto;
-        
-    }
-    
-    public TextoDecoracao() {
+    private StyledDocument styledDocument;
+    private JTextPane pane;
+    private final StyleContext styleContext = StyleContext.getDefaultStyleContext();
+    private final AttributeSet blueAttributeSet = styleContext.addAttribute(styleContext.getEmptySet(), StyleConstants.Foreground, Color.BLUE);
+    private final AttributeSet blackAttributeSet = styleContext.addAttribute(styleContext.getEmptySet(), StyleConstants.Foreground, Color.BLACK);
+    private final AttributeSet greenAttributeSet = styleContext.addAttribute(styleContext.getEmptySet(), StyleConstants.Foreground, new Color(0, 153, 0));
+    private final AttributeSet redAttributeSet = styleContext.addAttribute(styleContext.getEmptySet(), StyleConstants.Foreground, Color.RED);
+    private final AttributeSet pinkAttributeSet = styleContext.addAttribute(styleContext.getEmptySet(), StyleConstants.Foreground, new Color(255, 0, 255));
 
-        kit = new HTMLEditorKit();
-        StyleSheet styleSheet = kit.getStyleSheet();
-        styleSheet.addRule(".palavra-reservada {color: blue;}"); 
-        styleSheet.addRule("* {font-family: Consolas, sans-serif;}");
-        styleSheet.addRule(".tab {display: inline-block;}");
+    @Override
+    public void insertString(FilterBypass fb, int offset, String text, AttributeSet attributeSet) throws BadLocationException {
+        super.insertString(fb, offset, text, attributeSet);
 
-    }
-
-    public String getTexto() {
-        return texto;
+        handleTextChanged();
     }
 
-    public void setTexto(String texto) {
-        this.texto = texto;
+    @Override
+    public void remove(FilterBypass fb, int offset, int length) throws BadLocationException {
+        super.remove(fb, offset, length);
+
+        handleTextChanged();
     }
 
-    public HTMLEditorKit getKit() {
-        return kit;
+    @Override
+    public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attributeSet) throws BadLocationException {
+        super.replace(fb, offset, length, text, attributeSet);
+
+        handleTextChanged();
     }
 
-    public void setKit(HTMLEditorKit kit) {
-        this.kit = kit;
+    /**
+     * Runs your updates later, not during the event notification.
+     */
+    private void handleTextChanged() {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                updateTextStyles();
+            }
+        });
     }
 
-    public void apply(String simbolo) {
-        
-     
-        if (simbolo.equals("\t")) {
-      
-            this.texto = this.texto.replaceAll(Pattern.quote(simbolo), "<span class='tab'>&#9;</span>");
+    public void updateTextStyles() {
+        // Clear existing styles
+        styledDocument.setCharacterAttributes(0, pane.getText().length(), blackAttributeSet, true);
+        Lexer a = new Lexer(new StringReader(pane.getText()));
+        Item t = null;
+        try {
+            while ((t = a.yylex()) != null) {
+                
+                styledDocument.setCharacterAttributes(t.getOffset() - t.getNumLinha(), t.getSimbolo().length(), blueAttributeSet, false);
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(TextoDecoracao.class.getName()).log(Level.SEVERE, null, ex);
         }
-        else if (simbolo.equals("\n")) {
-            
-            this.texto = this.texto.replaceAll(Pattern.quote(simbolo), "<span class='quebra-linha'><br></span>");
-        }
-        else if (simbolo.equals(" ")) {
-            
-            this.texto = this.texto.replaceAll(Pattern.quote(simbolo), "<span class='espaco-branco'> </span>");
-        }
-        else {
-            
-            this.texto = this.texto.replaceAll(Pattern.quote(simbolo),"<span class='palavra-reservada'>" + simbolo + "</span>");
-        }
-        
-        
     }
-    
-    public String removerTags(){
-        
-        
-        String s = this.texto
-                         .replaceAll("\n", "")
-                         .replaceAll("<p[^>]*>", "")
-                         .replaceAll("<head>|</head>", "")
-                         .replaceAll("<html>|</html>", "")
-                         .replaceAll("<body>|</body>", "")
-                         .replaceAll("</[^>]>", "")
-                         .replaceAll("&#9;", "")
-                         .replaceAll("&gt;", ">")
-                         .replaceAll("&lt;","<");
-        
-        s = s.replaceAll("<span class=\"quebra-linha\">", "\n")
-             .replaceAll("<span class=\"tab\">", "\t")
-             .replaceAll("<br>", "")
-             .replaceAll("<span[^>]*>|</span>", "");
-        
 
-        
-        //s = s.trim();
-        
-        return s;     
+    public TextoDecoracao(JTextPane pane) {
+        this.pane = pane;
+        styledDocument = pane.getStyledDocument();
     }
 
 }

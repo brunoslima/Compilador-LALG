@@ -19,7 +19,7 @@ public class Analise {
 
     public static void main(String[] args) throws FileNotFoundException {
 
-        Arquivo arq = new Arquivo("correto1.txt");
+        //Arquivo arq = new Arquivo("correto1.txt");
 
         AnalisadorLexico a = new AnalisadorLexico();
         a.gerarLexico();
