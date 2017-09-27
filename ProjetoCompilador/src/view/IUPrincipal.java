@@ -6,15 +6,11 @@
 package view;
 
 import arquivo.Arquivo;
-import decoracao.MyHTML2Text;
 import decoracao.TextoDecoracao;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.StringReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.regex.Pattern;
 import javax.swing.InputMap;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -327,31 +323,21 @@ public class IUPrincipal extends javax.swing.JFrame {
 
     private void jEditorPaneKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jEditorPaneKeyReleased
        
-        
-        
 
-        if (evt.isActionKey()) {
-            return;
-        }
-        
-        
         String text = this.jEditorPane.getText();
-        //System.out.println("AQUI ->" + text);
+        System.out.println("AQUI ->" + text);
         decoracao.setTexto(text);
         
-        MyHTML2Text html = new MyHTML2Text();
+        this.fonte = decoracao.removerTags();
         
-        
-        //this.fonte = decoracao.removerTags();
-        
-        try {
-            html.parse(new StringReader(text));
-        } catch (IOException ex) {
-            Logger.getLogger(IUPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        if (evt.getKeyChar() == ' ') {
+            
+            this.fonte += " ";
+            
+        } else if (evt.getKeyChar() == '\n') {
+            
+            this.fonte += "\n";
         }
-        
-        this.fonte = html.getText().trim();
-        
         
         decoracao.setTexto(fonte);
         System.out.println(decoracao.getTexto());
@@ -361,25 +347,21 @@ public class IUPrincipal extends javax.swing.JFrame {
             
             decoracao.apply(palavra);
         }
-
-
-        if (evt.getKeyChar() == '\t') {
-      
-            decoracao.texto = decoracao.texto.substring(0, decoracao.texto.length()-1) + "<span class='tab'>&#9;</span>";
-        }
-        else if (evt.getKeyChar() == '\n') {
-            
-            decoracao.texto = decoracao.texto.substring(0, decoracao.texto.length()-1) + "<span class='quebra-linha'>&#10;</span>";
-        }
-        else if (evt.getKeyChar() == ' ') {
-            
-            decoracao.texto = decoracao.texto.substring(0, decoracao.texto.length()) + "<span class='espaco-branco'>&nbsp;</span>";
-        }
         
         System.out.println(decoracao.getTexto());
         jEditorPane.setText(decoracao.getTexto());
         
         
+        if (evt.getKeyChar() == ' ') {
+            
+            this.fonte += " ";
+            
+        } else if (evt.getKeyChar() == '\n') {
+            
+            this.fonte += "<span class='quebra-linha'><br></span>";
+            
+    
+        }
 
     }//GEN-LAST:event_jEditorPaneKeyReleased
 
