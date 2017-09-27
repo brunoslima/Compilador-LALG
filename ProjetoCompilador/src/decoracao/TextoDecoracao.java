@@ -15,7 +15,7 @@ import javax.swing.text.html.StyleSheet;
  */
 public class TextoDecoracao {
 
-    private String texto;
+    public String texto;
     private HTMLEditorKit kit;
     
     public TextoDecoracao(String texto) {
@@ -68,10 +68,6 @@ public class TextoDecoracao {
             
             this.texto = this.texto.replaceAll(Pattern.quote(simbolo), "<span class='quebra-linha'><br></span>");
         }
-        else if (simbolo.equals(" ")) {
-            
-            this.texto = this.texto.replaceAll(Pattern.quote(simbolo), "<span class='espaco-branco'> </span>");
-        }
         else {
             
             this.texto = this.texto.replaceAll(Pattern.quote(simbolo),"<span class='palavra-reservada'>" + simbolo + "</span>");
@@ -86,9 +82,7 @@ public class TextoDecoracao {
         String s = this.texto
                          .replaceAll("\n", "")
                          .replaceAll("<p[^>]*>", "")
-                         .replaceAll("<head>|</head>", "")
-                         .replaceAll("<html>|</html>", "")
-                         .replaceAll("<body>|</body>", "")
+                         .replaceAll("<html.*(?=<body>)<body>","")
                          .replaceAll("</[^>]>", "")
                          .replaceAll("&#9;", "")
                          .replaceAll("&gt;", ">")
@@ -103,7 +97,7 @@ public class TextoDecoracao {
         
         //s = s.trim();
         
-        return s;     
+        return s.replaceAll("\\s+$", "");     
     }
 
 }
