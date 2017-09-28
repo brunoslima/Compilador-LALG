@@ -33,6 +33,7 @@ public class IUPrincipal extends javax.swing.JFrame {
     public AnalisadorLexico lexico;
     public TextoDecoracao decoracao;
     public AnalisadorLexico analisador;
+    public static String sistema;
 
     /**
      * Creates new form IUPrincipal
@@ -60,6 +61,10 @@ public class IUPrincipal extends javax.swing.JFrame {
         this.decoracao = new TextoDecoracao(jTextPane);
         this.analisador = new AnalisadorLexico();
        
+        
+        
+        sistema = System.getProperty("os.name");
+        System.out.println(this.sistema);
     }
 
     /**

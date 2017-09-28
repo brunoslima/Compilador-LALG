@@ -20,6 +20,7 @@ import lexico.AnalisadorLexico;
 import lexico.Item;
 import lexico.Lexer;
 import lexico.Simbolo;
+import view.IUPrincipal;
 
 public final class TextoDecoracao extends DocumentFilter {
 
@@ -73,15 +74,21 @@ public final class TextoDecoracao extends DocumentFilter {
         Item t = null;
         
         ArrayList<String> lista = AnalisadorLexico.getPalavrasReservadas();
-        
+        int linha;
         
         try {
             while ((t = a.yylex()) != null) {
                 
+                if (IUPrincipal.sistema.equals("Linux")) {
+                    linha = 0;
+                }
+                else linha = t.getNumLinha();
                 
-                if (lista.contains(t.getSimbolo())) styledDocument.setCharacterAttributes(t.getOffset(), t.getSimbolo().length(), blueAttributeSet, false);
-                else if (t.getTipo() == Simbolo.COMENTARIO_LINHA || t.getTipo() == Simbolo.COMENTARIO_MULTI) styledDocument.setCharacterAttributes(t.getOffset(), t.getSimbolo().length(), grayAttributeSet, false);
-                else styledDocument.setCharacterAttributes(t.getOffset(), t.getSimbolo().length(), blackAttributeSet, false); 
+                System.out.println("Linha: " + t.getNumLinha() + " offset:" + t.getOffset());
+                
+                if (lista.contains(t.getSimbolo())) styledDocument.setCharacterAttributes(t.getOffset()-linha, t.getSimbolo().length(), blueAttributeSet, false);
+                else if (t.getTipo() == Simbolo.COMENTARIO_LINHA || t.getTipo() == Simbolo.COMENTARIO_MULTI) styledDocument.setCharacterAttributes(t.getOffset()-linha, t.getSimbolo().length(), grayAttributeSet, false);
+                else styledDocument.setCharacterAttributes(t.getOffset()-linha, t.getSimbolo().length(), blackAttributeSet, false); 
             }
         } catch (IOException ex) {
             Logger.getLogger(TextoDecoracao.class.getName()).log(Level.SEVERE, null, ex);

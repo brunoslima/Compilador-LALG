@@ -52,7 +52,7 @@ public class Arquivo {
         while(leitura.hasNextLine()){
             
             //this.linhas.add(leitura.nextLine());
-            this.texto += leitura.nextLine() + /*"\n"*/ System.lineSeparator();
+            this.texto += leitura.nextLine() + "\n" /*System.lineSeparator()*/;
             num++;
         }
         
