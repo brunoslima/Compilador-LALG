@@ -65,11 +65,11 @@ public class AnalisadorLexico {
     public void analisar(String texto, int numLinha) {
 
         String textoLinha = texto;
+        Lexer l = new Lexer(new StringReader(textoLinha));
+        Item item = null;
+        while (true) {
 
-        while (!textoLinha.isEmpty()) {
-
-            Lexer l = new Lexer(new StringReader(textoLinha));
-            Item item = null;
+            
 
             try {
 
@@ -91,7 +91,7 @@ public class AnalisadorLexico {
                 Logger.getLogger(AnalisadorLexico.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            textoLinha = textoLinha.replaceFirst(Pattern.quote(item.getSimbolo()), "");
+   
         }
 
     }

@@ -7,6 +7,8 @@ import static lexico.Simbolo.*;
 %class Lexer
 %type Item
 %char
+%line
+%column
 
 WHITE=[ ]
 TAB=[\t]

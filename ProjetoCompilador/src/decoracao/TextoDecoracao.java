@@ -79,9 +79,9 @@ public final class TextoDecoracao extends DocumentFilter {
             while ((t = a.yylex()) != null) {
                 
                 
-                if (lista.contains(t.getSimbolo())) styledDocument.setCharacterAttributes(t.getOffset() - t.getNumLinha(), t.getSimbolo().length(), blueAttributeSet, false);
-                else if (t.getTipo() == Simbolo.COMENTARIO_LINHA || t.getTipo() == Simbolo.COMENTARIO_MULTI) styledDocument.setCharacterAttributes(t.getOffset() - t.getNumLinha(), t.getSimbolo().length(), grayAttributeSet, false);
-                else styledDocument.setCharacterAttributes(t.getOffset() - t.getNumLinha(), t.getSimbolo().length(), blackAttributeSet, false); 
+                if (lista.contains(t.getSimbolo())) styledDocument.setCharacterAttributes(t.getOffset(), t.getSimbolo().length(), blueAttributeSet, false);
+                else if (t.getTipo() == Simbolo.COMENTARIO_LINHA || t.getTipo() == Simbolo.COMENTARIO_MULTI) styledDocument.setCharacterAttributes(t.getOffset(), t.getSimbolo().length(), grayAttributeSet, false);
+                else styledDocument.setCharacterAttributes(t.getOffset(), t.getSimbolo().length(), blackAttributeSet, false); 
             }
         } catch (IOException ex) {
             Logger.getLogger(TextoDecoracao.class.getName()).log(Level.SEVERE, null, ex);

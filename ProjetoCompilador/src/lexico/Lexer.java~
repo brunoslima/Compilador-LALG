@@ -330,16 +330,16 @@ public class Lexer {
 
 private Item add(Simbolo descricao, String lexema) {
     
-    Item item = new Item(lexema, descricao, AnalisadorLexico.linha, yycolumn + AnalisadorLexico.coluna, yycolumn + lexema.length()-1  + AnalisadorLexico.coluna);
+    Item item = new Item(lexema, descricao, yyline, yycolumn, yycolumn + lexema.length()-1 );
     
     item.setOffset(yychar);
-    if(descricao == Simbolo.TAB){
+    /*if(descricao == Simbolo.TAB){
         AnalisadorLexico.coluna += 4;
     } else if (descricao != Simbolo.NOVA_LINHA &&
         descricao != Simbolo.COMENTARIO_LINHA
     ) {
         AnalisadorLexico.coluna += lexema.length();
-    }
+    }*/
     return item;
 }
 

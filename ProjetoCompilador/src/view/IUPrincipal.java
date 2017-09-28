@@ -223,6 +223,7 @@ public class IUPrincipal extends javax.swing.JFrame {
                 //imprime o texto original, removendo as tags
                 //System.out.println(decoracao.removerTags());
                 decoracao.updateTextStyles();
+                jTextPane.repaint();
                 
             } catch (FileNotFoundException ex) {
 
