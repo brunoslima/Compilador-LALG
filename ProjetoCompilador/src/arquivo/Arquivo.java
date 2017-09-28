@@ -52,31 +52,13 @@ public class Arquivo {
         while(leitura.hasNextLine()){
             
             //this.linhas.add(leitura.nextLine());
-            this.texto += leitura.nextLine() + "\n" /*System.lineSeparator()*/;
+            this.texto += leitura.nextLine() + /*"\n"*/ System.lineSeparator();
             num++;
         }
         
         System.out.println("Número de linhas: " + num);
         
     }
-    
-    /*
-    public ArrayList<String> getLinhas(){
-        
-        return linhas;
-    }*/
-    
-    /*
-    public String getTexto(){
-        
-        String texto = "";
-        
-        for(String a : this.linhas){
-            texto += a + "\n";
-        }
-        
-        return(texto);
-    }*/
     
     public void setTexto(String fonte){
         

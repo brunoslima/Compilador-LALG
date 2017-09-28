@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.InputMap;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -52,6 +53,10 @@ public class IUPrincipal extends javax.swing.JFrame {
 
         //Titulo da aplicação
         this.setTitle("Compilador - Analisador Lexico");
+        
+        //Icone da aplicação
+        ImageIcon imagemTituloJanela = new ImageIcon("imagens/logo.png");
+        setIconImage(imagemTituloJanela.getImage());
 
         //Inicializando variaveis
         this.arq = new Arquivo();
@@ -60,8 +65,6 @@ public class IUPrincipal extends javax.swing.JFrame {
 
         this.decoracao = new TextoDecoracao(jTextPane);
         this.analisador = new AnalisadorLexico();
-       
-        
         
         sistema = System.getProperty("os.name");
         System.out.println(this.sistema);
@@ -94,7 +97,10 @@ public class IUPrincipal extends javax.swing.JFrame {
         jMenuItem3 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setPreferredSize(new java.awt.Dimension(944, 534));
 
+        jTextPane.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
         jTextPane.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jTextPaneKeyReleased(evt);
@@ -227,7 +233,7 @@ public class IUPrincipal extends javax.swing.JFrame {
 
                 //imprime o texto original, removendo as tags
                 //System.out.println(decoracao.removerTags());
-                decoracao.updateTextStyles();
+                decoracao.colorirTexto();
                 jTextPane.repaint();
                 
             } catch (FileNotFoundException ex) {
@@ -244,10 +250,7 @@ public class IUPrincipal extends javax.swing.JFrame {
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         
-        
-
         this.fonte = this.jTextPane.getText();
-
 
         DefaultTableModel model = (DefaultTableModel) this.TabelaLexica.getModel();
         if (model.getRowCount() > 0) {
@@ -321,7 +324,7 @@ public class IUPrincipal extends javax.swing.JFrame {
 
     private void jTextPaneKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextPaneKeyReleased
         
-        decoracao.updateTextStyles();
+        decoracao.colorirTexto();
         jTextPane.repaint();
     }//GEN-LAST:event_jTextPaneKeyReleased
 

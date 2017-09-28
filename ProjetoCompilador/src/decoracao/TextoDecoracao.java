@@ -62,18 +62,19 @@ public final class TextoDecoracao extends DocumentFilter {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                updateTextStyles();
+                colorirTexto();
             }
         });
     }
 
-    public void updateTextStyles() {
+    public void colorirTexto() {
         // Clear existing styles
         styledDocument.setCharacterAttributes(0, pane.getText().length(), blackAttributeSet, true);
         Lexer a = new Lexer(new StringReader(pane.getText()));
         Item t = null;
         
-        ArrayList<String> lista = AnalisadorLexico.getPalavrasReservadas();
+        ArrayList<String> listaReservadas = AnalisadorLexico.getPalavrasReservadas();
+        ArrayList<String> listaOperadores = AnalisadorLexico.getOperadores();
         int linha;
         
         try {
@@ -83,11 +84,12 @@ public final class TextoDecoracao extends DocumentFilter {
                     linha = 0;
                 }
                 else linha = t.getNumLinha();
-                
-                System.out.println("Linha: " + t.getNumLinha() + " offset:" + t.getOffset());
-                
-                if (lista.contains(t.getSimbolo())) styledDocument.setCharacterAttributes(t.getOffset()-linha, t.getSimbolo().length(), blueAttributeSet, false);
+                                
+                if (listaReservadas.contains(t.getSimbolo())) styledDocument.setCharacterAttributes(t.getOffset()-linha, t.getSimbolo().length(), blueAttributeSet, false);
                 else if (t.getTipo() == Simbolo.COMENTARIO_LINHA || t.getTipo() == Simbolo.COMENTARIO_MULTI) styledDocument.setCharacterAttributes(t.getOffset()-linha, t.getSimbolo().length(), grayAttributeSet, false);
+                else if (t.getTipo() == Simbolo.NUMERO_INTEIRO) styledDocument.setCharacterAttributes(t.getOffset()-linha, t.getSimbolo().length(), pinkAttributeSet, false);
+                else if (t.getTipo() == Simbolo.VALOR_LOGICO_FALSE || t.getTipo() == Simbolo.VALOR_LOGICO_TRUE) styledDocument.setCharacterAttributes(t.getOffset()-linha, t.getSimbolo().length(), greenAttributeSet, false);
+                else if (listaOperadores.contains(t.getSimbolo())) styledDocument.setCharacterAttributes(t.getOffset()-linha, t.getSimbolo().length(), redAttributeSet, false);
                 else styledDocument.setCharacterAttributes(t.getOffset()-linha, t.getSimbolo().length(), blackAttributeSet, false); 
             }
         } catch (IOException ex) {

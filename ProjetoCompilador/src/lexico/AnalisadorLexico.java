@@ -25,8 +25,7 @@ public class AnalisadorLexico {
     public static int coluna;
 
     private static final ArrayList<String> palavrasReservadas  = new ArrayList<>();
-
-        
+    private static final ArrayList<String> operadores  = new ArrayList<>();
 
 
     public AnalisadorLexico() {
@@ -34,16 +33,16 @@ public class AnalisadorLexico {
         this.tabela = new ArrayList<>();
 
         //this.gerarLexico();
-        String[] a = new String[]{
-        "begin", "end",
-        "program", "boolean", "int", "procedure",
-        "while", "if", "then", "else", "var", "div", "read", "write"
-        };
         
         palavrasReservadas.addAll(Arrays.asList(new String[]{
             "begin", "end",
             "program", "boolean", "int", "procedure",
-            "while", "if", "then", "else", "var", "div", "read", "write"
+            "while", "do", "if", "then", "else", "var", "read", "write"
+        }));
+        
+        operadores.addAll(Arrays.asList(new String[]{
+            "<", ">", ">=", "<=", "=", "<>", ":=",
+            "+", "-", "*", "div", "and", "or", "not"
         }));
     }
 
@@ -103,8 +102,9 @@ public class AnalisadorLexico {
     public static ArrayList<String> getPalavrasReservadas() {
         return palavrasReservadas;
     }
+    
+    public static ArrayList<String> getOperadores() {
+        return operadores;
+    }
 
-    
-    
-    
 }
