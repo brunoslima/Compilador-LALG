@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
@@ -23,19 +24,27 @@ public class AnalisadorLexico {
     public static int linha;
     public static int coluna;
 
-    private static final String[] palavrasReservadas  = new String[]{
-        " ",
-        "begin", "end",
-        "\n", "\t",
-        "program", "boolean", "int", "procedure",
-        "while", "if", "then", "else", "var", "div"
-    };
+    private static final ArrayList<String> palavrasReservadas  = new ArrayList<>();
+
+        
+
 
     public AnalisadorLexico() {
 
         this.tabela = new ArrayList<>();
 
         //this.gerarLexico();
+        String[] a = new String[]{
+        "begin", "end",
+        "program", "boolean", "int", "procedure",
+        "while", "if", "then", "else", "var", "div", "read", "write"
+        };
+        
+        palavrasReservadas.addAll(Arrays.asList(new String[]{
+            "begin", "end",
+            "program", "boolean", "int", "procedure",
+            "while", "if", "then", "else", "var", "div", "read", "write"
+        }));
     }
 
     /**
@@ -91,10 +100,11 @@ public class AnalisadorLexico {
         return tabela;
     }
 
-    public static String[] getPalavrasReservadas() {
+    public static ArrayList<String> getPalavrasReservadas() {
         return palavrasReservadas;
     }
 
+    
     
     
 }

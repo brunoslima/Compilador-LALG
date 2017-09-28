@@ -3,6 +3,7 @@ package decoracao;
 import java.awt.Color;
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -15,8 +16,10 @@ import javax.swing.text.DocumentFilter;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
+import lexico.AnalisadorLexico;
 import lexico.Item;
 import lexico.Lexer;
+import lexico.Simbolo;
 
 public final class TextoDecoracao extends DocumentFilter {
 
@@ -27,6 +30,7 @@ public final class TextoDecoracao extends DocumentFilter {
     private final AttributeSet blackAttributeSet = styleContext.addAttribute(styleContext.getEmptySet(), StyleConstants.Foreground, Color.BLACK);
     private final AttributeSet greenAttributeSet = styleContext.addAttribute(styleContext.getEmptySet(), StyleConstants.Foreground, new Color(0, 153, 0));
     private final AttributeSet redAttributeSet = styleContext.addAttribute(styleContext.getEmptySet(), StyleConstants.Foreground, Color.RED);
+    private final AttributeSet grayAttributeSet = styleContext.addAttribute(styleContext.getEmptySet(), StyleConstants.Foreground, Color.GRAY);
     private final AttributeSet pinkAttributeSet = styleContext.addAttribute(styleContext.getEmptySet(), StyleConstants.Foreground, new Color(255, 0, 255));
 
     @Override
@@ -67,10 +71,17 @@ public final class TextoDecoracao extends DocumentFilter {
         styledDocument.setCharacterAttributes(0, pane.getText().length(), blackAttributeSet, true);
         Lexer a = new Lexer(new StringReader(pane.getText()));
         Item t = null;
+        
+        ArrayList<String> lista = AnalisadorLexico.getPalavrasReservadas();
+        
+        
         try {
             while ((t = a.yylex()) != null) {
                 
-                styledDocument.setCharacterAttributes(t.getOffset() - t.getNumLinha(), t.getSimbolo().length(), blueAttributeSet, false);
+                
+                if (lista.contains(t.getSimbolo())) styledDocument.setCharacterAttributes(t.getOffset() - t.getNumLinha(), t.getSimbolo().length(), blueAttributeSet, false);
+                else if (t.getTipo() == Simbolo.COMENTARIO_LINHA || t.getTipo() == Simbolo.COMENTARIO_MULTI) styledDocument.setCharacterAttributes(t.getOffset() - t.getNumLinha(), t.getSimbolo().length(), grayAttributeSet, false);
+                else styledDocument.setCharacterAttributes(t.getOffset() - t.getNumLinha(), t.getSimbolo().length(), blackAttributeSet, false); 
             }
         } catch (IOException ex) {
             Logger.getLogger(TextoDecoracao.class.getName()).log(Level.SEVERE, null, ex);

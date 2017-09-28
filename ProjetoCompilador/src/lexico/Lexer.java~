@@ -331,6 +331,8 @@ public class Lexer {
 private Item add(Simbolo descricao, String lexema) {
     
     Item item = new Item(lexema, descricao, AnalisadorLexico.linha, yycolumn + AnalisadorLexico.coluna, yycolumn + lexema.length()-1  + AnalisadorLexico.coluna);
+    
+    item.setOffset(yychar);
     if(descricao == Simbolo.TAB){
         AnalisadorLexico.coluna += 4;
     } else if (descricao != Simbolo.NOVA_LINHA &&
@@ -590,6 +592,8 @@ private Item add(Simbolo descricao, String lexema) {
 
     while (true) {
       zzMarkedPosL = zzMarkedPos;
+
+      yychar+= zzMarkedPosL-zzStartRead;
 
       zzAction = -1;
 

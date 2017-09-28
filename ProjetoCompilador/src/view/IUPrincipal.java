@@ -32,6 +32,7 @@ public class IUPrincipal extends javax.swing.JFrame {
     public String fonte;
     public AnalisadorLexico lexico;
     public TextoDecoracao decoracao;
+    public AnalisadorLexico analisador;
 
     /**
      * Creates new form IUPrincipal
@@ -57,7 +58,7 @@ public class IUPrincipal extends javax.swing.JFrame {
         this.fonte = "";
 
         this.decoracao = new TextoDecoracao(jTextPane);
-
+        this.analisador = new AnalisadorLexico();
        
     }
 
