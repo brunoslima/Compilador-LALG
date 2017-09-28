@@ -6,6 +6,7 @@
 package view;
 
 import arquivo.Arquivo;
+import decoracao.BordaNumerica;
 import decoracao.TextoDecoracao;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -68,6 +69,8 @@ public class IUPrincipal extends javax.swing.JFrame {
         
         sistema = System.getProperty("os.name");
         System.out.println(this.sistema);
+        
+        this.jTextPane.setBorder(new BordaNumerica());
     }
 
     /**
@@ -100,7 +103,7 @@ public class IUPrincipal extends javax.swing.JFrame {
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setPreferredSize(new java.awt.Dimension(944, 534));
 
-        jTextPane.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
+        jTextPane.setFont(new java.awt.Font("Consolas", 0, 13)); // NOI18N
         jTextPane.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jTextPaneKeyReleased(evt);
