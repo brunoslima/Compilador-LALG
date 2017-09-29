@@ -53,12 +53,12 @@ public class IUPrincipal extends javax.swing.JFrame {
         }
 
         //Titulo da aplicação
-        this.setTitle("Compilador - Analisador Lexico");
+        this.setTitle("Compilador - Analisador Léxico");
         
         //Icone da aplicação
         ImageIcon imagemTituloJanela = new ImageIcon("imagens/logo.png");
         setIconImage(imagemTituloJanela.getImage());
-
+                
         //Inicializando variaveis
         this.arq = new Arquivo();
         this.lexico = null;
@@ -121,7 +121,7 @@ public class IUPrincipal extends javax.swing.JFrame {
             .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
         );
 
-        Aba.addTab("Inicial", jPanel1);
+        Aba.addTab("Novo", jPanel1);
 
         TabelaLexica.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         TabelaLexica.setModel(new javax.swing.table.DefaultTableModel(
@@ -139,6 +139,7 @@ public class IUPrincipal extends javax.swing.JFrame {
 
         MenuAbrir.setText("Arquivo");
 
+        jMenuItem1.setIcon(new javax.swing.ImageIcon("D:\\Ciência da Computação - Unesp\\4º Ano\\2º Semestre\\Compiladores\\Trabalhos\\ProjetoCompilador\\ProjetoCompilador\\imagens\\new_file2.png")); // NOI18N
         jMenuItem1.setText("Abrir");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

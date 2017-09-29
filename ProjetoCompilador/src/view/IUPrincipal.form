@@ -13,6 +13,9 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem1">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="D:\Ci&#xea;ncia da Computa&#xe7;&#xe3;o - Unesp\4&#xba; Ano\2&#xba; Semestre\Compiladores\Trabalhos\ProjetoCompilador\ProjetoCompilador\imagens\new_file2.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Abrir"/>
               </Properties>
               <Events>
@@ -122,8 +125,8 @@
         <Container class="javax.swing.JPanel" name="jPanel1">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="Inicial">
-                <Property name="tabTitle" type="java.lang.String" value="Inicial"/>
+              <JTabbedPaneConstraints tabName="Novo">
+                <Property name="tabTitle" type="java.lang.String" value="Novo"/>
               </JTabbedPaneConstraints>
             </Constraint>
           </Constraints>

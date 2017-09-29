@@ -26,7 +26,6 @@ public class Arquivo {
         
         //linhas = new ArrayList<>();
         this.texto = "";
-        
         this.lerArquivo();
     }
     

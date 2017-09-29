@@ -68,7 +68,8 @@ public final class TextoDecoracao extends DocumentFilter {
     }
 
     public void colorirTexto() {
-        // Clear existing styles
+        
+        //Limpando estilo existente
         styledDocument.setCharacterAttributes(0, pane.getText().length(), blackAttributeSet, true);
         Lexer a = new Lexer(new StringReader(pane.getText()));
         Item t = null;
