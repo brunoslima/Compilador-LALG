@@ -35,8 +35,8 @@ public class AnalisadorLexico {
         //this.gerarLexico();
         
         palavrasReservadas.addAll(Arrays.asList(new String[]{
-            "begin", "end",
-            "program", "boolean", "int", "procedure",
+            "program", "begin", "end", "procedure",
+            "boolean", "int", "real",
             "while", "do", "if", "then", "else", "var", "read", "write"
         }));
         

@@ -71,7 +71,7 @@ PARENTESES_ABRE="("
 PARENTESES_FECHA=")"
 
 NUMERO_INTEIRO=[0-9]+
-
+NUMERO_REAL = [0-9]+\.[0-9]+
 
 IDENTIFICADOR=[_|a-z|A-Z][a-z|A-Z|0-9]*
 
@@ -84,13 +84,6 @@ private Item add(Simbolo descricao, String lexema) {
     Item item = new Item(lexema, descricao, yyline, yycolumn, yycolumn + lexema.length()-1 );
     
     item.setOffset(yychar);
-    /*if(descricao == Simbolo.TAB){
-        AnalisadorLexico.coluna += 4;
-    } else if (descricao != Simbolo.NOVA_LINHA &&
-        descricao != Simbolo.COMENTARIO_LINHA
-    ) {
-        AnalisadorLexico.coluna += lexema.length();
-    }*/
     return item;
 }
 
@@ -109,9 +102,9 @@ private Item add(Simbolo descricao, String lexema) {
 {PROCEDURE} {return add(PALAVRA_RESERVADA_PROCEDURE, yytext());}
 {VAR} {return add(PALAVRA_RESERVADA_VAR, yytext());}
 
-{INT} {return add(TIPO_INTEIRO, yytext());}
-{REAL} {return add(TIPO_REAL, yytext());}
-{BOOLEAN} {return add(TIPO_BOOLEANO, yytext());}
+{INT} {return add(PALAVRA_RESERVADA_INT, yytext());}
+{REAL} {return add(PALAVRA_RESERVADA_REAL, yytext());}
+{BOOLEAN} {return add(PALAVRA_RESERVADA_BOOLEAN, yytext());}
 {TRUE} {return add(VALOR_LOGICO_TRUE, yytext());}
 {FALSE} {return add(VALOR_LOGICO_FALSE, yytext());}
 
@@ -123,12 +116,12 @@ private Item add(Simbolo descricao, String lexema) {
 {VIRGULA} {return add(SIMBOLO_VIRGULA, yytext());}
 {PONTO} {return add(SIMBOLO_PONTO, yytext());}
 
-{IF} {return add(ESTRUTURA_CONDICAO_IF, yytext());}
-{THEN} {return add(ESTRUTURA_CONDICAO_THEN, yytext());}
-{ELSE} {return add(ESTRUTURA_CONDICAO_ELSE, yytext());}
+{IF} {return add(PALAVRA_RESERVADA_IF, yytext());}
+{THEN} {return add(PALAVRA_RESERVADA_THEN, yytext());}
+{ELSE} {return add(PALAVRA_RESERVADA_ELSE, yytext());}
 
-{WHILE} {return add(ESTRUTURA_REPETICAO_WHILE, yytext());}
-{DO} {return add(ESTRUTURA_REPETICAO_DO, yytext());}
+{WHILE} {return add(PALAVRA_RESERVADA_WHILE, yytext());}
+{DO} {return add(PALAVRA_RESERVADA_DO, yytext());}
 
 {SIMBOLO_IGUAL} {return add(SIMBOLO_IGUAL, yytext());}
 {SIMBOLO_DIFERENTE} {return add(SIMBOLO_DIFERENTE, yytext());}
@@ -150,6 +143,7 @@ private Item add(Simbolo descricao, String lexema) {
 {PARENTESES_FECHA} {return add(PARENTESES_FECHA, yytext());}
 
 {NUMERO_INTEIRO} {return add(NUMERO_INTEIRO, yytext());}
+{NUMERO_REAL} {return add(NUMERO_REAL, yytext());}
 {IDENTIFICADOR} {return add(IDENTIFICADOR, yytext());}
 
 . {return add(ERROR, yytext());}

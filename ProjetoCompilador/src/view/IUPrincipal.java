@@ -68,7 +68,6 @@ public class IUPrincipal extends javax.swing.JFrame {
         this.analisador = new AnalisadorLexico();
         
         sistema = System.getProperty("os.name");
-        System.out.println(this.sistema);
         
         this.jTextPane.setBorder(new BordaNumerica());
     }
@@ -101,7 +100,7 @@ public class IUPrincipal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        setPreferredSize(new java.awt.Dimension(944, 534));
+        setPreferredSize(new java.awt.Dimension(1044, 634));
 
         jTextPane.setFont(new java.awt.Font("Consolas", 0, 13)); // NOI18N
         jTextPane.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -231,11 +230,7 @@ public class IUPrincipal extends javax.swing.JFrame {
                 this.Aba.setTitleAt(0, nomeArquivo);
                 JOptionPane.showMessageDialog(null, "Arquivo aberto com sucesso!");
                 
-                
-                ///
 
-                //imprime o texto original, removendo as tags
-                //System.out.println(decoracao.removerTags());
                 decoracao.colorirTexto();
                 jTextPane.repaint();
                 
@@ -268,7 +263,6 @@ public class IUPrincipal extends javax.swing.JFrame {
 
             lexico.analisar(this.fonte, 0);
 
-            //System.out.println(lexico.getTabela());
             JOptionPane.showMessageDialog(null, "Análise Léxica realizada com sucesso!");
 
             //Inserindo linhas na tabela

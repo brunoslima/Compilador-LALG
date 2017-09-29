@@ -61,7 +61,7 @@ public class BordaNumerica extends AbstractBorder {
         int lenght;
         int px;
         for (; i < rows; i++) {
-            str = String.valueOf(i + 1);
+            str = String.valueOf(i /*+ 1*/);
             lenght = str.length();
             lenght = maxLenght - lenght;
             py = this.lineHeight * i + 14;
@@ -69,26 +69,26 @@ public class BordaNumerica extends AbstractBorder {
             //px += point.x;
             g.drawString(str, px, py);
         }
-        int left = this.calculateLeft(height) + 7;
+        int left = this.calculoEsquerdo(height) + 7;
         //left += point.x;
         g.drawLine(left, 0, left, height);
         g.setColor(oldColor);
     }
 
     public Insets getBorderInsets(Component c) {
-        int left = this.calculateLeft(c.getHeight()) + 10;
+        int left = this.calculoEsquerdo(c.getHeight()) + 10;
         return new Insets(1, left, 1, 1);
     }
 
     public Insets getBorderInsets(Component c, Insets insets) {
         insets.top = 1;
-        insets.left = this.calculateLeft(c.getHeight()) + 10;
+        insets.left = this.calculoEsquerdo(c.getHeight()) + 10;
         insets.bottom = 1;
         insets.right = 1;
         return insets;
     }
 
-    protected int calculateLeft(int height) {
+    protected int calculoEsquerdo(int height) {
         double r = (double) height / (double) this.lineHeight;
         int rows = (int) (r + 0.5);
         String str = String.valueOf(rows);

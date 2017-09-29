@@ -19,21 +19,8 @@ public class Analise {
 
     public static void main(String[] args) throws FileNotFoundException {
 
-        //Arquivo arq = new Arquivo("correto1.txt");
-
         AnalisadorLexico a = new AnalisadorLexico();
         a.gerarLexico();
         
-        /*
-        for (String s : arq.getLinhas()) {
-            
-            
-            a.analisar(s, arq.getLinhas().indexOf(s));
-            
-        }*/
-        //System.out.println(arq.getTexto());
-        //a.analisar(arq.getTexto(), 0);
-
-        //System.out.println(a.getTabela());
     }
 }

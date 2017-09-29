@@ -87,7 +87,7 @@ public final class TextoDecoracao extends DocumentFilter {
                                 
                 if (listaReservadas.contains(t.getSimbolo())) styledDocument.setCharacterAttributes(t.getOffset()-linha, t.getSimbolo().length(), blueAttributeSet, false);
                 else if (t.getTipo() == Simbolo.COMENTARIO_LINHA || t.getTipo() == Simbolo.COMENTARIO_MULTI) styledDocument.setCharacterAttributes(t.getOffset()-linha, t.getSimbolo().length(), grayAttributeSet, false);
-                else if (t.getTipo() == Simbolo.NUMERO_INTEIRO) styledDocument.setCharacterAttributes(t.getOffset()-linha, t.getSimbolo().length(), pinkAttributeSet, false);
+                else if (t.getTipo() == Simbolo.NUMERO_INTEIRO || t.getTipo() == Simbolo.NUMERO_REAL) styledDocument.setCharacterAttributes(t.getOffset()-linha, t.getSimbolo().length(), pinkAttributeSet, false);
                 else if (t.getTipo() == Simbolo.VALOR_LOGICO_FALSE || t.getTipo() == Simbolo.VALOR_LOGICO_TRUE) styledDocument.setCharacterAttributes(t.getOffset()-linha, t.getSimbolo().length(), greenAttributeSet, false);
                 else if (listaOperadores.contains(t.getSimbolo())) styledDocument.setCharacterAttributes(t.getOffset()-linha, t.getSimbolo().length(), redAttributeSet, false);
                 else styledDocument.setCharacterAttributes(t.getOffset()-linha, t.getSimbolo().length(), blackAttributeSet, false); 
@@ -95,6 +95,7 @@ public final class TextoDecoracao extends DocumentFilter {
         } catch (IOException ex) {
             Logger.getLogger(TextoDecoracao.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
     }
 
     public TextoDecoracao(JTextPane pane) {

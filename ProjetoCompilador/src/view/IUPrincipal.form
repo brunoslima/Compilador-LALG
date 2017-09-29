@@ -76,7 +76,7 @@
       <Color id="Cursor Padr&#xe3;o"/>
     </Property>
     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-      <Dimension value="[944, 534]"/>
+      <Dimension value="[1044, 634]"/>
     </Property>
   </Properties>
   <SyntheticProperties>
