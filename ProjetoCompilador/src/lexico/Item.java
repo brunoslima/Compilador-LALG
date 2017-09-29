@@ -33,8 +33,6 @@ public class Item {
     public void setOffset(int offset) {
         this.offset = offset;
     }
-
-    
     
     public String getSimbolo() {
         return simbolo;
