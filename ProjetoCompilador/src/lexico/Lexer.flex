@@ -1,8 +1,10 @@
 package lexico;
 import static lexico.Simbolo.*;
+import java_cup.runtime.Symbol;
 
 
 %%
+%cup
 %public
 %class Lexer
 %type Item

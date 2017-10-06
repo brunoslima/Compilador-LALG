@@ -1,0 +1,149 @@
+package sintatico;
+import java_cup.runtime.Symbol;
+
+
+
+parser code {:
+
+    public void report_error(String message, Object info)  {
+        System.out.println("Warning - " + message);
+    }
+
+    public void report_fatal_error(String message, Object info)  {
+        System.out.println("Error - " + message);
+        System.exit(-1);
+    }
+
+:};
+
+
+terminal COMENTARIO_MULTI, COMENTARIO_LINHA;
+terminal PROGRAM, BEGIN, END, PROCEDURE, VAR;
+terminal INT, REAL, BOOLEAN, TRUE, FALSE;
+terminal READ, WRITE;
+terminal DOIS_PONTOS, VIRGULA, PONTO, PONTO_VIRGULA;
+terminal IF, THEN, ELSE, WHILE, DO;
+terminal SIMBOLO_IGUAL, SIMBOLO_DIFERENTE, SIMBOLO_MENOR, SIMBOLO_MENOR_IGUAL, SIMBOLO_MAIOR, SIMBOLO_MAIOR_IGUAL;
+terminal OP_ATRIBUICAO, OP_ADICAO, OP_SUBTRACAO, OP_DIVISAO, OP_MULTIPLICACAO, OP_AND, OP_OR, OP_NOT;
+terminal PARENTESES_ABRE, PARENTESES_FECHA;
+terminal NUMERO_INTEIRO, NUMERO_REAL, IDENTIFICADOR;
+
+non terminal programa, bloco, parte_declaracao_variaveis, parte_declaracao_variaveis2, declaracao_variaveis;
+non terminal lista_identificadores, lista_identificadores2, parte_declaracao_sub_rotinas, declaracao_procedimentos, declaracao_procedimentos3, declaracao_procedimentos2;
+non terminal parametros_formais, secao_parametros_formais, secao_parametros_formais2; 
+non terminal tipo, comando_composto, comando_composto2, comando, atribuicao, chamada_procedimento;
+non terminal comando_condicional1, comando_condicional12, comando_condicional2; 
+non terminal comando_repetitivo, comando_repetitivo2;
+non terminal expressao, expressao2, relacao, expressao_simples, expressao_simples2, expressao_simples3;
+non terminal termo, termo2, termo3, fator, fator2, fator3, fator41, fator42, possivel_relacao, fator4;
+non terminal variavel, variavel2, lista_expressoes, lista_expressoes2;
+
+
+start with programa;
+
+programa ::= PROGRAM IDENTIFICADOR PONTO_VIRGULA bloco PONTO;
+
+bloco ::= parte_declaracao_variaveis parte_declaracao_sub_rotinas comando_composto;
+
+
+
+parte_declaracao_variaveis ::= declaracao_variaveis parte_declaracao_variaveis2;
+
+parte_declaracao_variaveis2 ::= PONTO_VIRGULA declaracao_variaveis parte_declaracao_variaveis2 |;
+
+declaracao_variaveis ::= tipo lista_identificadores;
+
+lista_identificadores ::= IDENTIFICADOR lista_identificadores2;
+
+lista_identificadores2 ::= VIRGULA IDENTIFICADOR lista_identificadores2 |;
+
+parte_declaracao_sub_rotinas ::= declaracao_procedimentos PONTO_VIRGULA |;
+
+declaracao_procedimentos ::= PROCEDURE IDENTIFICADOR declaracao_procedimentos2;
+
+declaracao_procedimentos2 ::= parametros_formais PONTO_VIRGULA declaracao_procedimentos3 | PONTO_VIRGULA declaracao_procedimentos3;
+
+declaracao_procedimentos3 ::= parte_declaracao_variaveis parte_declaracao_sub_rotinas comando_composto;
+
+
+
+
+parametros_formais ::= secao_parametros_formais secao_parametros_formais2;
+
+secao_parametros_formais2 ::= VIRGULA secao_parametros_formais secao_parametros_formais2 |;
+
+secao_parametros_formais ::= VAR lista_identificadores DOIS_PONTOS tipo | lista_identificadores DOIS_PONTOS tipo;
+
+tipo ::= INT | BOOLEAN | REAL;
+
+
+
+
+comando_composto ::= BEGIN comando comando_composto2 END;
+
+comando_composto2 ::= PONTO_VIRGULA comando comando_composto2 |;
+
+comando ::= atribuicao | chamada_procedimento | BEGIN comando PONTO_VIRGULA comando END | comando_condicional1 | comando_repetitivo;
+
+atribuicao ::= variavel OP_ATRIBUICAO expressao;
+
+chamada_procedimento ::= IDENTIFICADOR PARENTESES_ABRE lista_expressoes PARENTESES_FECHA;
+
+comando_condicional1 ::= IF expressao THEN comando_condicional12 comando_condicional2;
+
+comando_condicional12 ::= atribuicao | chamada_procedimento | BEGIN comando PONTO_VIRGULA comando END | comando_condicional1 | comando_repetitivo;
+
+comando_condicional2 ::= ELSE atribuicao | chamada_procedimento | BEGIN comando PONTO_VIRGULA comando END | comando_condicional1 | comando_repetitivo;
+
+comando_repetitivo ::= WHILE expressao DO comando_repetitivo2;
+
+comando_repetitivo2 ::= atribuicao | chamada_procedimento | BEGIN comando PONTO_VIRGULA comando END | comando_condicional1 | comando_repetitivo;
+
+
+
+
+expressao ::= expressao_simples expressao2;
+
+expressao2 ::= relacao expressao_simples expressao2 |;
+
+relacao ::= SIMBOLO_IGUAL | SIMBOLO_DIFERENTE | SIMBOLO_MENOR | SIMBOLO_MENOR_IGUAL | SIMBOLO_MAIOR_IGUAL | SIMBOLO_MAIOR;
+
+expressao_simples ::=  expressao_simples2 termo expressao_simples3 termo;
+
+expressao_simples2 ::= OP_ADICAO | OP_SUBTRACAO |;
+
+expressao_simples3 ::= OP_ADICAO | OP_SUBTRACAO | OP_OR;
+
+
+
+termo ::= fator termo3;
+
+termo2 ::= OP_MULTIPLICACAO | OP_DIVISAO | OP_AND;
+
+termo3 ::= termo2 fator |;
+
+fator ::= variavel | NUMERO_INTEIRO | NUMERO_REAL | 
+          PARENTESES_ABRE expressao_simples2 fator fator3 fator4 possivel_relacao PARENTESES_FECHA | OP_NOT fator;
+
+fator2 ::= OP_MULTIPLICACAO | OP_DIVISAO | OP_AND;
+
+fator3 ::= fator2 fator |;
+
+fator4 ::= fator41 fator fator42;
+
+fator41 ::= OP_ADICAO | OP_MULTIPLICACAO | OP_OR;
+
+fator42 ::= fator2 fator |;
+
+possivel_relacao ::= relacao expressao_simples2 fator fator3 expressao_simples3 fator fator3; 
+
+
+
+variavel ::= IDENTIFICADOR variavel2;
+
+variavel2 ::= expressao |;
+
+lista_expressoes ::= expressao lista_expressoes2;
+
+lista_expressoes2 ::= VIRGULA expressao |;
+

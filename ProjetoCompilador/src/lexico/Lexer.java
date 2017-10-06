@@ -2,6 +2,7 @@
 
 package lexico;
 import static lexico.Simbolo.*;
+import java_cup.runtime.Symbol;
 
 
 
@@ -10,7 +11,7 @@ import static lexico.Simbolo.*;
  * <a href="http://www.jflex.de/">JFlex</a> 1.6.1
  * from the specification file <tt>src/lexico/Lexer.flex</tt>
  */
-public class Lexer {
+public class Lexer implements java_cup.runtime.Scanner {
 
   /** This character denotes the end of file */
   public static final int YYEOF = -1;
@@ -575,13 +576,25 @@ private Item add(Simbolo descricao, String lexema) {
 
 
   /**
+   * Contains user EOF-code, which will be executed exactly once,
+   * when the end of file is reached
+   */
+  private void zzDoEOF() throws java.io.IOException {
+    if (!zzEOFDone) {
+      zzEOFDone = true;
+      yyclose();
+    }
+  }
+
+
+  /**
    * Resumes scanning until the next regular expression is matched,
    * the end of input is encountered or an I/O-Error occurs.
    *
    * @return      the next token
    * @exception   java.io.IOException  if any I/O-Error occurs
    */
-  public Item yylex() throws java.io.IOException {
+  public Item next_token() throws java.io.IOException {
     int zzInput;
     int zzAction;
 
@@ -719,7 +732,8 @@ private Item add(Simbolo descricao, String lexema) {
 
       if (zzInput == YYEOF && zzStartRead == zzCurrentPos) {
         zzAtEOF = true;
-        return null;
+            zzDoEOF();
+          { return new java_cup.runtime.Symbol(sym.EOF); }
       }
       else {
         switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
