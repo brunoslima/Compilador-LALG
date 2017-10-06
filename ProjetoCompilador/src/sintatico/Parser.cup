@@ -29,21 +29,21 @@ terminal PARENTESES_ABRE, PARENTESES_FECHA;
 terminal NUMERO_INTEIRO, NUMERO_REAL, IDENTIFICADOR;
 
 non terminal programa, bloco, parte_declaracao_variaveis, parte_declaracao_variaveis2, declaracao_variaveis;
-non terminal lista_identificadores, lista_identificadores2, parte_declaracao_sub_rotinas, declaracao_procedimentos, declaracao_procedimentos3, declaracao_procedimentos2;
+non terminal lista_identificadores, lista_identificadores2, parte_declaracao_sub_rotinas, parte_declaracao_sub_rotinas1, declaracao_procedimentos, declaracao_procedimentos1;
 non terminal parametros_formais, secao_parametros_formais, secao_parametros_formais2; 
 non terminal tipo, comando_composto, comando_composto2, comando, atribuicao, chamada_procedimento;
 non terminal comando_condicional1, comando_condicional12, comando_condicional2; 
 non terminal comando_repetitivo, comando_repetitivo2;
-non terminal expressao, expressao2, relacao, expressao_simples, expressao_simples2, expressao_simples3;
+non terminal expressao, relacao, expressao_simples, expressao_simples2, expressao_simples3;
 non terminal termo, termo2, termo3, fator, fator2, fator3, fator41, fator42, possivel_relacao, fator4;
-non terminal variavel, variavel2, lista_expressoes, lista_expressoes2;
+non terminal variavel, lista_expressoes, lista_expressoes2;
 
 
 start with programa;
 
 programa ::= PROGRAM IDENTIFICADOR PONTO_VIRGULA bloco PONTO;
 
-bloco ::= parte_declaracao_variaveis parte_declaracao_sub_rotinas comando_composto;
+bloco ::= parte_declaracao_variaveis parte_declaracao_sub_rotinas comando_composto | parte_declaracao_sub_rotinas comando_composto | comando_composto;
 
 
 
@@ -57,26 +57,27 @@ lista_identificadores ::= IDENTIFICADOR lista_identificadores2;
 
 lista_identificadores2 ::= VIRGULA IDENTIFICADOR lista_identificadores2 |;
 
-parte_declaracao_sub_rotinas ::= declaracao_procedimentos PONTO_VIRGULA |;
+/*
+parte_declaracao_sub_rotinas ::= PROCEDURE IDENTIFICADOR declaracao_procedimentos;
 
-declaracao_procedimentos ::= PROCEDURE IDENTIFICADOR declaracao_procedimentos2;
+declaracao_procedimentos ::= parametros_formais PONTO_VIRGULA declaracao_procedimentos1 | PONTO_VIRGULA declaracao_procedimentos1;
 
-declaracao_procedimentos2 ::= parametros_formais PONTO_VIRGULA declaracao_procedimentos3 | PONTO_VIRGULA declaracao_procedimentos3;
-
-declaracao_procedimentos3 ::= parte_declaracao_variaveis parte_declaracao_sub_rotinas comando_composto;
-
-
-
+declaracao_procedimentos1 ::= bloco PONTO_VIRGULA;
 
 parametros_formais ::= secao_parametros_formais secao_parametros_formais2;
 
 secao_parametros_formais2 ::= VIRGULA secao_parametros_formais secao_parametros_formais2 |;
 
 secao_parametros_formais ::= VAR lista_identificadores DOIS_PONTOS tipo | lista_identificadores DOIS_PONTOS tipo;
-
+*/
 tipo ::= INT | BOOLEAN | REAL;
 
 
+parte_declaracao_sub_rotinas ::= PROCEDURE IDENTIFICADOR declaracao_procedimentos VAR | PROCEDURE IDENTIFICADOR declaracao_procedimentos VAR;
+
+parte_declaracao_sub_rotinas1 ::= IDENTIFICADOR lista_identificadores2 DOIS_PONTOS tipo;
+
+/*
 
 
 comando_composto ::= BEGIN comando comando_composto2 END;
@@ -102,17 +103,16 @@ comando_repetitivo2 ::= atribuicao | chamada_procedimento | BEGIN comando PONTO_
 
 
 
-expressao ::= expressao_simples expressao2;
-
-expressao2 ::= relacao expressao_simples expressao2 |;
+expressao ::= expressao_simples relacao expressao_simples expressao | relacao expressao_simples |;
 
 relacao ::= SIMBOLO_IGUAL | SIMBOLO_DIFERENTE | SIMBOLO_MENOR | SIMBOLO_MENOR_IGUAL | SIMBOLO_MAIOR_IGUAL | SIMBOLO_MAIOR;
 
-expressao_simples ::=  expressao_simples2 termo expressao_simples3 termo;
+
+expressao_simples ::= OP_ADICAO termo expressao_simples3 | OP_SUBTRACAO termo expressao_simples3 | termo expressao_simples3;
 
 expressao_simples2 ::= OP_ADICAO | OP_SUBTRACAO |;
 
-expressao_simples3 ::= OP_ADICAO | OP_SUBTRACAO | OP_OR;
+expressao_simples3 ::= OP_ADICAO termo | OP_SUBTRACAO termo | OP_OR termo;
 
 
 
@@ -139,11 +139,10 @@ possivel_relacao ::= relacao expressao_simples2 fator fator3 expressao_simples3 
 
 
 
-variavel ::= IDENTIFICADOR variavel2;
-
-variavel2 ::= expressao |;
+variavel ::= IDENTIFICADOR expressao;
 
 lista_expressoes ::= expressao lista_expressoes2;
 
 lista_expressoes2 ::= VIRGULA expressao |;
 
+*/
