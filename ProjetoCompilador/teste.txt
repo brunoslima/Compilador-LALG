@@ -1,1 +1,4 @@
 program certo;
+begin
+
+end.
