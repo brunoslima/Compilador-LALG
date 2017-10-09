@@ -1,7 +1,8 @@
 package sintatico;
 import java_cup.runtime.Symbol;
 
-
+init with {: scanner.init();              :};
+scan with {: return scanner.next_token(); :};
 
 parser code {:
 
@@ -10,8 +11,8 @@ parser code {:
     }
 
     public void report_fatal_error(String message, Object info)  {
-        System.out.println("Error - " + message);
-        System.exit(-1);
+        System.out.println("Error - " + message + info);
+        System.exit(0);
     }
 
 :};

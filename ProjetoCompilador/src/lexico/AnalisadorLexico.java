@@ -81,7 +81,7 @@ public class AnalisadorLexico {
                 if (       item.getTipo() != Simbolo.NOVA_LINHA
                         && item.getTipo() != Simbolo.COMENTARIO_LINHA
                         && item.getTipo() != Simbolo.ESPACO
-                        && item.getTipo() != Simbolo.COMENTARIO_MULTI
+                        && item.getTipo() != Simbolo.COMENTARIO_MULTI                        
                         && item.getTipo() != Simbolo.TAB) {
                     this.tabela.add(item);
                 }

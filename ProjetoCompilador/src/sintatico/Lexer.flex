@@ -1,13 +1,12 @@
-package lexico;
-import static lexico.Simbolo.*;
+package sintatico;
+import static sintatico.Simbolo.*;
 import java_cup.runtime.Symbol;
 
 
 %%
-//%cup
+%cup
 %public
 %class Lexer
-%type Item
 %char
 %line
 %column
@@ -81,21 +80,19 @@ IDENTIFICADOR=[_|a-z|A-Z][a-z|A-Z|0-9]*
 
 
 
-private Item add(Simbolo descricao, String lexema) {
+private Symbol add(int descricao, String lexema) {
     
-    Item item = new Item(lexema, descricao, yyline, yycolumn, yycolumn + lexema.length()-1 );
-    
-    item.setOffset(yychar);
-    return item;
+   
+    return new Symbol(descricao, yyline, yycolumn, lexema);
 }
 
 %}
 %%
 {WHITE} {return add(ESPACO, yytext());}
 {TAB} {return add(TAB, yytext());}
-{NOVA_LINHA} {AnalisadorLexico.linha++; AnalisadorLexico.coluna = 0; return add(NOVA_LINHA, yytext());}
+{NOVA_LINHA} {return add(NOVA_LINHA, yytext());}
 
-{COMENTARIO_LINHA} {AnalisadorLexico.linha++; AnalisadorLexico.coluna = 0; return add(COMENTARIO_LINHA, yytext());}
+{COMENTARIO_LINHA} {return add(COMENTARIO_LINHA, yytext());}
 {COMENTARIO_MULTI} {return add(COMENTARIO_MULTI, yytext());}
 
 {PROGRAM} {return add(PALAVRA_RESERVADA_PROGRAM, yytext());}
@@ -147,5 +144,7 @@ private Item add(Simbolo descricao, String lexema) {
 {NUMERO_INTEIRO} {return add(NUMERO_INTEIRO, yytext());}
 {NUMERO_REAL} {return add(NUMERO_REAL, yytext());}
 {IDENTIFICADOR} {return add(IDENTIFICADOR, yytext());}
+
+<<EOF>> {return add(EOF, yytext());}
 
 . {return add(ERROR, yytext());}
