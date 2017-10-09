@@ -41,7 +41,7 @@ non terminal termo, termo2, fator;
 non terminal variavel, lista_expressoes, lista_expressoes2;
 
 
-start with programa;
+start with parte_declaracao_variaveis;
 
 programa ::= PROGRAM IDENTIFICADOR PONTO_VIRGULA bloco PONTO;
 

@@ -741,19 +741,19 @@ private Symbol add(int descricao, String lexema) {
             }
           case 47: break;
           case 2: 
-            { return add(Sym.ESPACO, yytext());
+            { /*return add(Sym.ESPACO, yytext());*/
             }
           case 48: break;
           case 3: 
-            { return add(Sym.TAB, yytext());
+            { /*return add(Sym.TAB, yytext());*/
             }
           case 49: break;
           case 4: 
-            { return add(Sym.NOVA_LINHA, yytext());
+            { /*return add(Sym.NOVA_LINHA, yytext());*/
             }
           case 50: break;
           case 5: 
-            { return add(Sym.COMENTARIO_MULTI, yytext());
+            { /*return add(Sym.COMENTARIO_MULTI, yytext());*/
             }
           case 51: break;
           case 6: 
@@ -841,7 +841,7 @@ private Symbol add(int descricao, String lexema) {
             }
           case 72: break;
           case 27: 
-            { return add(Sym.COMENTARIO_LINHA, yytext());
+            { /*return add(Sym.COMENTARIO_LINHA, yytext());*/
             }
           case 73: break;
           case 28: 

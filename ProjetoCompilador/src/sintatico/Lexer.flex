@@ -88,12 +88,12 @@ private Symbol add(int descricao, String lexema) {
 
 %}
 %%
-{WHITE} {return add(Sym.ESPACO, yytext());}
-{TAB} {return add(Sym.TAB, yytext());}
-{NOVA_LINHA} {return add(Sym.NOVA_LINHA, yytext());}
+{WHITE} {/*return add(Sym.ESPACO, yytext());*/}
+{TAB} {/*return add(Sym.TAB, yytext());*/}
+{NOVA_LINHA} {/*return add(Sym.NOVA_LINHA, yytext());*/}
 
-{COMENTARIO_LINHA} {return add(Sym.COMENTARIO_LINHA, yytext());}
-{COMENTARIO_MULTI} {return add(Sym.COMENTARIO_MULTI, yytext());}
+{COMENTARIO_LINHA} {/*return add(Sym.COMENTARIO_LINHA, yytext());*/}
+{COMENTARIO_MULTI} {/*return add(Sym.COMENTARIO_MULTI, yytext());*/}
 
 {PROGRAM} {return add(Sym.PROGRAM, yytext());}
 {BEGIN} {return add(Sym.BEGIN, yytext());}

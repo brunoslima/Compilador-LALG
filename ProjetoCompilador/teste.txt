@@ -1,4 +1,2 @@
-program certo;
-begin
-
-end.
+real a,b,c; 
+read
