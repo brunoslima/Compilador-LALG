@@ -48,15 +48,15 @@ programa ::= PROGRAM IDENTIFICADOR PONTO_VIRGULA bloco PONTO;
 bloco ::= parte_declaracao_variaveis;
 
 
-parte_declaracao_variaveis ::= tipo lista_identificadores parte_declaracao_variaveis2 | parte_declaracao_sub_rotinas;
+parte_declaracao_variaveis ::= tipo lista_identificadores parte_declaracao_variaveis2 /*| parte_declaracao_sub_rotinas*/;
 
-parte_declaracao_variaveis2 ::= PONTO_VIRGULA tipo lista_identificadores parte_declaracao_variaveis2 | parte_declaracao_sub_rotinas;
+parte_declaracao_variaveis2 ::= PONTO_VIRGULA tipo lista_identificadores parte_declaracao_variaveis2 | PONTO_VIRGULA parte_declaracao_variaveis2 | /*parte_declaracao_sub_rotinas*/;
 
 
 
-lista_identificadores ::= IDENTIFICADOR lista_identificadores2;
+lista_identificadores ::= variavel lista_identificadores2;
 
-lista_identificadores2 ::= VIRGULA IDENTIFICADOR lista_identificadores2 |;
+lista_identificadores2 ::= VIRGULA variavel lista_identificadores2 |;
 
 
 parte_declaracao_sub_rotinas ::= PROCEDURE IDENTIFICADOR declaracao_procedimentos | comando_composto;

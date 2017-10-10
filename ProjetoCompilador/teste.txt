@@ -1,2 +1,1 @@
-real a,b,c; 
-read
+real a,b,c;

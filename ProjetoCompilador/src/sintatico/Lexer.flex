@@ -147,4 +147,4 @@ private Symbol add(int descricao, String lexema) {
 
 <<EOF>> {return add(Sym.EOF, yytext());}
 
-. {return add(Sym.ERROR, yytext());}
+[^] { throw new Error("Illegal character: "+yytext()+" at line "+(yyline+1)+", column "+(yycolumn+1) ); }
