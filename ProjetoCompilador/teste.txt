@@ -1,1 +1,15 @@
-real a,b,c;
+program correto;
+int a, b, c;
+boolean d, e, f;
+
+procedure proc(var a1 : int);
+int adele, b, c;
+boolean d, e, f;
+begin
+	adele:=1;
+
+end;
+
+begin
+
+end.

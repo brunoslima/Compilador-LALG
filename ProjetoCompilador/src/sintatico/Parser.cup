@@ -11,8 +11,13 @@ parser code {:
     }
 
     public void report_fatal_error(String message, Object info)  {
+        
+        Symbol s = (Symbol) info;
         System.out.println("Error - " + message + info);
-        System.exit(0);
+        System.out.println("Erro de sintaxe - Linha: " + s.left + " Coluna: " + s.right + " Texto: " + s.value + "\n");
+        //RecuperacaoErros.erros.add("Erro de sintaxe - Linha: " + s.left + " Coluna: " + s.right + " Texto: " + s.value + "\n");
+
+        //System.exit(0);
     }
 
 :};
@@ -41,16 +46,16 @@ non terminal termo, termo2, fator;
 non terminal variavel, lista_expressoes, lista_expressoes2;
 
 
-start with parte_declaracao_variaveis;
+start with programa;
 
 programa ::= PROGRAM IDENTIFICADOR PONTO_VIRGULA bloco PONTO;
 
 bloco ::= parte_declaracao_variaveis;
 
 
-parte_declaracao_variaveis ::= tipo lista_identificadores parte_declaracao_variaveis2 /*| parte_declaracao_sub_rotinas*/;
+parte_declaracao_variaveis ::= tipo lista_identificadores parte_declaracao_variaveis2 | parte_declaracao_sub_rotinas;
 
-parte_declaracao_variaveis2 ::= PONTO_VIRGULA tipo lista_identificadores parte_declaracao_variaveis2 | PONTO_VIRGULA parte_declaracao_variaveis2 | /*parte_declaracao_sub_rotinas*/;
+parte_declaracao_variaveis2 ::= PONTO_VIRGULA tipo lista_identificadores parte_declaracao_variaveis2 | PONTO_VIRGULA parte_declaracao_variaveis2 | parte_declaracao_sub_rotinas;
 
 
 
@@ -61,13 +66,13 @@ lista_identificadores2 ::= VIRGULA variavel lista_identificadores2 |;
 
 parte_declaracao_sub_rotinas ::= PROCEDURE IDENTIFICADOR declaracao_procedimentos | comando_composto;
 
-declaracao_procedimentos ::= parametros_formais PONTO_VIRGULA declaracao_procedimentos1 | PONTO_VIRGULA declaracao_procedimentos1;
+declaracao_procedimentos ::= PARENTESES_ABRE parametros_formais PARENTESES_FECHA PONTO_VIRGULA declaracao_procedimentos1 | PONTO_VIRGULA declaracao_procedimentos1;
 
 declaracao_procedimentos1 ::= bloco PONTO_VIRGULA parte_declaracao_sub_rotinas;
 
-parametros_formais ::= secao_parametros_formais secao_parametros_formais2;
+parametros_formais ::= secao_parametros_formais secao_parametros_formais2 |;
 
-secao_parametros_formais2 ::= VIRGULA secao_parametros_formais secao_parametros_formais2 |;
+secao_parametros_formais2 ::= PONTO_VIRGULA secao_parametros_formais secao_parametros_formais2 |;
 
 secao_parametros_formais ::= VAR lista_identificadores DOIS_PONTOS tipo | lista_identificadores DOIS_PONTOS tipo;
 
@@ -77,7 +82,7 @@ tipo ::= INT | BOOLEAN | REAL;
 
 
 
-comando_composto ::= BEGIN comando comando_composto2 END;
+comando_composto ::= BEGIN comando comando_composto2 END | BEGIN END;
 
 comando_composto2 ::= PONTO_VIRGULA comando comando_composto2 |;
 

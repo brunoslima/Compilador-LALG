@@ -4,10 +4,7 @@ package testes;
 import arquivo.Arquivo;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.StringReader;
-import java.nio.file.Paths;
-import java.util.Arrays;
 import sintatico.Lexer;
 import sintatico.Parser;
 
