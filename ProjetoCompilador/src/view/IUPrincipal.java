@@ -8,8 +8,10 @@ package view;
 import arquivo.Arquivo;
 import decoracao.BordaNumerica;
 import decoracao.TextoDecoracao;
+import java.awt.Color;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.StringReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -21,8 +23,14 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.BadLocationException;
+import javax.swing.text.Style;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 import lexico.AnalisadorLexico;
 import lexico.Item;
+import sintatico.Lexer;
+import sintatico.Parser;
+import sintatico.RecuperacaoErros;
 
 /**
  * @author brunoslima
@@ -41,8 +49,9 @@ public class IUPrincipal extends javax.swing.JFrame {
      * Creates new form IUPrincipal
      */
     public IUPrincipal() {
-        initComponents();
 
+        initComponents();
+                
         //Interface padrão ao sistema.
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -86,8 +95,12 @@ public class IUPrincipal extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTextPane = new javax.swing.JTextPane();
+        jPanelTabela = new javax.swing.JPanel();
+        jConsolePanel = new javax.swing.JTabbedPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         TabelaLexica = new javax.swing.JTable();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jTextPaneConsole = new javax.swing.JTextPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         MenuAbrir = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -95,6 +108,7 @@ public class IUPrincipal extends javax.swing.JFrame {
         jMenuItem4 = new javax.swing.JMenuItem();
         MenuAnalisar = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
 
@@ -114,11 +128,11 @@ public class IUPrincipal extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 839, Short.MAX_VALUE)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 987, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
         );
 
         Aba.addTab("Novo", jPanel1);
@@ -137,9 +151,28 @@ public class IUPrincipal extends javax.swing.JFrame {
         TabelaLexica.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(TabelaLexica);
 
+        jConsolePanel.addTab("Tabela de Símbolos", jScrollPane1);
+
+        jTextPaneConsole.setEditable(false);
+        jScrollPane4.setViewportView(jTextPaneConsole);
+
+        jConsolePanel.addTab("Console", jScrollPane4);
+
+        javax.swing.GroupLayout jPanelTabelaLayout = new javax.swing.GroupLayout(jPanelTabela);
+        jPanelTabela.setLayout(jPanelTabelaLayout);
+        jPanelTabelaLayout.setHorizontalGroup(
+            jPanelTabelaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jConsolePanel)
+        );
+        jPanelTabelaLayout.setVerticalGroup(
+            jPanelTabelaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelTabelaLayout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addComponent(jConsolePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 251, Short.MAX_VALUE))
+        );
+
         MenuAbrir.setText("Arquivo");
 
-        jMenuItem1.setIcon(new javax.swing.ImageIcon("D:\\Ciência da Computação - Unesp\\4º Ano\\2º Semestre\\Compiladores\\Trabalhos\\ProjetoCompilador\\ProjetoCompilador\\imagens\\new_file2.png")); // NOI18N
         jMenuItem1.setText("Abrir");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -176,6 +209,14 @@ public class IUPrincipal extends javax.swing.JFrame {
         });
         MenuAnalisar.add(jMenuItem2);
 
+        jMenuItem5.setText("Análise Sintática");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        MenuAnalisar.add(jMenuItem5);
+
         jMenuBar1.add(MenuAnalisar);
 
         jMenu3.setText("Ajuda");
@@ -197,7 +238,7 @@ public class IUPrincipal extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(Aba)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(jPanelTabela, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -205,7 +246,7 @@ public class IUPrincipal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(Aba)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE))
+                .addComponent(jPanelTabela, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -248,7 +289,8 @@ public class IUPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        
+
+        this.TabelaLexica.setVisible(true);
         this.fonte = this.jTextPane.getText();
 
         DefaultTableModel model = (DefaultTableModel) this.TabelaLexica.getModel();
@@ -326,6 +368,50 @@ public class IUPrincipal extends javax.swing.JFrame {
         jTextPane.repaint();
     }//GEN-LAST:event_jTextPaneKeyReleased
 
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        // TODO add your handling code here:
+        
+        String result = "";
+        RecuperacaoErros.erros.clear();
+        
+        StyledDocument doc = jTextPaneConsole.getStyledDocument();
+        Style style = jTextPaneConsole.addStyle("I'm a Style", null);
+        
+
+        try{
+            this.fonte = this.jTextPane.getText();
+            Parser p = new Parser(new Lexer(new StringReader(this.fonte)));
+            p.parse();
+            if(RecuperacaoErros.getErros().isEmpty()){
+                StyleConstants.setForeground(style, Color.GREEN);
+                result += "Análise Sintática concluida com sucesso, sem erros.";
+            }
+            else{
+               
+               result = RecuperacaoErros.getErros().get(0);
+               StyleConstants.setForeground(style, Color.RED);
+               
+               result += "Análise Sintática concluida com sucesso, porém há erros.";
+            }
+            
+            jTextPaneConsole.setText("");
+            
+            jConsolePanel.setSelectedIndex(1);
+        
+            try { doc.insertString(doc.getLength(), result,style); }
+            catch (BadLocationException e){}
+            
+
+        }catch(Exception e){
+            System.err.println(e);
+            
+        }
+        
+        //this.jConsoleArea.setText(result);
+        //this.jConsoleArea.repaint();        
+        
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -358,6 +444,7 @@ public class IUPrincipal extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new IUPrincipal().setVisible(true);
+                
             }
         });
     }
@@ -368,6 +455,7 @@ public class IUPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu MenuAnalisar;
     private javax.swing.JMenuItem MenuFechar;
     private javax.swing.JTable TabelaLexica;
+    private javax.swing.JTabbedPane jConsolePanel;
     private javax.swing.JFileChooser jFileChooser1;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
@@ -375,9 +463,13 @@ public class IUPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanelTabela;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTextPane jTextPane;
+    private javax.swing.JTextPane jTextPaneConsole;
     // End of variables declaration//GEN-END:variables
 }
