@@ -45,6 +45,10 @@ non terminal expressao, relacao, expressao_simples, expressao_simples2;
 non terminal termo, termo2, fator;
 non terminal variavel, lista_expressoes, lista_expressoes2;
 
+precedence left  OP_ADICAO, OP_SUBTRACAO;
+precedence left  OP_MULTIPLICACAO, OP_DIVISAO;
+precedence left  ELSE;
+
 
 start with programa;
 
@@ -66,9 +70,9 @@ lista_identificadores2 ::= VIRGULA variavel lista_identificadores2 |;
 
 parte_declaracao_sub_rotinas ::= PROCEDURE IDENTIFICADOR declaracao_procedimentos | comando_composto;
 
-declaracao_procedimentos ::= PARENTESES_ABRE parametros_formais PARENTESES_FECHA PONTO_VIRGULA declaracao_procedimentos1 | PONTO_VIRGULA declaracao_procedimentos1;
+declaracao_procedimentos ::= PARENTESES_ABRE parametros_formais PARENTESES_FECHA PONTO_VIRGULA bloco declaracao_procedimentos1 | PONTO_VIRGULA bloco declaracao_procedimentos1;
 
-declaracao_procedimentos1 ::= bloco PONTO_VIRGULA parte_declaracao_sub_rotinas;
+declaracao_procedimentos1 ::= PONTO_VIRGULA parte_declaracao_sub_rotinas | comando_composto;
 
 parametros_formais ::= secao_parametros_formais secao_parametros_formais2 |;
 
@@ -86,7 +90,7 @@ comando_composto ::= BEGIN comando comando_composto2 END | BEGIN END;
 
 comando_composto2 ::= PONTO_VIRGULA comando comando_composto2 |;
 
-comando ::= atribuicao | chamada_procedimento | BEGIN comando PONTO_VIRGULA comando END | comando_condicional1 | comando_repetitivo;
+comando ::= atribuicao | chamada_procedimento | comando_composto | comando_condicional1 | comando_repetitivo | READ PARENTESES_ABRE lista_identificadores PARENTESES_FECHA | WRITE PARENTESES_ABRE lista_identificadores PARENTESES_FECHA;
 
 atribuicao ::= variavel OP_ATRIBUICAO expressao;
 
@@ -94,9 +98,9 @@ chamada_procedimento ::= IDENTIFICADOR PARENTESES_ABRE lista_expressoes PARENTES
 
 comando_condicional1 ::= IF expressao THEN comando_condicional12 comando_condicional2;
 
-comando_condicional12 ::= atribuicao | chamada_procedimento | BEGIN comando PONTO_VIRGULA comando END | comando_condicional1 | comando_repetitivo;
+comando_condicional12 ::= atribuicao | chamada_procedimento | comando_composto | comando_condicional1 | comando_repetitivo | READ PARENTESES_ABRE lista_identificadores PARENTESES_FECHA | WRITE PARENTESES_ABRE lista_identificadores PARENTESES_FECHA;
 
-comando_condicional2 ::= ELSE atribuicao | chamada_procedimento | BEGIN comando PONTO_VIRGULA comando END | comando_condicional1 | comando_repetitivo;
+comando_condicional2 ::= ELSE comando_condicional12 |;
 
 comando_repetitivo ::= WHILE expressao DO comando_repetitivo2;
 
@@ -124,7 +128,7 @@ termo2 ::= OP_MULTIPLICACAO fator termo2 | OP_DIVISAO fator termo2| OP_AND fator
 
 fator ::= variavel | NUMERO_INTEIRO | NUMERO_REAL | 
           PARENTESES_ABRE expressao PARENTESES_FECHA | 
-          OP_NOT fator;
+          OP_NOT fator | TRUE | FALSE;
 
 
 lista_expressoes ::= expressao lista_expressoes2;

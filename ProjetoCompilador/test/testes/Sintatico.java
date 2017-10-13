@@ -20,7 +20,7 @@ public class Sintatico {
         
         try {
             Parser p = new Parser(new Lexer(new StringReader(texto)));
-            String result = String.valueOf( p.debug_parse());
+            String result = String.valueOf( p.parse());
             System.out.println(result);
             
             System.out.println("Compilacao concluida com sucesso...");
