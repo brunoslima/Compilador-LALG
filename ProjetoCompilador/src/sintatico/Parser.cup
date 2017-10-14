@@ -133,18 +133,18 @@ tipo ::= INT | BOOLEAN | REAL;
 
 
 
-comando_composto ::= BEGIN comando comando_composto2 END | BEGIN END |
+comando_composto ::= BEGIN comando comando_composto2 END | BEGIN END /*|
                      error comando comando_composto2 END |
                      /*BEGIN error END |*/
                      BEGIN comando comando_composto2 error /*|
                      BEGIN error |
                      error END*/;
 
-comando_composto2 ::= PONTO_VIRGULA comando comando_composto2 | 
+comando_composto2 ::= PONTO_VIRGULA comando comando_composto2 /*| 
                       error comando comando_composto2 |
-                      PONTO_VIRGULA error;
+                      PONTO_VIRGULA error*/;
 
-comando ::= atribuicao | chamada_procedimento | comando_composto | comando_condicional1 | comando_repetitivo | READ PARENTESES_ABRE lista_identificadores PARENTESES_FECHA | WRITE PARENTESES_ABRE lista_identificadores PARENTESES_FECHA |
+comando ::= atribuicao | chamada_procedimento | comando_composto | comando_condicional1 | comando_repetitivo | READ PARENTESES_ABRE lista_identificadores PARENTESES_FECHA | WRITE PARENTESES_ABRE lista_identificadores PARENTESES_FECHA /*|
             error PARENTESES_ABRE lista_identificadores PARENTESES_FECHA |
             READ error lista_identificadores PARENTESES_FECHA |
             READ PARENTESES_ABRE error PARENTESES_FECHA |
@@ -152,27 +152,27 @@ comando ::= atribuicao | chamada_procedimento | comando_composto | comando_condi
             error PARENTESES_ABRE lista_identificadores PARENTESES_FECHA |
             WRITE error lista_identificadores PARENTESES_FECHA |
             WRITE PARENTESES_ABRE error PARENTESES_FECHA |
-            WRITE PARENTESES_ABRE lista_identificadores error;
+            WRITE PARENTESES_ABRE lista_identificadores error*/;
 
-atribuicao ::= variavel OP_ATRIBUICAO expressao |
+atribuicao ::= variavel OP_ATRIBUICAO expressao /*|
                error OP_ATRIBUICAO expressao |
                variavel error expressao |
-               variavel OP_ATRIBUICAO error;
+               variavel OP_ATRIBUICAO error*/;
 
-chamada_procedimento ::= IDENTIFICADOR PARENTESES_ABRE lista_expressoes PARENTESES_FECHA |
+chamada_procedimento ::= IDENTIFICADOR PARENTESES_ABRE lista_expressoes PARENTESES_FECHA /*|
                          error PARENTESES_ABRE lista_expressoes PARENTESES_FECHA |
                          IDENTIFICADOR error lista_expressoes PARENTESES_FECHA |
                          IDENTIFICADOR PARENTESES_ABRE error PARENTESES_FECHA |
-                         IDENTIFICADOR PARENTESES_ABRE lista_expressoes error;
+                         IDENTIFICADOR PARENTESES_ABRE lista_expressoes error*/;
 
-comando_condicional1 ::= IF expressao THEN comando_condicional12 comando_condicional2 |
+comando_condicional1 ::= IF expressao THEN comando_condicional12 comando_condicional2 /*|
                          error expressao THEN comando_condicional12 comando_condicional2 |
                          IF error THEN comando_condicional12 comando_condicional2 |
                          IF expressao error comando_condicional12 comando_condicional2 |
                          IF expressao THEN error comando_condicional2 |
-                         IF expressao THEN comando_condicional12 error;
+                         IF expressao THEN comando_condicional12 error*/;
 
-comando_condicional12 ::= atribuicao | chamada_procedimento | comando_composto | comando_condicional1 | comando_repetitivo | READ PARENTESES_ABRE lista_identificadores PARENTESES_FECHA | WRITE PARENTESES_ABRE lista_identificadores PARENTESES_FECHA |
+comando_condicional12 ::= atribuicao | chamada_procedimento | comando_composto | comando_condicional1 | comando_repetitivo | READ PARENTESES_ABRE lista_identificadores PARENTESES_FECHA | WRITE PARENTESES_ABRE lista_identificadores PARENTESES_FECHA /*|
                           error PARENTESES_ABRE lista_identificadores PARENTESES_FECHA |
                           READ error lista_identificadores PARENTESES_FECHA |
                           READ PARENTESES_ABRE error PARENTESES_FECHA |
@@ -180,24 +180,24 @@ comando_condicional12 ::= atribuicao | chamada_procedimento | comando_composto |
                           error PARENTESES_ABRE lista_identificadores PARENTESES_FECHA |
                           WRITE error lista_identificadores PARENTESES_FECHA |
                           WRITE PARENTESES_ABRE error PARENTESES_FECHA |
-                          WRITE PARENTESES_ABRE lista_identificadores error;
+                          WRITE PARENTESES_ABRE lista_identificadores error*/;
 
-comando_condicional2 ::= ELSE comando_condicional12 |
+comando_condicional2 ::= ELSE comando_condicional12 /*|
                          error comando_condicional12|
-                         ELSE error;
+                         ELSE error*/;
 
-comando_repetitivo ::= WHILE expressao DO comando_repetitivo2 |
+comando_repetitivo ::= WHILE expressao DO comando_repetitivo2 /*|
                        error expressao DO comando_repetitivo2
                        WHILE error DO comando_repetitivo2
                        WHILE expressao error comando_repetitivo2 |
-                       WHILE expressao DO error;
+                       WHILE expressao DO error*/;
 
-comando_repetitivo2 ::= atribuicao | chamada_procedimento | BEGIN comando PONTO_VIRGULA comando END | comando_condicional1 | comando_repetitivo |
+comando_repetitivo2 ::= atribuicao | chamada_procedimento | BEGIN comando PONTO_VIRGULA comando END | comando_condicional1 | comando_repetitivo /*|
                         error comando PONTO_VIRGULA comando END |
                         BEGIN error PONTO_VIRGULA comando END |
                         BEGIN comando error comando END |
                         BEGIN comando PONTO_VIRGULA error END |
-                        BEGIN comando PONTO_VIRGULA comando error;
+                        BEGIN comando PONTO_VIRGULA comando error*/;
 
 
 
@@ -205,7 +205,7 @@ comando_repetitivo2 ::= atribuicao | chamada_procedimento | BEGIN comando PONTO_
 
 expressao ::= expressao_simples;
 
-expressao_simples ::= OP_ADICAO termo expressao_simples2 relacao | OP_SUBTRACAO termo expressao_simples2 relacao | termo expressao_simples2 relacao | 
+expressao_simples ::= OP_ADICAO termo expressao_simples2 relacao | OP_SUBTRACAO termo expressao_simples2 relacao | termo expressao_simples2 relacao /*| 
                       OP_ADICAO error expressao_simples2 relacao |
                       OP_ADICAO termo error relacao | 
                       OP_ADICAO termo expressao_simples2 error | 
@@ -214,7 +214,7 @@ expressao_simples ::= OP_ADICAO termo expressao_simples2 relacao | OP_SUBTRACAO 
                       OP_SUBTRACAO termo expressao_simples2 error |
                       error expressao_simples2 relacao |
                       termo error relacao |
-                      termo expressao_simples2 error;
+                      termo expressao_simples2 error*/;
 
 expressao_simples2 ::= OP_ADICAO termo expressao_simples2 | OP_SUBTRACAO termo expressao_simples2 | OP_OR termo expressao_simples2 |;
 
