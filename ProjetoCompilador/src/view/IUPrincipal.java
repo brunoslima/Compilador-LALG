@@ -95,11 +95,10 @@ public class IUPrincipal extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTextPane = new javax.swing.JTextPane();
-        jPanelTabela = new javax.swing.JPanel();
         jConsolePanel = new javax.swing.JTabbedPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         TabelaLexica = new javax.swing.JTable();
-        jScrollPane4 = new javax.swing.JScrollPane();
+        jScrollPane2 = new javax.swing.JScrollPane();
         jTextPaneConsole = new javax.swing.JTextPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         MenuAbrir = new javax.swing.JMenu();
@@ -128,11 +127,11 @@ public class IUPrincipal extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 987, Short.MAX_VALUE)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 822, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE)
         );
 
         Aba.addTab("Novo", jPanel1);
@@ -151,28 +150,15 @@ public class IUPrincipal extends javax.swing.JFrame {
         TabelaLexica.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(TabelaLexica);
 
-        jConsolePanel.addTab("Tabela de Símbolos", jScrollPane1);
+        jConsolePanel.addTab("Tabela de símbolos", jScrollPane1);
 
-        jTextPaneConsole.setEditable(false);
-        jScrollPane4.setViewportView(jTextPaneConsole);
+        jScrollPane2.setViewportView(jTextPaneConsole);
 
-        jConsolePanel.addTab("Console", jScrollPane4);
-
-        javax.swing.GroupLayout jPanelTabelaLayout = new javax.swing.GroupLayout(jPanelTabela);
-        jPanelTabela.setLayout(jPanelTabelaLayout);
-        jPanelTabelaLayout.setHorizontalGroup(
-            jPanelTabelaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jConsolePanel)
-        );
-        jPanelTabelaLayout.setVerticalGroup(
-            jPanelTabelaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelTabelaLayout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addComponent(jConsolePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 251, Short.MAX_VALUE))
-        );
+        jConsolePanel.addTab("Console", jScrollPane2);
 
         MenuAbrir.setText("Arquivo");
 
+        jMenuItem1.setIcon(new javax.swing.ImageIcon("D:\\Ciência da Computação - Unesp\\4º Ano\\2º Semestre\\Compiladores\\Trabalhos\\ProjetoCompilador\\ProjetoCompilador\\imagens\\new_file2.png")); // NOI18N
         jMenuItem1.setText("Abrir");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -238,7 +224,7 @@ public class IUPrincipal extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(Aba)
-            .addComponent(jPanelTabela, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jConsolePanel)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -246,7 +232,7 @@ public class IUPrincipal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(Aba)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanelTabela, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jConsolePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -370,10 +356,9 @@ public class IUPrincipal extends javax.swing.JFrame {
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
         // TODO add your handling code here:
-        
+
         String result = "";
         RecuperacaoErros.erros.clear();
-        
         StyledDocument doc = jTextPaneConsole.getStyledDocument();
         Style style = jTextPaneConsole.addStyle("I'm a Style", null);
         
@@ -465,10 +450,9 @@ public class IUPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanelTabela;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTextPane jTextPane;
     private javax.swing.JTextPane jTextPaneConsole;
     // End of variables declaration//GEN-END:variables
