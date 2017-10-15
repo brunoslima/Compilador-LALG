@@ -56,6 +56,7 @@ precedence left  OP_ADICAO, OP_SUBTRACAO;
 precedence left  OP_MULTIPLICACAO, OP_DIVISAO;
 precedence left  ELSE;
 
+precedence left IDENTIFICADOR, VIRGULA;
 
 start with programa;
 
@@ -63,23 +64,26 @@ programa ::= PROGRAM IDENTIFICADOR PONTO_VIRGULA bloco PONTO |
              error IDENTIFICADOR PONTO_VIRGULA bloco PONTO | 
              PROGRAM error PONTO_VIRGULA bloco PONTO | 
              PROGRAM IDENTIFICADOR error bloco PONTO | 
-             PROGRAM IDENTIFICADOR PONTO_VIRGULA error PONTO | 
+             /*PROGRAM IDENTIFICADOR PONTO_VIRGULA error PONTO | */
              PROGRAM IDENTIFICADOR PONTO_VIRGULA bloco error /*|
              error error error error error*/;
 
 bloco ::= parte_declaracao_variaveis;
 
 
-parte_declaracao_variaveis ::= tipo lista_identificadores parte_declaracao_variaveis2 | parte_declaracao_sub_rotinas |
-                               error lista_identificadores parte_declaracao_variaveis2 |
+parte_declaracao_variaveis ::= tipo {:System.out.println("teste");:} lista_identificadores {:System.out.println("teste");:} parte_declaracao_variaveis2 | 
+                               parte_declaracao_sub_rotinas |
+                               error lista_identificadores parte_declaracao_variaveis2 /*|
                                tipo error parte_declaracao_variaveis2 | 
-                               tipo lista_identificadores error;
+                               tipo lista_identificadores error*/;
 
-parte_declaracao_variaveis2 ::= PONTO_VIRGULA tipo lista_identificadores parte_declaracao_variaveis2 | PONTO_VIRGULA parte_declaracao_variaveis2 | parte_declaracao_sub_rotinas |
-                                error tipo lista_identificadores parte_declaracao_variaveis2 |
+parte_declaracao_variaveis2 ::= PONTO_VIRGULA tipo lista_identificadores parte_declaracao_variaveis2 | 
+                                PONTO_VIRGULA parte_declaracao_variaveis2 | 
+                                parte_declaracao_sub_rotinas |
+                                error tipo lista_identificadores parte_declaracao_variaveis2 | error parte_declaracao_variaveis2 /*|
                                 PONTO_VIRGULA error lista_identificadores parte_declaracao_variaveis2 | 
                                 PONTO_VIRGULA tipo error parte_declaracao_variaveis2 |
-                                PONTO_VIRGULA tipo lista_identificadores error /*|
+                                PONTO_VIRGULA tipo lista_identificadores error *//*|
                                 error parte_declaracao_variaveis2 | PONTO_VIRGULA error | error*/;
                                 //Obs: cometario acima mais de uma regra não ta deixando fazer...
 
@@ -87,45 +91,45 @@ parte_declaracao_variaveis2 ::= PONTO_VIRGULA tipo lista_identificadores parte_d
 
 lista_identificadores ::= variavel lista_identificadores2;
 
-lista_identificadores2 ::= VIRGULA variavel lista_identificadores2 |
-                           error variavel lista_identificadores2 |
-                           VIRGULA error;
+lista_identificadores2 ::= VIRGULA variavel lista_identificadores2  |
+                           /*error variavel lista_identificadores2 *//*|
+                           VIRGULA error*/  ;
 
 
-parte_declaracao_sub_rotinas ::= PROCEDURE IDENTIFICADOR declaracao_procedimentos | comando_composto |
+parte_declaracao_sub_rotinas ::= PROCEDURE IDENTIFICADOR declaracao_procedimentos | comando_composto /*|
                                  error IDENTIFICADOR declaracao_procedimentos |
-                                 PROCEDURE error declaracao_procedimentos |
-                                 PROCEDURE IDENTIFICADOR error;
+                                 PROCEDURE error declaracao_procedimentos *//*|
+                                 PROCEDURE IDENTIFICADOR error*/;
 
-declaracao_procedimentos ::= PARENTESES_ABRE parametros_formais PARENTESES_FECHA PONTO_VIRGULA bloco declaracao_procedimentos1 | PONTO_VIRGULA bloco declaracao_procedimentos1 |
-                             /*error parametros_formais PARENTESES_FECHA PONTO_VIRGULA bloco declaracao_procedimentos1 |*/
+declaracao_procedimentos ::= PARENTESES_ABRE parametros_formais PARENTESES_FECHA PONTO_VIRGULA bloco declaracao_procedimentos1 | PONTO_VIRGULA bloco declaracao_procedimentos1 /*|
+                             error parametros_formais PARENTESES_FECHA PONTO_VIRGULA bloco declaracao_procedimentos1 | error bloco declaracao_procedimentos1 | 
                              PARENTESES_ABRE error PARENTESES_FECHA PONTO_VIRGULA bloco declaracao_procedimentos1 |
                              PARENTESES_ABRE parametros_formais error PONTO_VIRGULA bloco declaracao_procedimentos1 |
                              PARENTESES_ABRE parametros_formais PARENTESES_FECHA error bloco declaracao_procedimentos1 |
                              PARENTESES_ABRE parametros_formais PARENTESES_FECHA PONTO_VIRGULA error declaracao_procedimentos1 |
-                             PARENTESES_ABRE parametros_formais PARENTESES_FECHA PONTO_VIRGULA bloco error;
+                             PARENTESES_ABRE parametros_formais PARENTESES_FECHA PONTO_VIRGULA bloco error*/;
 
 declaracao_procedimentos1 ::= PONTO_VIRGULA parte_declaracao_sub_rotinas | comando_composto |
-                              /*error parte_declaracao_sub_rotinas |*/
-                              PONTO_VIRGULA error;
+                              error parte_declaracao_sub_rotinas /*|
+                              PONTO_VIRGULA error*/;
 
-parametros_formais ::= secao_parametros_formais secao_parametros_formais2 |
+parametros_formais ::= secao_parametros_formais secao_parametros_formais2 /*|
                        error secao_parametros_formais2 | 
-                       secao_parametros_formais error;
+                       secao_parametros_formais error*/;
 
 secao_parametros_formais2 ::= PONTO_VIRGULA secao_parametros_formais secao_parametros_formais2 |
-                              error secao_parametros_formais secao_parametros_formais2 |
+                              error secao_parametros_formais secao_parametros_formais2 /*|
                               PONTO_VIRGULA error secao_parametros_formais2 |
-                              PONTO_VIRGULA secao_parametros_formais error;
+                              PONTO_VIRGULA secao_parametros_formais error*/;
 
 secao_parametros_formais ::= VAR lista_identificadores DOIS_PONTOS tipo | lista_identificadores DOIS_PONTOS tipo |
-                             /*error lista_identificadores DOIS_PONTOS tipo |*/
-                             VAR error DOIS_PONTOS tipo |
+                             error lista_identificadores DOIS_PONTOS tipo |
+                             /*VAR error DOIS_PONTOS tipo |*/
                              VAR lista_identificadores error tipo |
-                             VAR lista_identificadores DOIS_PONTOS error |
+                             /*VAR lista_identificadores DOIS_PONTOS error |*/
                              /*error DOIS_PONTOS tipo |*/
-                             lista_identificadores error tipo |
-                             lista_identificadores DOIS_PONTOS error;
+                             lista_identificadores error tipo /*|
+                             lista_identificadores DOIS_PONTOS error*/;
 
 tipo ::= INT | BOOLEAN | REAL;
 
@@ -133,37 +137,44 @@ tipo ::= INT | BOOLEAN | REAL;
 
 
 
-comando_composto ::= BEGIN comando comando_composto2 END | BEGIN END /*|
+comando_composto ::= BEGIN comando comando_composto2 END /*| BEGIN END *//*|
                      error comando comando_composto2 END |
                      /*BEGIN error END |*/
                      BEGIN comando comando_composto2 error /*|
                      BEGIN error |
                      error END*/;
 
-comando_composto2 ::= PONTO_VIRGULA comando comando_composto2 /*| 
-                      error comando comando_composto2 |
+comando_composto2 ::= PONTO_VIRGULA comando comando_composto2 | 
+                      error comando comando_composto2 /*|
                       PONTO_VIRGULA error*/;
 
-comando ::= atribuicao | chamada_procedimento | comando_composto | comando_condicional1 | comando_repetitivo | READ PARENTESES_ABRE lista_identificadores PARENTESES_FECHA | WRITE PARENTESES_ABRE lista_identificadores PARENTESES_FECHA /*|
+comando ::= atribuicao | chamada_procedimento | comando_composto | comando_condicional1 | comando_repetitivo | READ PARENTESES_ABRE lista_identificadores PARENTESES_FECHA | WRITE PARENTESES_ABRE lista_identificadores PARENTESES_FECHA |
             error PARENTESES_ABRE lista_identificadores PARENTESES_FECHA |
             READ error lista_identificadores PARENTESES_FECHA |
-            READ PARENTESES_ABRE error PARENTESES_FECHA |
+            //READ PARENTESES_ABRE error PARENTESES_FECHA |
             READ PARENTESES_ABRE lista_identificadores error | 
-            error PARENTESES_ABRE lista_identificadores PARENTESES_FECHA |
+            //error PARENTESES_ABRE lista_identificadores PARENTESES_FECHA |
             WRITE error lista_identificadores PARENTESES_FECHA |
-            WRITE PARENTESES_ABRE error PARENTESES_FECHA |
-            WRITE PARENTESES_ABRE lista_identificadores error*/;
+            //WRITE PARENTESES_ABRE error PARENTESES_FECHA |
+            WRITE PARENTESES_ABRE lista_identificadores error;
 
-atribuicao ::= variavel OP_ATRIBUICAO expressao /*|
-               error OP_ATRIBUICAO expressao |
-               variavel error expressao |
+atribuicao ::= variavel OP_ATRIBUICAO expressao |
+               //error OP_ATRIBUICAO expressao |
+               variavel error expressao /*|
                variavel OP_ATRIBUICAO error*/;
 
-chamada_procedimento ::= IDENTIFICADOR PARENTESES_ABRE lista_expressoes PARENTESES_FECHA /*|
+
+
+chamada_procedimento ::= IDENTIFICADOR PARENTESES_ABRE lista_expressoes PARENTESES_FECHA |
                          error PARENTESES_ABRE lista_expressoes PARENTESES_FECHA |
                          IDENTIFICADOR error lista_expressoes PARENTESES_FECHA |
-                         IDENTIFICADOR PARENTESES_ABRE error PARENTESES_FECHA |
-                         IDENTIFICADOR PARENTESES_ABRE lista_expressoes error*/;
+                         //IDENTIFICADOR PARENTESES_ABRE error PARENTESES_FECHA |
+                         IDENTIFICADOR PARENTESES_ABRE lista_expressoes error;
+
+
+
+////////////////
+// Até aqui foi melhorado, os seguintes comandos são ainda mais complexos
 
 comando_condicional1 ::= IF expressao THEN comando_condicional12 comando_condicional2 /*|
                          error expressao THEN comando_condicional12 comando_condicional2 |
