@@ -367,6 +367,7 @@ public class IUPrincipal extends javax.swing.JFrame {
             this.fonte = this.jTextPane.getText();
             Parser p = new Parser(new Lexer(new StringReader(this.fonte)));
             p.parse();
+            //p.parse();
             if(RecuperacaoErros.getErros().isEmpty()){
                 StyleConstants.setForeground(style, Color.GREEN);
                 result += "Análise Sintática concluida com sucesso, sem erros.";
