@@ -5,6 +5,10 @@ import java.io.*;
 
 
 parser code {:
+    protected int error_sync_size(){
+        return 1;
+    }
+
 
 :};
 
@@ -21,7 +25,7 @@ terminal PARENTESES_ABRE, PARENTESES_FECHA;
 terminal NUMERO_INTEIRO, NUMERO_REAL, IDENTIFICADOR;
 terminal ERROR, ESPACO, TAB, NOVA_LINHA;
 
-non terminal programa, bloco, parte_declaracao_variaveis, parte_declaracao_variaveis2;
+non terminal programa, programa1, programa2, bloco, parte_declaracao_variaveis, parte_declaracao_variaveis2;
 non terminal lista_identificadores, lista_identificadores2, parte_declaracao_sub_rotinas, declaracao_procedimentos, declaracao_procedimentos1;
 non terminal parametros_formais, secao_parametros_formais, secao_parametros_formais2; 
 non terminal tipo, comando_composto, comando_composto2, comando, atribuicao, chamada_procedimento;
@@ -39,9 +43,16 @@ precedence left IDENTIFICADOR, VIRGULA;
 
 start with programa;
 
+programa ::= PROGRAM programa1 | error {:System.out.println("erro01");:} programa1;
+programa1 ::= IDENTIFICADOR programa2 | error {: System.out.println("erro02"); :} programa2;
+programa2 ::= PONTO_VIRGULA | error {: System.out.println("erro03"); :} ;
+
+
+/*
 programa ::= PROGRAM IDENTIFICADOR PONTO_VIRGULA bloco PONTO |
              error {:System.out.println("Erro: Estrutura do programa está errada");:} ;
-
+*/
+/*
 bloco ::= parte_declaracao_variaveis;
 
 
@@ -140,4 +151,4 @@ lista_expressoes2 ::= VIRGULA expressao |
 
 variavel ::= IDENTIFICADOR;
 
-
+*/
