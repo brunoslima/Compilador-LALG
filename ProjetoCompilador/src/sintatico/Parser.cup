@@ -45,7 +45,7 @@ start with programa;
 
 programa ::= PROGRAM programa1 | error {:System.out.println("erro01");:} programa1;
 programa1 ::= IDENTIFICADOR programa2 | error {: System.out.println("erro02"); :} programa2;
-programa2 ::= PONTO_VIRGULA | error {: System.out.println("erro03"); :} ;
+programa2 ::= PONTO_VIRGULA | error {: System.out.println("erro03"); 
 
 
 /*
