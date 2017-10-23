@@ -1,4 +1,7 @@
-
+options
+{
+  LOOKAHEAD=2;
+}
 PARSER_BEGIN(Grammar)
 public class Grammar
 {
@@ -112,6 +115,8 @@ void programDeclaration() :
 
     <IDENTIFICADOR> 
     <PONTO_VIRGULA>
+    bloco()
+    <PONTO>
 
     
 }
@@ -119,87 +124,48 @@ void programDeclaration() :
 void bloco() :
 {}
 {
-    parteDeclaracaoVariaveis()
+    [parteDeclaracaoVariaveis()]
+    (parteDeclaracaoSubRotinas())*
+    comandoComposto()
 }
 
 void parteDeclaracaoVariaveis() :
 {}
 {
 
-    ( tipo() listaIdentificadores() parteDeclaracaoVariaveis2() )
-    | 
-    parteDeclaracaoSubRotinas()
-
+    ( declaracaoVariaveis() (<PONTO_VIRGULA> declaracaoVariaveis())* <PONTO_VIRGULA>)
+   
 }
 
-void parteDeclaracaoVariaveis2() :
+void declaracaoVariaveis() :
 {}
 {
-    (
-        try{
-            <PONTO_VIRGULA> 
-        }catch(ParseException e) {
-            System.out.println("Faltou ;");
-        }
-        ( tipo() listaIdentificadores() parteDeclaracaoVariaveis2() ) 
-        
-    )*
-    
-    |
-
-    parteDeclaracaoSubRotinas()
-
+    tipo() listaIdentificadores()
 }
 
 void listaIdentificadores() :
 {}
 { 
-    ( variavel() listaIdentificadores2() )
+    ( variavel() (<VIRGULA> variavel())* )
 }
 
-void listaIdentificadores2() :
-{}
-{
-    try{
-        <VIRGULA>
-    }catch(ParseException e) {
-        System.out.println("Faltou ,");
-    }
-       ( variavel() listaIdentificadores2() )
-
-}
 
 void parteDeclaracaoSubRotinas() :
 {}
 {   
-    try{
-        <PROCEDURE>
-    }catch(ParseException e) {
-        System.out.println("Faltou ,");
-    }
     
-    ( <IDENTIFICADOR> declaracaoProcedimentos() )
-    | 
-    comandoComposto()
+    <PROCEDURE>
+    <IDENTIFICADOR> 
+    declaracaoProcedimentos() 
 
 }
+
+
 
 void declaracaoProcedimentos() :
 {}
 {    
-    ( <PARENTESES_ABRE> parametrosFormais() <PARENTESES_FECHA> <PONTO_VIRGULA> bloco() declaracaoProcedimentos1() ) 
-    |
-    ( <PONTO_VIRGULA> bloco() declaracaoProcedimentos1() )
-
-}
-
-void declaracaoProcedimentos1() :
-{}
-{
-    
-    ( <PONTO_VIRGULA> parteDeclaracaoSubRotinas() )
-    | 
-    comandoComposto()
+    ( [<PARENTESES_ABRE> parametrosFormais() <PARENTESES_FECHA>] <PONTO_VIRGULA> bloco() ) 
 
 }
 
@@ -207,24 +173,14 @@ void parametrosFormais() :
 {}
 {
     
-    secaoParametrosFormais() secaoParametrosFormais2()
-
-}
-
-void secaoParametrosFormais2() :
-{}
-{
-
-    ( <PONTO_VIRGULA> secaoParametrosFormais() secaoParametrosFormais2() )
+    secaoParametrosFormais() (<PONTO_VIRGULA> secaoParametrosFormais())*
 
 }
 
 void secaoParametrosFormais() :
 {}
 {
-    ( <VAR> listaIdentificadores() <DOIS_PONTOS> tipo() )
-    |
-    ( listaIdentificadores() <DOIS_PONTOS> tipo() )
+    ( [<VAR>] listaIdentificadores() <DOIS_PONTOS> tipo() )
 
 }
 
@@ -242,15 +198,7 @@ void tipo() :
 void comandoComposto() :
 {}
 {
-    ( <BEGIN> comando() comandoComposto2() <END> )
-
-}
-
-void comandoComposto2() :
-{}
-{
-
-    ( <PONTO_VIRGULA> comando() comandoComposto2() )
+    ( <BEGIN> comando() (<PONTO_VIRGULA> comando())* <END> )
 
 }
 
@@ -293,42 +241,13 @@ void chamadaProcedimento() :
 void comandoCondicional1() :
 {}
 {
-    <IF> expressao() <THEN> comandoCondicional12() comandoCondicional2()
-}
-
-void comandoCondicional12() :
-{}
-{
-
-    atribuicao() | 
-    chamadaProcedimento() | 
-    comandoComposto() | 
-    comandoCondicional1() | 
-    comandoRepetitivo() | 
-    (<READ> <PARENTESES_ABRE> listaIdentificadores() <PARENTESES_FECHA>) | 
-    (<WRITE> <PARENTESES_ABRE> listaIdentificadores() <PARENTESES_FECHA>)
-}
-
-void comandoCondicional2() :
-{}
-{
-    <ELSE> comandoCondicional12()
+    <IF> expressao() <THEN> comando() [<ELSE> comando()]
 }
 
 void comandoRepetitivo() :
 {}
 {
-    ( <WHILE> expressao() <DO> comandoRepetitivo2() )
-}
-
-void comandoRepetitivo2() :
-{}
-{
-    atribuicao() | 
-    chamadaProcedimento() | 
-    (<BEGIN> comando() <PONTO_VIRGULA> comando() <END>) | 
-    comandoCondicional1() | 
-    comandoRepetitivo()
+    ( <WHILE> expressao() <DO> comando() )
 }
 
 void expressao() :
@@ -340,42 +259,31 @@ void expressao() :
 void expressaoSimples() :
 {}
 {
-    (<OP_ADICAO> termo() expressaoSimples2() relacao()) | 
-    (<OP_SUBTRACAO> termo() expressaoSimples2() relacao()) | 
-    (termo() expressaoSimples2() relacao())
+    [<OP_ADICAO>|<OP_SUBTRACAO>] (termo() expressaoSimples2() relacao())
 }
 
 void expressaoSimples2() :
 {}
 {
-    (<OP_ADICAO> termo() expressaoSimples2()) | 
-    (<OP_SUBTRACAO> termo() expressaoSimples2()) | 
-    (<OP_OR> termo() expressaoSimples2())
+    (<OP_ADICAO> | <OP_SUBTRACAO> | <OP_OR>) (termo() expressaoSimples2()) 
 }
 
 void relacao() :
 {}
 {
-    (<SIMBOLO_IGUAL> expressaoSimples()) | 
-    (<SIMBOLO_DIFERENTE> expressaoSimples()) | 
-    (<SIMBOLO_MENOR> expressaoSimples()) | 
-    (<SIMBOLO_MENOR_IGUAL> expressaoSimples()) | 
-    (<SIMBOLO_MAIOR_IGUAL> expressaoSimples()) | 
-    (<SIMBOLO_MAIOR> expressaoSimples())
+    (<SIMBOLO_IGUAL> | <SIMBOLO_DIFERENTE> | <SIMBOLO_MENOR> | <SIMBOLO_MENOR_IGUAL> | <SIMBOLO_MAIOR_IGUAL> | <SIMBOLO_MAIOR>) expressaoSimples()
 }
 
 void termo() :
 {}
 {
-    fator() termo2()
+    fator() (termo2())*
 }
 
 void termo2() :
 {}
 {
-    (<OP_MULTIPLICACAO> fator() termo2()) | 
-    (<OP_DIVISAO> fator() termo2()) | 
-    (<OP_AND> fator() termo2())
+    (<OP_MULTIPLICACAO> | <OP_DIVISAO> | <OP_AND> fator()) termo2()
 }
 
 void fator() :
@@ -393,23 +301,12 @@ void fator() :
 void listaExpressoes() :
 {}
 {
-    expressao() listaExpressoes2()
+    expressao() (<VIRGULA> expressao())*
 }
 
-void listaExpressoes2() :
-{}
-{
-    <VIRGULA> expressao()
-}
 
 void variavel() :
 {}
 {
     <IDENTIFICADOR>
 }
-
-/*void vazio() :
-{}
-{
-    
-}*/
