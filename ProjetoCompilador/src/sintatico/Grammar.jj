@@ -3,6 +3,8 @@ options
   LOOKAHEAD=2;
 }
 PARSER_BEGIN(Grammar)
+package sintatico;
+
 public class Grammar
 {
 
@@ -20,14 +22,21 @@ static void error_skipto(int kind) {
     // "if"/"while".
 }
 
+static void showMessageError(int line, int column, String message, String descricao){
+    
+    System.out.println(
+        message + "\n" +
+        "Linha: " + line + " Coluna: " + column + "\n" +
+        descricao
+    );
+}
+
 }
 PARSER_END(Grammar)
 
 
 TOKEN:
 {
-
-
 
     < PROGRAM: "program" >
 |   < BEGIN: "begin" >
@@ -109,14 +118,31 @@ void programDeclaration() :
         <PROGRAM>
     }
     catch(ParseException e) {
-        System.out.println("Faltou program");
+        showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Palavra reservada program esperada", "Descrição");
         //error_skipto(IDENTIFICADOR);
     }
+    
+    try {
+        <IDENTIFICADOR>
+    }
+    catch(ParseException e){
+        showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Identificador de programa faltando", "Descrição");
+    }
+     
+    try{
+        <PONTO_VIRGULA>
+    }
+    catch(ParseException e){
+        showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Ponto e vírgula faltando", "Descrição");
+    }
 
-    <IDENTIFICADOR> 
-    <PONTO_VIRGULA>
     bloco()
-    <PONTO>
+    try {
+        <PONTO>
+    }
+    catch(ParseException e){
+        showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Ponto final faltando", "Descrição");
+    }
 
     
 }
@@ -125,7 +151,15 @@ void bloco() :
 {}
 {
     [parteDeclaracaoVariaveis()]
-    (parteDeclaracaoSubRotinas() <PONTO_VIRGULA>)*
+    (
+        parteDeclaracaoSubRotinas() 
+        try{
+            <PONTO_VIRGULA>
+        }
+        catch(ParseException e){
+            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Ponto e vírgula faltando", "Descrição");
+        }
+    )*
     comandoComposto()
 }
 
@@ -133,7 +167,25 @@ void parteDeclaracaoVariaveis() :
 {}
 {
 
-    ( declaracaoVariaveis() (<PONTO_VIRGULA> declaracaoVariaveis())* <PONTO_VIRGULA>)
+    ( 
+        declaracaoVariaveis() 
+        (
+            try{
+                <PONTO_VIRGULA>
+            }
+            catch(ParseException e){
+                showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Ponto e vírgula faltando", "Descrição");
+            }
+            declaracaoVariaveis()
+        )* 
+
+        try{
+            <PONTO_VIRGULA>
+        }
+        catch(ParseException e){
+            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Ponto e vírgula faltando", "Descrição");
+        }
+    )
    
 }
 
@@ -146,7 +198,18 @@ void declaracaoVariaveis() :
 void listaIdentificadores() :
 {}
 { 
-    ( variavel() (<VIRGULA> variavel())* )
+    ( 
+        variavel() 
+        (
+            try{
+                <VIRGULA>
+            }
+            catch(ParseException e){
+                showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Vírgula faltando", "Descrição");
+            } 
+            variavel()
+        )* 
+    )
 }
 
 
@@ -154,8 +217,21 @@ void parteDeclaracaoSubRotinas() :
 {}
 {   
     
-    <PROCEDURE>
-    <IDENTIFICADOR> 
+    try{
+        <PROCEDURE>
+    }
+    catch(ParseException e){
+        showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Palavra reservada procedure esperada", "Descrição");
+    }
+
+    try{
+        <IDENTIFICADOR>
+    }
+    catch(ParseException e){
+        showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Identificador de procedure esperado", "Descrição");
+    }
+
+
     declaracaoProcedimentos() 
 
 }
@@ -165,7 +241,30 @@ void parteDeclaracaoSubRotinas() :
 void declaracaoProcedimentos() :
 {}
 {    
-    ( [<PARENTESES_ABRE> parametrosFormais() <PARENTESES_FECHA>] <PONTO_VIRGULA> bloco() ) 
+    ( 
+        [
+            try{
+                <PARENTESES_ABRE>
+            }
+            catch(ParseException e){
+                showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Abre parentese faltando", "Descrição");
+            }
+            parametrosFormais() 
+            try{
+                <PARENTESES_FECHA>
+            }
+            catch(ParseException e){
+                showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Fecha parenteses faltando", "Descrição");
+            }
+        ] 
+        try{
+            <PONTO_VIRGULA>
+        }
+        catch(ParseException e){
+            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Ponto e vírgula faltando", "Descrição");
+        }
+        bloco() 
+    ) 
 
 }
 
@@ -173,32 +272,90 @@ void parametrosFormais() :
 {}
 {
     
-    secaoParametrosFormais() (<PONTO_VIRGULA> secaoParametrosFormais())*
+    secaoParametrosFormais() 
+    (
+        try{
+            <PONTO_VIRGULA>
+        }
+        catch(ParseException e){
+            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Ponto e vírgula faltando", "Descrição");
+        } 
+        secaoParametrosFormais()
+    )*
 
 }
 
 void secaoParametrosFormais() :
 {}
 {
-    ( [<VAR>] listaIdentificadores() <DOIS_PONTOS> tipo() )
+    ( 
+        [
+            try{
+                <VAR>
+            }
+            catch(ParseException e){
+                showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Palavra reservada var esperada", "Descrição");
+            }
+        ] 
+        listaIdentificadores() 
+        try{
+            <DOIS_PONTOS>
+        }
+        catch(ParseException e){
+            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Dois pontos faltando", "Descrição");
+        }
+        tipo() 
+    )
 
 }
 
 void tipo() :
 {}
 {
-    <INT> 
-    | 
-    <BOOLEAN> 
-    | 
-    <REAL>
 
+    try{
+        <INT> 
+        | 
+        <BOOLEAN> 
+        | 
+        <REAL>
+    }
+    catch(ParseException e){
+        
+        showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Identificador de tipo esperado", "Descrição");
+    }
 }
 
 void comandoComposto() :
 {}
 {
-    ( <BEGIN> comando() (<PONTO_VIRGULA> comando())* <END> )
+    ( 
+        try{
+            <BEGIN> 
+        }
+        catch(ParseException e){
+        
+            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Palavra reservada begin esperada", "Descrição");
+        }
+        
+        comando() 
+        (
+            try{
+                <PONTO_VIRGULA>
+            }
+            catch(ParseException e){
+                showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Ponto e vírgula faltando", "Descrição");
+            } 
+            comando()
+        )* 
+        try{
+            <END>
+        }
+        catch(ParseException e){
+        
+            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Palavra reservada end esperada", "Descrição");
+        }
+    )
 
 }
 
@@ -216,9 +373,57 @@ void comando() :
     | 
     comandoRepetitivo()
     | 
-    ( <READ> <PARENTESES_ABRE> listaIdentificadores() <PARENTESES_FECHA> )
+    ( 
+        try{
+            <READ> 
+        }
+        catch(ParseException e){
+        
+            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Palavra reservada read esperada", "Descrição");
+        }
+        try{
+            <PARENTESES_ABRE> 
+        }
+        catch(ParseException e){
+        
+            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Abre parenteses esperado", "Descrição");
+        }
+        
+        listaIdentificadores() 
+        try{
+            <PARENTESES_FECHA> 
+        }
+        catch(ParseException e){
+        
+            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Fecha parenteses esperado", "Descrição");
+        }
+    )
     | 
-    ( <WRITE> <PARENTESES_ABRE> listaIdentificadores() <PARENTESES_FECHA> )
+    ( 
+        try{
+            <WRITE> 
+        }
+        catch(ParseException e){
+        
+            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Palavra reservada write esperada", "Descrição");
+        }
+        try{
+            <PARENTESES_ABRE> 
+        }
+        catch(ParseException e){
+        
+            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Abre parenteses esperado", "Descrição");
+        }
+        listaIdentificadores() 
+        try{
+            <PARENTESES_FECHA> 
+        }
+        catch(ParseException e){
+        
+            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Fecha parenteses esperado", "Descrição");
+        }
+        
+    )
 
 }
 
@@ -226,7 +431,17 @@ void atribuicao() :
 {}
 {
 
-    ( variavel() <OP_ATRIBUICAO> expressao() )
+    ( 
+        variavel() 
+        try{
+            <OP_ATRIBUICAO> 
+        }
+        catch(ParseException e){
+        
+            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Operador de atribuição esperado", "Descrição");
+        }
+        expressao() 
+    )
 
 }
 
@@ -234,7 +449,30 @@ void chamadaProcedimento() :
 {}
 {
 
-    ( <IDENTIFICADOR> <PARENTESES_ABRE> listaExpressoes() <PARENTESES_FECHA> )
+    ( 
+        try{
+            <IDENTIFICADOR> 
+        }
+        catch(ParseException e){
+        
+            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Identificador de procedimento esperado", "Descrição");
+        }
+        try{
+            <PARENTESES_ABRE> 
+        }
+        catch(ParseException e){
+        
+            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Abre parenteses esperado", "Descrição");
+        }
+        listaExpressoes() 
+        try{
+            <PARENTESES_FECHA> 
+        }
+        catch(ParseException e){
+        
+            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Fecha parenteses esperado", "Descrição");
+        }
+    )
 
 }
 

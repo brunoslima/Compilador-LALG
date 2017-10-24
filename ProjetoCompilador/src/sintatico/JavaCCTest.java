@@ -41,8 +41,7 @@ public class JavaCCTest {
             Grammar.compilationUnit();
         } catch (ParseException ex) {
             Logger.getLogger(JavaCCTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
+        }        
         System.out.println("Análise sintática concluída com sucesso.");
     }
 
