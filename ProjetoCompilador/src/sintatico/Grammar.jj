@@ -479,13 +479,55 @@ void chamadaProcedimento() :
 void comandoCondicional() :
 {}
 {
-    <IF> expressao() <THEN> comando() [<ELSE> comando()]
+    try{
+        <IF>
+    }catch(ParseException e){
+        
+        showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Palavra reservada IF esperada", "Descrição");
+    } 
+    expressao()
+    
+    try{
+        <THEN>
+    }catch(ParseException e){
+        
+        showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Palavra reservada THEN esperada", "Descrição");
+    } 
+    
+    comando() 
+    
+    [try{
+        <ELSE>
+    }catch(ParseException e){
+        
+        showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Palavra reservada ELSE esperada", "Descrição");
+    } 
+    comando()]
+
 }
 
 void comandoRepetitivo() :
 {}
 {
-    ( <WHILE> expressao() <DO> comando() )
+    ( 
+    try{
+        <WHILE>    
+    }catch(ParseException e){
+        
+            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Palavra reservada WHILE esperada", "Descrição");
+    } 
+
+    expressao()
+    
+    try{
+        <DO>
+    }catch(ParseException e){
+        
+            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Palavra reservada DO esperada", "Descrição");
+    }  
+    
+    comando() 
+    )
 }
 
 void expressao() :
@@ -497,19 +539,58 @@ void expressao() :
 void expressaoSimples() :
 {}
 {
-    [<OP_ADICAO>|<OP_SUBTRACAO>] termo() ((<OP_ADICAO> | <OP_SUBTRACAO> | <OP_OR>) termo())*
+    [
+    try{
+        <OP_ADICAO>
+        |
+        <OP_SUBTRACAO>
+    }catch(ParseException e){
+        
+        showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Operador de adição ou subtração esperado", "Descrição");
+    }
+    ]
+    termo()
+    (
+        (
+            try{
+                <OP_ADICAO> | <OP_SUBTRACAO> | <OP_OR>
+            }catch(ParseException e){
+        
+                showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Operador de adição ou subtração ou OR esperado", "Descrição");
+            } 
+        ) 
+        termo()
+    )*
 }
 
 void relacao() :
 {}
 {
-    (<SIMBOLO_IGUAL> | <SIMBOLO_DIFERENTE> | <SIMBOLO_MENOR> | <SIMBOLO_MENOR_IGUAL> | <SIMBOLO_MAIOR_IGUAL> | <SIMBOLO_MAIOR>)
+    (
+        try{
+            <SIMBOLO_IGUAL> | <SIMBOLO_DIFERENTE> | <SIMBOLO_MENOR> | <SIMBOLO_MENOR_IGUAL> | <SIMBOLO_MAIOR_IGUAL> | <SIMBOLO_MAIOR>
+        }catch(ParseException e){
+        
+            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Operador logico esperado", "Descrição");
+        } 
+    )
 }
 
 void termo() :
 {}
 {
-    fator() ((<OP_MULTIPLICACAO> | <OP_DIVISAO> | <OP_AND>) fator())*
+    fator() 
+    (
+        (
+            try{
+                <OP_MULTIPLICACAO> | <OP_DIVISAO> | <OP_AND>
+            }catch(ParseException e){
+        
+                showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Operador de multiplicação ou adição ou divisão esperado", "Descrição");
+            } 
+        ) 
+        fator()
+    )*
 }
 
 
@@ -517,23 +598,69 @@ void fator() :
 {}
 {
     variavel() | 
-    <NUMERO_INTEIRO> | 
-    <NUMERO_REAL> | 
-    (<PARENTESES_ABRE> expressao() <PARENTESES_FECHA>) | 
-    (<OP_NOT> fator()) | 
-    <TRUE> | 
-    <FALSE>
+    try{ 
+        <NUMERO_INTEIRO> | <NUMERO_REAL>
+    }catch(ParseException e){
+        
+        showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Número inteiro ou real esperado", "Descrição");
+    } 
+    |
+    (
+        try{
+            <PARENTESES_ABRE>
+        }catch(ParseException e){
+        
+            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Abre parenteses esperado", "Descrição");
+        }  
+        expressao()
+        try{
+            <PARENTESES_FECHA>
+        }catch(ParseException e){
+        
+            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Fecha parenteses esperado", "Descrição");
+        } 
+    ) 
+    | 
+    (
+        try{
+           <OP_NOT>
+        }catch(ParseException e){
+        
+            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Operador not esperado", "Descrição");
+        }
+        fator()
+    )
+    | 
+    try{
+        <TRUE> | <FALSE>
+    }catch(ParseException e){
+        
+        showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Tipo de dado boleano(TRUE ou FALSE) esperado", "Descrição");
+    } 
 }
 
 void listaExpressoes() :
 {}
 {
-    expressao() (<VIRGULA> expressao())*
+    expressao() (
+                    try{
+                        <VIRGULA>
+                    }catch(ParseException e){
+        
+                        showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Virgula esperada", "Descrição");
+                    }  
+                    expressao()
+                )*
 }
 
 
 void variavel() :
 {}
 {
-    <IDENTIFICADOR>
+    try{
+        <IDENTIFICADOR>
+    }catch(ParseException e){
+        
+        showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Identificador esperado", "Descrição");
+    } 
 }

@@ -30,10 +30,10 @@ public class JavaCCTest {
 
         Grammar g = new Grammar(new StringReader(texto));
 
-        for (Token token : tokenize(g)) {
+        /*for (Token token : tokenize(g)) {
             String name = GrammarConstants.tokenImage[token.kind];
             System.out.println(token.beginLine + ":" + name + " => " + token.image);
-        }
+        }*/
 
         ////////////////Sintática
         try {
