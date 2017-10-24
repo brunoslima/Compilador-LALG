@@ -18,7 +18,6 @@ import javax.swing.ImageIcon;
 import javax.swing.InputMap;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
@@ -28,9 +27,9 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 import lexico.AnalisadorLexico;
 import lexico.Item;
-import sintatico.Lexer;
-import sintatico.Parser;
-import sintatico.RecuperacaoErros;
+//import sintatico.Lexer;
+//import sintatico.Parser;
+//import sintatico.RecuperacaoErros;
 
 /**
  * @author brunoslima
@@ -158,7 +157,6 @@ public class IUPrincipal extends javax.swing.JFrame {
 
         MenuAbrir.setText("Arquivo");
 
-        jMenuItem1.setIcon(new javax.swing.ImageIcon("D:\\Ciência da Computação - Unesp\\4º Ano\\2º Semestre\\Compiladores\\Trabalhos\\ProjetoCompilador\\ProjetoCompilador\\imagens\\new_file2.png")); // NOI18N
         jMenuItem1.setText("Abrir");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -356,7 +354,7 @@ public class IUPrincipal extends javax.swing.JFrame {
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
         // TODO add your handling code here:
-
+        /*
         String result = "";
         RecuperacaoErros.erros.clear();
         StyledDocument doc = jTextPaneConsole.getStyledDocument();
@@ -395,7 +393,7 @@ public class IUPrincipal extends javax.swing.JFrame {
         
         //this.jConsoleArea.setText(result);
         //this.jConsoleArea.repaint();        
-        
+        */
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     /**

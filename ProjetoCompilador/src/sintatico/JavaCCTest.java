@@ -1,3 +1,5 @@
+package sintatico;
+
 
 import arquivo.Arquivo;
 import java.io.File;
@@ -40,6 +42,8 @@ public class JavaCCTest {
         } catch (ParseException ex) {
             Logger.getLogger(JavaCCTest.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        System.out.println("Análise sintática concluída com sucesso.");
     }
 
     public static List<Token> tokenize(Grammar parser) throws FileNotFoundException {

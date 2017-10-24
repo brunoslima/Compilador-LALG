@@ -125,7 +125,7 @@ void bloco() :
 {}
 {
     [parteDeclaracaoVariaveis()]
-    (parteDeclaracaoSubRotinas())*
+    (parteDeclaracaoSubRotinas() <PONTO_VIRGULA>)*
     comandoComposto()
 }
 
@@ -212,7 +212,7 @@ void comando() :
     | 
     comandoComposto() 
     | 
-    comandoCondicional1() 
+    comandoCondicional() 
     | 
     comandoRepetitivo()
     | 
@@ -238,7 +238,7 @@ void chamadaProcedimento() :
 
 }
 
-void comandoCondicional1() :
+void comandoCondicional() :
 {}
 {
     <IF> expressao() <THEN> comando() [<ELSE> comando()]
@@ -253,38 +253,27 @@ void comandoRepetitivo() :
 void expressao() :
 {}
 {
-    expressaoSimples()
+    expressaoSimples() [relacao() expressaoSimples()]
 }
 
 void expressaoSimples() :
 {}
 {
-    [<OP_ADICAO>|<OP_SUBTRACAO>] (termo() expressaoSimples2() relacao())
-}
-
-void expressaoSimples2() :
-{}
-{
-    (<OP_ADICAO> | <OP_SUBTRACAO> | <OP_OR>) (termo() expressaoSimples2()) 
+    [<OP_ADICAO>|<OP_SUBTRACAO>] termo() ((<OP_ADICAO> | <OP_SUBTRACAO> | <OP_OR>) termo())*
 }
 
 void relacao() :
 {}
 {
-    (<SIMBOLO_IGUAL> | <SIMBOLO_DIFERENTE> | <SIMBOLO_MENOR> | <SIMBOLO_MENOR_IGUAL> | <SIMBOLO_MAIOR_IGUAL> | <SIMBOLO_MAIOR>) expressaoSimples()
+    (<SIMBOLO_IGUAL> | <SIMBOLO_DIFERENTE> | <SIMBOLO_MENOR> | <SIMBOLO_MENOR_IGUAL> | <SIMBOLO_MAIOR_IGUAL> | <SIMBOLO_MAIOR>)
 }
 
 void termo() :
 {}
 {
-    fator() (termo2())*
+    fator() ((<OP_MULTIPLICACAO> | <OP_DIVISAO> | <OP_AND>) fator())*
 }
 
-void termo2() :
-{}
-{
-    (<OP_MULTIPLICACAO> | <OP_DIVISAO> | <OP_AND> fator()) termo2()
-}
 
 void fator() :
 {}
