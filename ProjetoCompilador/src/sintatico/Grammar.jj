@@ -25,6 +25,15 @@ static void error_skipto(int kind) {
     //token.next = novo;
 }
 
+static void error_skipto(int kind1, int kind2) {
+  ParseException e = generateParseException();  // generate the exception object.
+  //System.out.println(e.toString());  // print the error message
+  Token t;
+  do {
+    t = getNextToken();
+  } while (t.kind != kind1 && t.kind != kind2);
+}
+
 static void showMessageError(int line, int column, String message, String descricao){
     
     System.out.println("\n=========================\n" +
@@ -125,10 +134,9 @@ void compilationUnit() :
         <PONTO>
     )
     |
-    catch(ParseException e){
-        showMessageError(e.currentToken.beginLine, e.currentToken.beginColumn, "Ponto final faltando", "Descrição");
-    }
-
+    (
+        {showMessageError(token.beginLine, token.beginColumn, "Ponto final faltando", "Descrição");}
+    )
     <EOF>
 }
 
@@ -347,7 +355,7 @@ void tipo() throws ParseException:
     
 }
 
-void comandoComposto() :
+void comandoComposto():
 {}
 {
     ( 
@@ -376,6 +384,7 @@ void comandoComposto() :
         
             showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Palavra reservada end esperada", "Descrição");
         }
+
     )
 
 }
@@ -390,15 +399,26 @@ void comando() :
     )
     | 
     (
-        
+        //LOOKAHEAD(<IDENTIFICADOR> <PARENTESES_ABRE> expressao() <PARENTESES_FECHA> <PONTO_VIRGULA>)
         chamadaProcedimento() 
     )
     | 
     comandoComposto() 
     | 
-    comandoCondicional() 
+        (   try{
+                //LOOKAHEAD(<IF> <PARENTESES_ABRE> expressao() <PARENTESES_FECHA> <THEN>)
+                comandoCondicional() 
+            }catch(ParseException e){
+                error_skipto(PONTO_VIRGULA, END);
+            }
+        )
     | 
-    comandoRepetitivo()
+        (   try{
+                comandoRepetitivo()
+            }catch(ParseException e){
+                error_skipto(PONTO_VIRGULA, END);
+            }
+        )
     | 
     ( 
         try{
@@ -503,23 +523,24 @@ void chamadaProcedimento() :
 
 }
 
-void comandoCondicional() :
+void comandoCondicional() throws ParseException:
 {}
 {
-    try{
+    (
         <IF>
-    }catch(ParseException e){
-        
-        showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Palavra reservada IF esperada", "Descrição");
-    } 
+        |
+        {showMessageError(token.next.beginLine, token.next.beginColumn, "Palavra reservada IF esperada", "Descrição");
+        throw generateParseException();}
+    )
+    
     expressao()
     
-    try{
+    (
         <THEN>
-    }catch(ParseException e){
-        
-        showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Palavra reservada THEN esperada", "Descrição");
-    } 
+        |
+        {showMessageError(token.next.beginLine, token.next.beginColumn, "Palavra reservada THEN esperada", "Descrição");
+        throw generateParseException();}
+    ) 
     
     comando() 
     
@@ -528,28 +549,27 @@ void comandoCondicional() :
 
 }
 
-void comandoRepetitivo() :
+void comandoRepetitivo() throws ParseException:
 {}
 {
     ( 
-    try{
         <WHILE>    
-    }catch(ParseException e){
-        
-            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Palavra reservada WHILE esperada", "Descrição");
-    } 
+        |
+        {showMessageError(token.next.beginLine, token.next.beginColumn, "Palavra reservada IF esperada", "Descrição");
+        throw generateParseException();}
+    )
 
     expressao()
     
-    try{
+    (
         <DO>
-    }catch(ParseException e){
-        
-            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Palavra reservada DO esperada", "Descrição");
-    }  
-    
-    comando() 
+        |
+        {showMessageError(token.next.beginLine, token.next.beginColumn, "Palavra reservada IF esperada", "Descrição");
+        throw generateParseException();}
     )
+
+    comando() 
+    
 }
 
 void expressao() :
