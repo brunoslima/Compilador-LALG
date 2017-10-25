@@ -392,26 +392,30 @@ void comandoComposto():
 void comando() :
 {}
 {   
-    LOOKAHEAD(2)
+    LOOKAHEAD(<IDENTIFICADOR> <OP_ATRIBUICAO>)
     (
         
         atribuicao()
     )
     | 
+    LOOKAHEAD(<IDENTIFICADOR> <PARENTESES_ABRE> expressao() <PARENTESES_FECHA> <PONTO_VIRGULA>)
     (
-        //LOOKAHEAD(<IDENTIFICADOR> <PARENTESES_ABRE> expressao() <PARENTESES_FECHA> <PONTO_VIRGULA>)
+        
         chamadaProcedimento() 
     )
     | 
     comandoComposto() 
     | 
-        (   try{
-                //LOOKAHEAD(<IF> <PARENTESES_ABRE> expressao() <PARENTESES_FECHA> <THEN>)
-                comandoCondicional() 
-            }catch(ParseException e){
-                error_skipto(PONTO_VIRGULA, END);
-            }
-        )
+    LOOKAHEAD(<IF> <PARENTESES_ABRE> expressao() <PARENTESES_FECHA> <THEN>)
+    (   
+        try{
+ 
+            comandoCondicional() 
+
+        }catch(ParseException e){
+            error_skipto(PONTO_VIRGULA, END);
+        }
+    )
     | 
         (   try{
                 comandoRepetitivo()
@@ -591,8 +595,12 @@ void expressaoSimples() :
         showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Operador de adição ou subtração esperado", "Descrição");
     }
     ]
+
+    
     termo()
+
     (
+        LOOKAHEAD(<OP_ADICAO> | <OP_SUBTRACAO> | <OP_OR>)
         (
             try{
                 <OP_ADICAO> | <OP_SUBTRACAO> | <OP_OR>
