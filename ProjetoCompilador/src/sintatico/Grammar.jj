@@ -1,6 +1,6 @@
 options
 {
-  LOOKAHEAD=2;
+  
 }
 PARSER_BEGIN(Grammar)
 package sintatico;
@@ -10,7 +10,7 @@ public class Grammar
 
 static void error_skipto(int kind) {
   ParseException e = generateParseException();  // generate the exception object.
-  System.out.println(e.toString());  // print the error message
+  //System.out.println(e.toString());  // print the error message
   Token t;
   do {
     t = getNextToken();
@@ -20,11 +20,14 @@ static void error_skipto(int kind) {
     // current token is the one immediately before the erroneous token
     // (in our case the token immediately before what should have been
     // "if"/"while".
+    //Token novo = Token.newToken(token.kind);
+    //novo.next = token.next;
+    //token.next = novo;
 }
 
 static void showMessageError(int line, int column, String message, String descricao){
     
-    System.out.println(
+    System.out.println("\n=========================\n" +
         message + "\n" +
         "Linha: " + line + " Coluna: " + column + "\n" +
         descricao
@@ -107,92 +110,112 @@ SKIP :
 
 void compilationUnit() :
 {}
-{
-    programDeclaration() <EOF>
-}
-
-void programDeclaration() :
-{}
-{
+{   
     try{
-        <PROGRAM>
-    }
-    catch(ParseException e) {
-        showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Palavra reservada program esperada", "Descrição");
-        //error_skipto(IDENTIFICADOR);
-    }
-    
-    try {
-        <IDENTIFICADOR>
+        programDeclaration() 
     }
     catch(ParseException e){
-        showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Identificador de programa faltando", "Descrição");
-    }
-     
-    try{
-        <PONTO_VIRGULA>
-    }
-    catch(ParseException e){
-        showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Ponto e vírgula faltando", "Descrição");
+        showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Símbolo Inesperado", "Descrição");
+        error_skipto(PONTO_VIRGULA);
     }
 
     bloco()
-    try {
+
+    (
         <PONTO>
-    }
+    )
+    |
     catch(ParseException e){
-        showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Ponto final faltando", "Descrição");
+        showMessageError(e.currentToken.beginLine, e.currentToken.beginColumn, "Ponto final faltando", "Descrição");
     }
 
+    <EOF>
+}
+
+void programDeclaration() throws ParseException:
+{}
+{
+    (
+        <PROGRAM>
+    |
+        LOOKAHEAD(<IDENTIFICADOR>|<PONTO_VIRGULA>) 
+        {showMessageError(token.next.beginLine, token.next.beginColumn, "Palavra reservada program esperada", "Descrição");}
+    |
+        {throw generateParseException();}
+    )
     
+    (
+        <IDENTIFICADOR>
+    |
+        {showMessageError(token.beginLine, token.beginColumn, "Identificador de programa faltando", "Descrição");}
+    )
+     
+    (
+        <PONTO_VIRGULA>
+    |
+        {showMessageError(token.beginLine, token.beginColumn, "Ponto e vírgula faltando", "Descrição");}
+    )
+
 }
 
 void bloco() :
 {}
-{
-    [parteDeclaracaoVariaveis()]
+{   
+    
+    [
+        //LOOKAHEAD(tipo() <IDENTIFICADOR> (<PONTO_VIRGULA>|<VIRGULA>) )
+        parteDeclaracaoVariaveis()
+    ]
     (
+        LOOKAHEAD(<PROCEDURE> <IDENTIFICADOR> <PARENTESES_ABRE>)
         parteDeclaracaoSubRotinas() 
-        try{
+        
+        (
             <PONTO_VIRGULA>
-        }
-        catch(ParseException e){
-            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Ponto e vírgula faltando", "Descrição");
-        }
+        |
+            {showMessageError(token.next.beginLine, token.next.beginColumn, "Ponto e vírgula faltando", "Descrição");}
+        )
     )*
+
     comandoComposto()
 }
 
-void parteDeclaracaoVariaveis() :
+void parteDeclaracaoVariaveis():
 {}
 {
-
     ( 
-        declaracaoVariaveis() 
-        (
-            try{
-                <PONTO_VIRGULA>
-            }
-            catch(ParseException e){
-                showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Ponto e vírgula faltando", "Descrição");
-            }
-            declaracaoVariaveis()
-        )* 
-
         try{
-            <PONTO_VIRGULA>
+            declaracaoVariaveis() 
         }
         catch(ParseException e){
-            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Ponto e vírgula faltando", "Descrição");
+            error_skipto(PONTO_VIRGULA);
         }
+
+        (
+            try{
+                declaracaoVariaveis()
+            }
+            catch(ParseException e){
+                error_skipto(PONTO_VIRGULA);
+            }
+        )* 
     )
    
 }
 
-void declaracaoVariaveis() :
+void declaracaoVariaveis() throws ParseException:
 {}
 {
-    tipo() listaIdentificadores()
+    tipo() 
+    listaIdentificadores()
+    (
+        LOOKAHEAD(<PONTO_VIRGULA>)
+        <PONTO_VIRGULA>
+    |
+    {
+        showMessageError(token.next.beginLine, token.next.beginColumn, "Ponto e vírgula faltando", "Descrição");
+    }
+    )
 }
 
 void listaIdentificadores() :
@@ -201,12 +224,7 @@ void listaIdentificadores() :
     ( 
         variavel() 
         (
-            try{
-                <VIRGULA>
-            }
-            catch(ParseException e){
-                showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Vírgula faltando", "Descrição");
-            } 
+            <VIRGULA>
             variavel()
         )* 
     )
@@ -309,21 +327,24 @@ void secaoParametrosFormais() :
 
 }
 
-void tipo() :
+void tipo() throws ParseException:
 {}
 {
 
-    try{
-        <INT> 
-        | 
-        <BOOLEAN> 
-        | 
-        <REAL>
-    }
-    catch(ParseException e){
-        
-        showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Identificador de tipo esperado", "Descrição");
-    }
+    
+    <INT> 
+    | 
+    <BOOLEAN> 
+    | 
+    <REAL>
+    |
+    (
+        {
+            showMessageError(token.next.beginLine, token.next.beginColumn, "Identificador de tipo esperado", "Descrição");
+            throw generateParseException();
+        }
+    )
+    
 }
 
 void comandoComposto() :
@@ -361,11 +382,17 @@ void comandoComposto() :
 
 void comando() :
 {}
-{
-
-    atribuicao()
+{   
+    LOOKAHEAD(2)
+    (
+        
+        atribuicao()
+    )
     | 
-    chamadaProcedimento() 
+    (
+        
+        chamadaProcedimento() 
+    )
     | 
     comandoComposto() 
     | 
@@ -496,13 +523,8 @@ void comandoCondicional() :
     
     comando() 
     
-    [try{
-        <ELSE>
-    }catch(ParseException e){
-        
-        showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Palavra reservada ELSE esperada", "Descrição");
-    } 
-    comando()]
+    
+    [ LOOKAHEAD(1) <ELSE> comando()]
 
 }
 

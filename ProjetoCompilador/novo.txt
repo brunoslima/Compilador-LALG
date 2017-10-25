@@ -1,10 +1,11 @@
-program correto;
-int a, b, c;
-boolean d, e, f;
+programa certo;
+insat a, b, c;
+boosalean d, e, f;
 
 procedure proc(var a1 : int);
-int a, b, c;
-boolean d, e, f;
+iasant a, b, c;
+bean d, e, f;
+
 begin
 	a:=1;
 	if (a<=1) then

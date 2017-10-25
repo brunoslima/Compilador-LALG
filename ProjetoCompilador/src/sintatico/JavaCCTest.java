@@ -5,6 +5,7 @@ import arquivo.Arquivo;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.StringReader;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -31,18 +32,17 @@ public class JavaCCTest {
         Grammar g = new Grammar(new StringReader(texto));
 
         /*for (Token token : tokenize(g)) {
-            String name = GrammarConstants.tokenImage[token.kind];
-            System.out.println(token.beginLine + ":" + name + " => " + token.image);
+        String name = GrammarConstants.tokenImage[token.kind];
+        System.out.println(token.beginLine + ":" + name + " => " + token.image);
         }*/
-
         ////////////////Sintática
-        try {
-            Grammar.ReInit(new StringReader(texto));
+        Grammar.ReInit(new StringReader(texto));
+        try {        
             Grammar.compilationUnit();
-        } catch (ParseException ex) {
+        } catch (sintatico.ParseException ex) {
             Logger.getLogger(JavaCCTest.class.getName()).log(Level.SEVERE, null, ex);
-        }        
-        System.out.println("Análise sintática concluída com sucesso.");
+        }
+        System.out.println("\nAnálise sintática concluída com sucesso.");
     }
 
     public static List<Token> tokenize(Grammar parser) throws FileNotFoundException {
