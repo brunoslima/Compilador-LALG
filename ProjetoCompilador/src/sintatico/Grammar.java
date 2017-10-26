@@ -52,7 +52,7 @@ static void showMessageError(int line, int column, String message, String descri
       try {
         programDeclaration();
       } catch (ParseException e) {
-showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "S\u00edmbolo Inesperado", "Descri\u00e7\u00e3o");
+showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "S\u00c3\u00admbolo Inesperado", "Descri\u00c3\u00a7\u00c3\u00a3o");
         error_skipto(PONTO_VIRGULA);
       }
       bloco();
@@ -60,7 +60,7 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
       break;
       }
     case 0:{
-showMessageError(token.beginLine, token.beginColumn, "Ponto final faltando", "Descri\u00e7\u00e3o");
+showMessageError(token.beginLine, token.beginColumn, "Ponto final faltando", "Descri\u00c3\u00a7\u00c3\u00a3o");
       jj_consume_token(0);
       break;
       }
@@ -80,7 +80,7 @@ showMessageError(token.beginLine, token.beginColumn, "Ponto final faltando", "De
     default:
       jj_la1[1] = jj_gen;
       if (jj_2_1(2147483647)) {
-showMessageError(token.next.beginLine, token.next.beginColumn, "Palavra reservada program esperada", "Descri\u00e7\u00e3o");
+showMessageError(token.next.beginLine, token.next.beginColumn, "Palavra reservada program esperada", "Descri\u00c3\u00a7\u00c3\u00a3o");
       } else {
 {if (true) throw generateParseException();}
       }
@@ -92,7 +92,7 @@ showMessageError(token.next.beginLine, token.next.beginColumn, "Palavra reservad
       }
     default:
       jj_la1[2] = jj_gen;
-showMessageError(token.beginLine, token.beginColumn, "Identificador de programa faltando", "Descri\u00e7\u00e3o");
+showMessageError(token.beginLine, token.beginColumn, "Identificador de programa faltando", "Descri\u00c3\u00a7\u00c3\u00a3o");
     }
     switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
     case PONTO_VIRGULA:{
@@ -101,7 +101,7 @@ showMessageError(token.beginLine, token.beginColumn, "Identificador de programa 
       }
     default:
       jj_la1[3] = jj_gen;
-showMessageError(token.beginLine, token.beginColumn, "Ponto e v\u00edrgula faltando", "Descri\u00e7\u00e3o");
+showMessageError(token.beginLine, token.beginColumn, "Ponto e v\u00c3\u00adrgula faltando", "Descri\u00c3\u00a7\u00c3\u00a3o");
     }
   }
 
@@ -133,7 +133,7 @@ showMessageError(token.beginLine, token.beginColumn, "Ponto e v\u00edrgula falta
         }
       default:
         jj_la1[5] = jj_gen;
-showMessageError(token.next.beginLine, token.next.beginColumn, "Ponto e v\u00edrgula faltando", "Descri\u00e7\u00e3o");
+showMessageError(token.next.beginLine, token.next.beginColumn, "Ponto e v\u00c3\u00adrgula faltando", "Descri\u00c3\u00a7\u00c3\u00a3o");
       }
     }
     comandoComposto();
@@ -173,7 +173,7 @@ error_skipto(PONTO_VIRGULA);
     if (jj_2_3(2147483647)) {
       jj_consume_token(PONTO_VIRGULA);
     } else {
-showMessageError(token.next.beginLine, token.next.beginColumn, "Ponto e v\u00edrgula faltando", "Descri\u00e7\u00e3o");
+showMessageError(token.next.beginLine, token.next.beginColumn, "Ponto e v\u00c3\u00adrgula faltando", "Descri\u00c3\u00a7\u00c3\u00a3o");
     }
   }
 
@@ -181,19 +181,19 @@ showMessageError(token.next.beginLine, token.next.beginColumn, "Ponto e v\u00edr
     variavel();
     label_3:
     while (true) {
+      if (jj_2_4(2147483647)) {
+        ;
+      } else {
+        break label_3;
+      }
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
       case VIRGULA:{
-        ;
+        jj_consume_token(VIRGULA);
         break;
         }
       default:
         jj_la1[7] = jj_gen;
-        break label_3;
-      }
-      try {
-        jj_consume_token(VIRGULA);
-      } catch (ParseException e) {
-showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "V\u00edrgula esperada", "Descri\u00e7\u00e3o");
+showMessageError(token.beginLine, token.beginColumn, "V\u00c3\u00adrgula faltando", "Descri\u00c3\u00a7\u00c3\u00a3o");
       }
       variavel();
     }
@@ -203,12 +203,12 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
     try {
       jj_consume_token(PROCEDURE);
     } catch (ParseException e) {
-showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Palavra reservada procedure esperada", "Descri\u00e7\u00e3o");
+showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Palavra reservada procedure esperada", "Descri\u00c3\u00a7\u00c3\u00a3o");
     }
     try {
       jj_consume_token(IDENTIFICADOR);
     } catch (ParseException e) {
-showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Identificador de procedure esperado", "Descri\u00e7\u00e3o");
+showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Identificador de procedure esperado", "Descri\u00c3\u00a7\u00c3\u00a3o");
     }
     declaracaoProcedimentos();
   }
@@ -219,13 +219,13 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
       try {
         jj_consume_token(PARENTESES_ABRE);
       } catch (ParseException e) {
-showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Abre parentese faltando", "Descri\u00e7\u00e3o");
+showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Abre parentese faltando", "Descri\u00c3\u00a7\u00c3\u00a3o");
       }
       parametrosFormais();
       try {
         jj_consume_token(PARENTESES_FECHA);
       } catch (ParseException e) {
-showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Fecha parenteses faltando", "Descri\u00e7\u00e3o");
+showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Fecha parenteses faltando", "Descri\u00c3\u00a7\u00c3\u00a3o");
       }
       break;
       }
@@ -236,7 +236,7 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
     try {
       jj_consume_token(PONTO_VIRGULA);
     } catch (ParseException e) {
-showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Ponto e v\u00edrgula faltando", "Descri\u00e7\u00e3o");
+showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Ponto e v\u00c3\u00adrgula faltando", "Descri\u00c3\u00a7\u00c3\u00a3o");
     }
     bloco();
   }
@@ -257,7 +257,7 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
       try {
         jj_consume_token(PONTO_VIRGULA);
       } catch (ParseException e) {
-showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Ponto e v\u00edrgula faltando", "Descri\u00e7\u00e3o");
+showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Ponto e v\u00c3\u00adrgula faltando", "Descri\u00c3\u00a7\u00c3\u00a3o");
       }
       secaoParametrosFormais();
     }
@@ -269,7 +269,7 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
       try {
         jj_consume_token(VAR);
       } catch (ParseException e) {
-showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Palavra reservada var esperada", "Descri\u00e7\u00e3o");
+showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Palavra reservada var esperada", "Descri\u00c3\u00a7\u00c3\u00a3o");
       }
       break;
       }
@@ -281,7 +281,7 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
     try {
       jj_consume_token(DOIS_PONTOS);
     } catch (ParseException e) {
-showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Dois pontos faltando", "Descri\u00e7\u00e3o");
+showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Dois pontos faltando", "Descri\u00c3\u00a7\u00c3\u00a3o");
     }
     tipo();
   }
@@ -302,16 +302,20 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
       }
     default:
       jj_la1[11] = jj_gen;
-showMessageError(token.next.beginLine, token.next.beginColumn, "Identificador de tipo esperado", "Descri\u00e7\u00e3o");
+showMessageError(token.next.beginLine, token.next.beginColumn, "Identificador de tipo esperado", "Descri\u00c3\u00a7\u00c3\u00a3o");
             {if (true) throw generateParseException();}
     }
   }
 
-  static final public void comandoComposto() throws ParseException {
+///////////////////////////////////////
+///////////////////////////////////////
+///////////////////////////////////////
+  static final public 
+void comandoComposto() throws ParseException {
     try {
       jj_consume_token(BEGIN);
     } catch (ParseException e) {
-showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Palavra reservada begin esperada", "Descri\u00e7\u00e3o");
+showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Palavra reservada begin esperada", "Descri\u00c3\u00a7\u00c3\u00a3o");
     }
     comando();
     label_5:
@@ -328,21 +332,21 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
       try {
         jj_consume_token(PONTO_VIRGULA);
       } catch (ParseException e) {
-showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Ponto e v\u00edrgula faltando", "Descri\u00e7\u00e3o");
+showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Ponto e v\u00c3\u00adrgula faltando", "Descri\u00c3\u00a7\u00c3\u00a3o");
       }
       comando();
     }
     try {
       jj_consume_token(END);
     } catch (ParseException e) {
-showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Palavra reservada end esperada", "Descri\u00e7\u00e3o");
+showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Palavra reservada end esperada", "Descri\u00c3\u00a7\u00c3\u00a3o");
     }
   }
 
   static final public void comando() throws ParseException {
-    if (jj_2_4(2147483647)) {
+    if (jj_2_5(2147483647)) {
       atribuicao();
-    } else if (jj_2_5(2147483647)) {
+    } else if (jj_2_6(2147483647)) {
       chamadaProcedimento();
     } else {
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
@@ -352,7 +356,7 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
         }
       default:
         jj_la1[13] = jj_gen;
-        if (jj_2_6(2147483647)) {
+        if (jj_2_7(2147483647)) {
           try {
             comandoCondicional();
           } catch (ParseException e) {
@@ -381,18 +385,18 @@ error_skipto(PONTO_VIRGULA, END);
             try {
               jj_consume_token(READ);
             } catch (ParseException e) {
-showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Palavra reservada read esperada", "Descri\u00e7\u00e3o");
+showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Palavra reservada read esperada", "Descri\u00c3\u00a7\u00c3\u00a3o");
             }
             try {
               jj_consume_token(PARENTESES_ABRE);
             } catch (ParseException e) {
-showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Abre parenteses esperado", "Descri\u00e7\u00e3o");
+showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Abre parenteses esperado", "Descri\u00c3\u00a7\u00c3\u00a3o");
             }
             listaIdentificadores();
             try {
               jj_consume_token(PARENTESES_FECHA);
             } catch (ParseException e) {
-showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Fecha parenteses esperado", "Descri\u00e7\u00e3o");
+showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Fecha parenteses esperado", "Descri\u00c3\u00a7\u00c3\u00a3o");
             }
             break;
             }
@@ -400,18 +404,18 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
             try {
               jj_consume_token(WRITE);
             } catch (ParseException e) {
-showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Palavra reservada write esperada", "Descri\u00e7\u00e3o");
+showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Palavra reservada write esperada", "Descri\u00c3\u00a7\u00c3\u00a3o");
             }
             try {
               jj_consume_token(PARENTESES_ABRE);
             } catch (ParseException e) {
-showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Abre parenteses esperado", "Descri\u00e7\u00e3o");
+showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Abre parenteses esperado", "Descri\u00c3\u00a7\u00c3\u00a3o");
             }
             listaIdentificadores();
             try {
               jj_consume_token(PARENTESES_FECHA);
             } catch (ParseException e) {
-showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Fecha parenteses esperado", "Descri\u00e7\u00e3o");
+showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Fecha parenteses esperado", "Descri\u00c3\u00a7\u00c3\u00a3o");
             }
             break;
             }
@@ -430,7 +434,7 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
     try {
       jj_consume_token(OP_ATRIBUICAO);
     } catch (ParseException e) {
-showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Operador de atribui\u00e7\u00e3o esperado", "Descri\u00e7\u00e3o");
+showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Operador de atribui\u00c3\u00a7\u00c3\u00a3o esperado", "Descri\u00c3\u00a7\u00c3\u00a3o");
     }
     expressao();
   }
@@ -439,18 +443,18 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
     try {
       jj_consume_token(IDENTIFICADOR);
     } catch (ParseException e) {
-showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Identificador de procedimento esperado", "Descri\u00e7\u00e3o");
+showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Identificador de procedimento esperado", "Descri\u00c3\u00a7\u00c3\u00a3o");
     }
     try {
       jj_consume_token(PARENTESES_ABRE);
     } catch (ParseException e) {
-showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Abre parenteses esperado", "Descri\u00e7\u00e3o");
+showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Abre parenteses esperado", "Descri\u00c3\u00a7\u00c3\u00a3o");
     }
     listaExpressoes();
     try {
       jj_consume_token(PARENTESES_FECHA);
     } catch (ParseException e) {
-showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Fecha parenteses esperado", "Descri\u00e7\u00e3o");
+showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Fecha parenteses esperado", "Descri\u00c3\u00a7\u00c3\u00a3o");
     }
   }
 
@@ -462,7 +466,7 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
       }
     default:
       jj_la1[15] = jj_gen;
-showMessageError(token.next.beginLine, token.next.beginColumn, "Palavra reservada IF esperada", "Descri\u00e7\u00e3o");
+showMessageError(token.next.beginLine, token.next.beginColumn, "Palavra reservada IF esperada", "Descri\u00c3\u00a7\u00c3\u00a3o");
         {if (true) throw generateParseException();}
     }
     expressao();
@@ -473,7 +477,7 @@ showMessageError(token.next.beginLine, token.next.beginColumn, "Palavra reservad
       }
     default:
       jj_la1[16] = jj_gen;
-showMessageError(token.next.beginLine, token.next.beginColumn, "Palavra reservada THEN esperada", "Descri\u00e7\u00e3o");
+showMessageError(token.next.beginLine, token.next.beginColumn, "Palavra reservada THEN esperada", "Descri\u00c3\u00a7\u00c3\u00a3o");
         {if (true) throw generateParseException();}
     }
     comando();
@@ -497,7 +501,7 @@ showMessageError(token.next.beginLine, token.next.beginColumn, "Palavra reservad
       }
     default:
       jj_la1[18] = jj_gen;
-showMessageError(token.next.beginLine, token.next.beginColumn, "Palavra reservada IF esperada", "Descri\u00e7\u00e3o");
+showMessageError(token.next.beginLine, token.next.beginColumn, "Palavra reservada IF esperada", "Descri\u00c3\u00a7\u00c3\u00a3o");
         {if (true) throw generateParseException();}
     }
     expressao();
@@ -508,7 +512,7 @@ showMessageError(token.next.beginLine, token.next.beginColumn, "Palavra reservad
       }
     default:
       jj_la1[19] = jj_gen;
-showMessageError(token.next.beginLine, token.next.beginColumn, "Palavra reservada IF esperada", "Descri\u00e7\u00e3o");
+showMessageError(token.next.beginLine, token.next.beginColumn, "Palavra reservada IF esperada", "Descri\u00c3\u00a7\u00c3\u00a3o");
         {if (true) throw generateParseException();}
     }
     comando();
@@ -553,7 +557,7 @@ showMessageError(token.next.beginLine, token.next.beginColumn, "Palavra reservad
           throw new ParseException();
         }
       } catch (ParseException e) {
-showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Operador de adi\u00e7\u00e3o ou subtra\u00e7\u00e3o esperado", "Descri\u00e7\u00e3o");
+showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Operador de adi\u00c3\u00a7\u00c3\u00a3o ou subtra\u00c3\u00a7\u00c3\u00a3o esperado", "Descri\u00c3\u00a7\u00c3\u00a3o");
       }
       break;
       }
@@ -564,7 +568,7 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
     termo();
     label_6:
     while (true) {
-      if (jj_2_7(2147483647)) {
+      if (jj_2_8(2147483647)) {
         ;
       } else {
         break label_6;
@@ -589,7 +593,7 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
           throw new ParseException();
         }
       } catch (ParseException e) {
-showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Operador de adi\u00e7\u00e3o ou subtra\u00e7\u00e3o ou OR esperado", "Descri\u00e7\u00e3o");
+showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Operador de adi\u00c3\u00a7\u00c3\u00a3o ou subtra\u00c3\u00a7\u00c3\u00a3o ou OR esperado", "Descri\u00c3\u00a7\u00c3\u00a3o");
       }
       termo();
     }
@@ -628,7 +632,7 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
         throw new ParseException();
       }
     } catch (ParseException e) {
-showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Operador logico esperado", "Descri\u00e7\u00e3o");
+showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Operador logico esperado", "Descri\u00c3\u00a7\u00c3\u00a3o");
     }
   }
 
@@ -667,7 +671,7 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
           throw new ParseException();
         }
       } catch (ParseException e) {
-showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Operador de multiplica\u00e7\u00e3o ou adi\u00e7\u00e3o ou divis\u00e3o esperado", "Descri\u00e7\u00e3o");
+showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Operador de multiplica\u00c3\u00a7\u00c3\u00a3o ou adi\u00c3\u00a7\u00c3\u00a3o ou divis\u00c3\u00a3o esperado", "Descri\u00c3\u00a7\u00c3\u00a3o");
       }
       fator();
     }
@@ -697,7 +701,7 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
           throw new ParseException();
         }
       } catch (ParseException e) {
-showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "N\u00famero inteiro ou real esperado", "Descri\u00e7\u00e3o");
+showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "N\u00c3\u00bamero inteiro ou real esperado", "Descri\u00c3\u00a7\u00c3\u00a3o");
       }
       break;
       }
@@ -705,13 +709,13 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
       try {
         jj_consume_token(PARENTESES_ABRE);
       } catch (ParseException e) {
-showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Abre parenteses esperado", "Descri\u00e7\u00e3o");
+showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Abre parenteses esperado", "Descri\u00c3\u00a7\u00c3\u00a3o");
       }
       expressao();
       try {
         jj_consume_token(PARENTESES_FECHA);
       } catch (ParseException e) {
-showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Fecha parenteses esperado", "Descri\u00e7\u00e3o");
+showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Fecha parenteses esperado", "Descri\u00c3\u00a7\u00c3\u00a3o");
       }
       break;
       }
@@ -719,7 +723,7 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
       try {
         jj_consume_token(OP_NOT);
       } catch (ParseException e) {
-showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Operador not esperado", "Descri\u00e7\u00e3o");
+showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Operador not esperado", "Descri\u00c3\u00a7\u00c3\u00a3o");
       }
       fator();
       break;
@@ -742,7 +746,7 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
           throw new ParseException();
         }
       } catch (ParseException e) {
-showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Tipo de dado boleano(TRUE ou FALSE) esperado", "Descri\u00e7\u00e3o");
+showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Tipo de dado boleano(TRUE ou FALSE) esperado", "Descri\u00c3\u00a7\u00c3\u00a3o");
       }
       break;
       }
@@ -769,7 +773,7 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
       try {
         jj_consume_token(VIRGULA);
       } catch (ParseException e) {
-showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Virgula esperada", "Descri\u00e7\u00e3o");
+showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Virgula esperada", "Descri\u00c3\u00a7\u00c3\u00a3o");
       }
       expressao();
     }
@@ -779,7 +783,7 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
     try {
       jj_consume_token(IDENTIFICADOR);
     } catch (ParseException e) {
-showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Identificador esperado", "Descri\u00e7\u00e3o");
+showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Identificador esperado", "Descri\u00c3\u00a7\u00c3\u00a3o");
     }
   }
 
@@ -839,102 +843,42 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
     finally { jj_save(6, xla); }
   }
 
-  static private boolean jj_3_4()
+  static private boolean jj_2_8(int xla)
  {
-    if (jj_scan_token(IDENTIFICADOR)) return true;
-    if (jj_scan_token(OP_ATRIBUICAO)) return true;
-    return false;
+    jj_la = xla; jj_lastpos = jj_scanpos = token;
+    try { return !jj_3_8(); }
+    catch(LookaheadSuccess ls) { return true; }
+    finally { jj_save(7, xla); }
   }
 
-  static private boolean jj_3R_17()
+  static private boolean jj_3R_14()
  {
+    if (jj_3R_17()) return true;
     Token xsp;
-    xsp = jj_scanpos;
-    if (jj_scan_token(32)) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(31)) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(33)) return true;
-    }
-    }
-    if (jj_3R_16()) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_22()
- {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_scan_token(9)) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(10)) return true;
-    }
-    return false;
-  }
-
-  static private boolean jj_3R_12()
- {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_scan_token(29)) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(30)) return true;
+    while (true) {
+      xsp = jj_scanpos;
+      if (jj_3R_18()) { jj_scanpos = xsp; break; }
     }
     return false;
   }
 
   static private boolean jj_3R_10()
  {
+    if (jj_3R_11()) return true;
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3R_12()) jj_scanpos = xsp;
-    if (jj_3R_13()) return true;
-    while (true) {
-      xsp = jj_scanpos;
-      if (jj_3R_14()) { jj_scanpos = xsp; break; }
-    }
     return false;
   }
 
-  static private boolean jj_3R_13()
- {
-    if (jj_3R_16()) return true;
-    Token xsp;
-    while (true) {
-      xsp = jj_scanpos;
-      if (jj_3R_17()) { jj_scanpos = xsp; break; }
-    }
-    return false;
-  }
-
-  static private boolean jj_3R_9()
- {
-    if (jj_3R_10()) return true;
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_11()) jj_scanpos = xsp;
-    return false;
-  }
-
-  static private boolean jj_3R_21()
+  static private boolean jj_3R_22()
  {
     if (jj_scan_token(OP_NOT)) return true;
-    if (jj_3R_16()) return true;
+    if (jj_3R_17()) return true;
     return false;
   }
 
-  static private boolean jj_3_1()
- {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_scan_token(40)) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(14)) return true;
-    }
-    return false;
-  }
-
-  static private boolean jj_3R_15()
+  static private boolean jj_3R_16()
  {
     Token xsp;
     xsp = jj_scanpos;
@@ -957,35 +901,13 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
     return false;
   }
 
-  static private boolean jj_3_7()
- {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_scan_token(29)) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(30)) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(34)) return true;
-    }
-    }
-    return false;
-  }
-
-  static private boolean jj_3R_23()
+  static private boolean jj_3R_24()
  {
     if (jj_scan_token(IDENTIFICADOR)) return true;
     return false;
   }
 
-  static private boolean jj_3R_20()
- {
-    if (jj_scan_token(PARENTESES_ABRE)) return true;
-    if (jj_3R_9()) return true;
-    if (jj_scan_token(PARENTESES_FECHA)) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_14()
+  static private boolean jj_3_8()
  {
     Token xsp;
     xsp = jj_scanpos;
@@ -996,21 +918,75 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
     if (jj_scan_token(34)) return true;
     }
     }
-    if (jj_3R_13()) return true;
     return false;
   }
 
-  static private boolean jj_3_6()
+  static private boolean jj_3_4()
+ {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_9()) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(40)) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(15)) return true;
+    }
+    }
+    return false;
+  }
+
+  static private boolean jj_3R_9()
+ {
+    if (jj_scan_token(VIRGULA)) return true;
+    if (jj_scan_token(IDENTIFICADOR)) return true;
+    return false;
+  }
+
+  static private boolean jj_3_1()
+ {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_scan_token(40)) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(14)) return true;
+    }
+    return false;
+  }
+
+  static private boolean jj_3R_21()
+ {
+    if (jj_scan_token(PARENTESES_ABRE)) return true;
+    if (jj_3R_10()) return true;
+    if (jj_scan_token(PARENTESES_FECHA)) return true;
+    return false;
+  }
+
+  static private boolean jj_3_7()
  {
     if (jj_scan_token(IF)) return true;
     if (jj_scan_token(PARENTESES_ABRE)) return true;
-    if (jj_3R_9()) return true;
+    if (jj_3R_10()) return true;
     if (jj_scan_token(PARENTESES_FECHA)) return true;
     if (jj_scan_token(THEN)) return true;
     return false;
   }
 
-  static private boolean jj_3R_19()
+  static private boolean jj_3R_15()
+ {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_scan_token(29)) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(30)) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(34)) return true;
+    }
+    }
+    if (jj_3R_14()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_20()
  {
     Token xsp;
     xsp = jj_scanpos;
@@ -1021,19 +997,25 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
     return false;
   }
 
-  static private boolean jj_3R_16()
+  static private boolean jj_3R_19()
+ {
+    if (jj_3R_24()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_17()
  {
     Token xsp;
     xsp = jj_scanpos;
-    if (jj_3R_18()) {
-    jj_scanpos = xsp;
     if (jj_3R_19()) {
     jj_scanpos = xsp;
     if (jj_3R_20()) {
     jj_scanpos = xsp;
     if (jj_3R_21()) {
     jj_scanpos = xsp;
-    if (jj_3R_22()) return true;
+    if (jj_3R_22()) {
+    jj_scanpos = xsp;
+    if (jj_3R_23()) return true;
     }
     }
     }
@@ -1041,9 +1023,20 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
     return false;
   }
 
-  static private boolean jj_3R_18()
+  static private boolean jj_3R_12()
  {
-    if (jj_3R_23()) return true;
+    if (jj_3R_16()) return true;
+    if (jj_3R_11()) return true;
+    return false;
+  }
+
+  static private boolean jj_3_6()
+ {
+    if (jj_scan_token(IDENTIFICADOR)) return true;
+    if (jj_scan_token(PARENTESES_ABRE)) return true;
+    if (jj_3R_10()) return true;
+    if (jj_scan_token(PARENTESES_FECHA)) return true;
+    if (jj_scan_token(PONTO_VIRGULA)) return true;
     return false;
   }
 
@@ -1055,26 +1048,66 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
     return false;
   }
 
-  static private boolean jj_3R_11()
- {
-    if (jj_3R_15()) return true;
-    if (jj_3R_10()) return true;
-    return false;
-  }
-
   static private boolean jj_3_5()
  {
     if (jj_scan_token(IDENTIFICADOR)) return true;
-    if (jj_scan_token(PARENTESES_ABRE)) return true;
-    if (jj_3R_9()) return true;
-    if (jj_scan_token(PARENTESES_FECHA)) return true;
-    if (jj_scan_token(PONTO_VIRGULA)) return true;
+    if (jj_scan_token(OP_ATRIBUICAO)) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_18()
+ {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_scan_token(32)) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(31)) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(33)) return true;
+    }
+    }
+    if (jj_3R_17()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_23()
+ {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_scan_token(9)) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(10)) return true;
+    }
     return false;
   }
 
   static private boolean jj_3_3()
  {
     if (jj_scan_token(PONTO_VIRGULA)) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_13()
+ {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_scan_token(29)) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(30)) return true;
+    }
+    return false;
+  }
+
+  static private boolean jj_3R_11()
+ {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_13()) jj_scanpos = xsp;
+    if (jj_3R_14()) return true;
+    while (true) {
+      xsp = jj_scanpos;
+      if (jj_3R_15()) { jj_scanpos = xsp; break; }
+    }
     return false;
   }
 
@@ -1103,7 +1136,7 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
    private static void jj_la1_init_1() {
       jj_la1_1 = new int[] {0x100,0x0,0x100,0x0,0x100,0x0,0x100,0x0,0x10,0x0,0x0,0x0,0x0,0x0,0x1d8,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x4,0x0,0x3,0x3,0xc0,0x0,0x1d8,0x0,};
    }
-  static final private JJCalls[] jj_2_rtns = new JJCalls[7];
+  static final private JJCalls[] jj_2_rtns = new JJCalls[8];
   static private boolean jj_rescan = false;
   static private int jj_gc = 0;
 
@@ -1353,7 +1386,7 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
 
   static private void jj_rescan_token() {
     jj_rescan = true;
-    for (int i = 0; i < 7; i++) {
+    for (int i = 0; i < 8; i++) {
     try {
       JJCalls p = jj_2_rtns[i];
       do {
@@ -1367,6 +1400,7 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
             case 4: jj_3_5(); break;
             case 5: jj_3_6(); break;
             case 6: jj_3_7(); break;
+            case 7: jj_3_8(); break;
           }
         }
         p = p.next;

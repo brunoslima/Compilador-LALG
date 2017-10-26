@@ -219,10 +219,8 @@ void declaracaoVariaveis() throws ParseException:
     (
         LOOKAHEAD(<PONTO_VIRGULA>)
         <PONTO_VIRGULA>
-    |
-    {
-        showMessageError(token.next.beginLine, token.next.beginColumn, "Ponto e vírgula faltando", "Descrição");
-    }
+        |
+        {showMessageError(token.next.beginLine, token.next.beginColumn, "Ponto e vírgula faltando", "Descrição");}
     )
 }
 
@@ -231,15 +229,19 @@ void listaIdentificadores() :
 { 
     ( 
         variavel() 
-        
         (
-            try{
+            /*try{
                 <VIRGULA>
             }
             catch(ParseException e){
                 
                 showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Vírgula esperada", "Descrição");
-            }
+            }*/ //Antigo tratamento das virgulas na lista de variaveis
+            LOOKAHEAD(<VIRGULA><IDENTIFICADOR>|<IDENTIFICADOR>|<VIRGULA>)
+            (   <VIRGULA>
+                |
+                {showMessageError(token.beginLine, token.beginColumn, "Vírgula faltando", "Descrição");}
+            )
             variavel()
         )* 
     )
