@@ -231,12 +231,20 @@ void listaIdentificadores() :
 { 
     ( 
         variavel() 
+        
         (
-            <VIRGULA>
+            try{
+                <VIRGULA>
+            }
+            catch(ParseException e){
+                
+                showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Vírgula esperada", "Descrição");
+            }
             variavel()
         )* 
     )
 }
+
 
 
 void parteDeclaracaoSubRotinas() :
@@ -275,7 +283,9 @@ void declaracaoProcedimentos() :
             catch(ParseException e){
                 showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Abre parentese faltando", "Descrição");
             }
+
             parametrosFormais() 
+
             try{
                 <PARENTESES_FECHA>
             }
@@ -283,6 +293,7 @@ void declaracaoProcedimentos() :
                 showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Fecha parenteses faltando", "Descrição");
             }
         ] 
+
         try{
             <PONTO_VIRGULA>
         }
@@ -323,13 +334,16 @@ void secaoParametrosFormais() :
                 showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Palavra reservada var esperada", "Descrição");
             }
         ] 
+
         listaIdentificadores() 
+        
         try{
             <DOIS_PONTOS>
         }
         catch(ParseException e){
             showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Dois pontos faltando", "Descrição");
         }
+        
         tipo() 
     )
 
@@ -354,6 +368,10 @@ void tipo() throws ParseException:
     )
     
 }
+
+///////////////////////////////////////
+///////////////////////////////////////
+///////////////////////////////////////
 
 void comandoComposto():
 {}
@@ -692,15 +710,17 @@ void fator() :
 void listaExpressoes() :
 {}
 {
-    expressao() (
-                    try{
-                        <VIRGULA>
-                    }catch(ParseException e){
+    expressao() 
+
+    (
+        try{
+            <VIRGULA>
+        }catch(ParseException e){
         
-                        showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Virgula esperada", "Descrição");
-                    }  
-                    expressao()
-                )*
+            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Virgula esperada", "Descrição");
+        }  
+        expressao()
+    )*
 }
 
 

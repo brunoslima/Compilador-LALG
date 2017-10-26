@@ -1,6 +1,6 @@
-programa certo;
+
 insat a, b, c;
-boosalean d, e, f;
+boolean d, , f;
 
 procedure proc(var a1 : int);
 iasant a, b, c;
