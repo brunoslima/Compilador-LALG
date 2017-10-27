@@ -1,20 +1,26 @@
-program certo;
+program correto;
 int a, b, c;
-boolean d, c, c, d, e;
+boolean d, e, f;
 
-procedure proc(a1 int)
+procedure proc(var a1 : int);
 int a, b, c;
 boolean d, e, f;
 begin
-	a:1;
+	a:=1
+	b:=2;
+	read(a);
+	write(c);
 	if (a<=1) then
-		a:=12
-
+	begin
+		a:=2;
+		c:=3
+	end
+end;
 
 begin
-	a=2;
+	a:=2;
 	b:=10;
-	c:=11
+	c:=11;
 	a:=b+c;
 	d:=true;
 	e:=false;

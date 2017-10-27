@@ -412,14 +412,12 @@ void comandoComposto():
         (
         LOOKAHEAD(<END>|<PONTO_VIRGULA>|comando())
         try{
-            <END>
-        }
-        catch(ParseException e){
-
-        }
-
-        try{
-            <PONTO_VIRGULA>
+            (
+                <END>
+                {return;}
+            |
+                <PONTO_VIRGULA>
+            )
         }
         catch(ParseException e){
 
@@ -430,50 +428,6 @@ void comandoComposto():
         comando()
         )*
 
-        /*(
-            <END>
-        |
-            <PONTO_VIRGULA>
-        |
-            {showMessageError(token.next.beginLine, token.next.beginColumn, "Comando estruturado incorretamente; ponto e vírgula faltando ou palavra reservada end faltando", Grammar.descricao);
-            error_skipto_before(PONTO_VIRGULA, END);}
-
-            comando()
-        )*
-
-        */
-
-
-
-        /////////////////////
-        /*(
-            try{
-                
-                <PONTO_VIRGULA>
-            }
-            catch(ParseException e){
-                showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Ponto e vírgula faltando", Grammar.descricao);
-            } 
-
-            try{
-                comando() 
-            }
-            catch(ParseException e){
-                showMessageError(token.next.beginLine, token.next.beginColumn, "Comando estruturado incorretamente", Grammar.descricao);
-                error_skipto_before(PONTO_VIRGULA, END);
-            }
-        )* 
-
-        LOOKAHEAD(<END>)
-        (
-            
-            <END>
-            
-        |
-            
-            {showMessageError(e.token.next.beginLine, e.token.next.beginColumn, "Ponto e vírgula esperado", Grammar.descricao);}
-        )
-        */
 
     )
 
