@@ -15,14 +15,18 @@ static void error_skipto(int kind) {
   do {
     t = getNextToken();
   } while (t.kind != kind);
-    // The above loop consumes tokens all the way up to a token of
-    // "kind".  We use a do-while loop rather than a while because the
-    // current token is the one immediately before the erroneous token
-    // (in our case the token immediately before what should have been
-    // "if"/"while".
-    //Token novo = Token.newToken(token.kind);
-    //novo.next = token.next;
-    //token.next = novo;
+
+}
+
+static void error_skipto_before(int kind) {
+  ParseException e = generateParseException();  // generate the exception object.
+  //System.out.println(e.toString());  // print the error message
+  Token t;
+  do {
+    t = getNextToken();
+    t.next = Token.newToken(getToken(1).kind, getToken(1).image);
+  } while (t.next == null || t.next.kind != kind);
+
 }
 
 static void error_skipto(int kind1, int kind2) {
@@ -32,6 +36,16 @@ static void error_skipto(int kind1, int kind2) {
   do {
     t = getNextToken();
   } while (t.kind != kind1 && t.kind != kind2);
+}
+
+static void error_skipto_before(int kind1, int kind2) {
+  ParseException e = generateParseException();  // generate the exception object.
+  //System.out.println(e.toString());  // print the error message
+  Token t;
+  do {
+    t = getNextToken();
+    t.next = Token.newToken(getToken(1).kind, getToken(1).image);
+  } while (t.next.kind != kind1 && t.next.kind != kind2);
 }
 
 static void showMessageError(int line, int column, String message, String descricao){
@@ -119,24 +133,25 @@ SKIP :
 
 void compilationUnit() :
 {}
-{   
+{
     try{
         programDeclaration() 
     }
     catch(ParseException e){
-        showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Símbolo Inesperado", "Descrição");
+        {showMessageError(token.next.beginLine, token.next.beginColumn, "Palavra reservada program esperada", "Descrição");}
         error_skipto(PONTO_VIRGULA);
     }
 
     bloco()
+    {token.next = Token.newToken(getToken(1).kind, getToken(1).image);}
 
-    (
+    try{
         <PONTO>
-    )
-    |
-    (
-        {showMessageError(token.beginLine, token.beginColumn, "Ponto final faltando", "Descrição");}
-    )
+    }
+    catch(ParseException e){
+        showMessageError(e.currentToken.beginLine, e.currentToken.beginColumn, "Ponto final faltando", "Descrição");
+    }
+
     <EOF>
 }
 
@@ -145,9 +160,6 @@ void programDeclaration() throws ParseException:
 {
     (
         <PROGRAM>
-    |
-        LOOKAHEAD(<IDENTIFICADOR>|<PONTO_VIRGULA>) 
-        {showMessageError(token.next.beginLine, token.next.beginColumn, "Palavra reservada program esperada", "Descrição");}
     |
         {throw generateParseException();}
     )
@@ -386,17 +398,33 @@ void comandoComposto():
         
             showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Palavra reservada begin esperada", "Descrição");
         }
-        
-        comando() 
+
+        try{
+            comando() 
+        }
+        catch(ParseException e){
+            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Comando estruturado incorretamente", "Descrição");
+            error_skipto_before(PONTO_VIRGULA, END);
+        }
+
         (
             try{
+                
                 <PONTO_VIRGULA>
             }
             catch(ParseException e){
                 showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Ponto e vírgula faltando", "Descrição");
             } 
-            comando()
+
+            try{
+                comando() 
+            }
+            catch(ParseException e){
+                showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Comando estruturado incorretamente", "Descrição");
+                error_skipto_before(PONTO_VIRGULA, END);
+            }
         )* 
+
         try{
             <END>
         }
@@ -423,27 +451,23 @@ void comando() :
         
         chamadaProcedimento() 
     )
-    | 
-    comandoComposto() 
-    | 
-    LOOKAHEAD(<IF> <PARENTESES_ABRE> expressao() <PARENTESES_FECHA> <THEN>)
-    (   
-        try{
- 
-            comandoCondicional() 
-
-        }catch(ParseException e){
-            error_skipto(PONTO_VIRGULA, END);
-        }
+    |
+    LOOKAHEAD(<BEGIN>)
+    (
+        comandoComposto() 
     )
     | 
-        (   try{
-                comandoRepetitivo()
-            }catch(ParseException e){
-                error_skipto(PONTO_VIRGULA, END);
-            }
-        )
+    LOOKAHEAD(<IF> <PARENTESES_ABRE> expressao() <PARENTESES_FECHA> <THEN>)
+    (    
+        comandoCondicional() 
+    )
     | 
+    LOOKAHEAD(<WHILE>)
+    (
+        comandoRepetitivo()
+    )
+    |
+    LOOKAHEAD(<READ>)
     ( 
         try{
             <READ> 
@@ -470,6 +494,7 @@ void comando() :
         }
     )
     | 
+    LOOKAHEAD(<WRITE>)
     ( 
         try{
             <WRITE> 
@@ -495,6 +520,10 @@ void comando() :
         }
         
     )
+    |
+    (
+        {throw generateParseException();}
+    )
 
 }
 
@@ -505,13 +534,22 @@ void atribuicao() :
     ( 
         variavel() 
         try{
-            <OP_ATRIBUICAO> 
+            <OP_ATRIBUICAO >
         }
         catch(ParseException e){
         
             showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Operador de atribuição esperado", "Descrição");
         }
-        expressao() 
+        
+        (   
+            LOOKAHEAD(<PONTO_VIRGULA>|<END>)
+            (
+                    {showMessageError(token.next.beginLine, token.next.beginColumn, "Faltou informar o que será atribuido", "Descrição");
+                    error_skipto(PONTO_VIRGULA,END);}
+            )
+            |
+            expressao() 
+        )
     )
 
 }
@@ -579,7 +617,7 @@ void comandoRepetitivo() throws ParseException:
     ( 
         <WHILE>    
         |
-        {showMessageError(token.next.beginLine, token.next.beginColumn, "Palavra reservada IF esperada", "Descrição");
+        {showMessageError(token.next.beginLine, token.next.beginColumn, "Palavra reservada WHILE esperada", "Descrição");
         throw generateParseException();}
     )
 

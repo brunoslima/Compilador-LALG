@@ -1,4 +1,4 @@
-program correto;
+program certo;
 int a, b, c;
 boolean d, c, c, d, e;
 
@@ -12,7 +12,7 @@ begin
 end;
 
 begin
-	a:=2;
+	a=2;
 	b:=10;
 	c:=11;
 	a:=b+c;
