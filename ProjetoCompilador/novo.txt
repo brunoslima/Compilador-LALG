@@ -2,19 +2,19 @@ program certo;
 int a, b, c;
 boolean d, c, c, d, e;
 
-procedure proc(var a1 : int);
+procedure proc(a1 int)
 int a, b, c;
 boolean d, e, f;
 begin
-	a:=1;
+	a:1;
 	if (a<=1) then
 		a:=12
-end;
+
 
 begin
 	a=2;
 	b:=10;
-	c:=11;
+	c:=11
 	a:=b+c;
 	d:=true;
 	e:=false;

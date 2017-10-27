@@ -7,6 +7,7 @@ package sintatico;
 
 public class Grammar
 {
+public static String descricao = "";
 
 static void error_skipto(int kind) {
   ParseException e = generateParseException();  // generate the exception object.
@@ -138,7 +139,7 @@ void compilationUnit() :
         programDeclaration() 
     }
     catch(ParseException e){
-        {showMessageError(token.next.beginLine, token.next.beginColumn, "Palavra reservada program esperada", "Descrição");}
+        {showMessageError(token.next.beginLine, token.next.beginColumn, "Palavra reservada program esperada", Grammar.descricao);}
         error_skipto(PONTO_VIRGULA);
     }
 
@@ -149,7 +150,7 @@ void compilationUnit() :
         <PONTO>
     }
     catch(ParseException e){
-        showMessageError(e.currentToken.beginLine, e.currentToken.beginColumn, "Ponto final faltando", "Descrição");
+        showMessageError(e.currentToken.beginLine, e.currentToken.beginColumn, "Ponto final faltando", Grammar.descricao);
     }
 
     <EOF>
@@ -167,13 +168,13 @@ void programDeclaration() throws ParseException:
     (
         <IDENTIFICADOR>
     |
-        {showMessageError(token.beginLine, token.beginColumn, "Identificador de programa faltando", "Descrição");}
+        {showMessageError(token.beginLine, token.beginColumn, "Identificador de programa faltando", Grammar.descricao);}
     )
      
     (
         <PONTO_VIRGULA>
     |
-        {showMessageError(token.beginLine, token.beginColumn, "Ponto e vírgula faltando", "Descrição");}
+        {showMessageError(token.beginLine, token.beginColumn, "Ponto e vírgula faltando", Grammar.descricao);}
     )
 
 }
@@ -193,7 +194,7 @@ void bloco() :
         (
             <PONTO_VIRGULA>
         |
-            {showMessageError(token.next.beginLine, token.next.beginColumn, "Ponto e vírgula faltando", "Descrição");}
+            {showMessageError(token.next.beginLine, token.next.beginColumn, "Ponto e vírgula faltando", Grammar.descricao);}
         )
     )*
 
@@ -232,7 +233,7 @@ void declaracaoVariaveis() throws ParseException:
         LOOKAHEAD(<PONTO_VIRGULA>)
         <PONTO_VIRGULA>
         |
-        {showMessageError(token.next.beginLine, token.next.beginColumn, "Ponto e vírgula faltando", "Descrição");}
+        {showMessageError(token.next.beginLine, token.next.beginColumn, "Ponto e vírgula faltando", Grammar.descricao);}
     )
 }
 
@@ -247,12 +248,12 @@ void listaIdentificadores() :
             }
             catch(ParseException e){
                 
-                showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Vírgula esperada", "Descrição");
+                showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Vírgula esperada", Grammar.descricao);
             }*/ //Antigo tratamento das virgulas na lista de variaveis
             LOOKAHEAD(<VIRGULA><IDENTIFICADOR>|<IDENTIFICADOR>|<VIRGULA>)
             (   <VIRGULA>
                 |
-                {showMessageError(token.beginLine, token.beginColumn, "Vírgula faltando", "Descrição");}
+                {showMessageError(token.beginLine, token.beginColumn, "Vírgula faltando", Grammar.descricao);}
             )
             variavel()
         )* 
@@ -269,14 +270,14 @@ void parteDeclaracaoSubRotinas() :
         <PROCEDURE>
     }
     catch(ParseException e){
-        showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Palavra reservada procedure esperada", "Descrição");
+        showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Palavra reservada procedure esperada", Grammar.descricao);
     }
 
     try{
         <IDENTIFICADOR>
     }
     catch(ParseException e){
-        showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Identificador de procedure esperado", "Descrição");
+        showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Identificador de procedure esperado", Grammar.descricao);
     }
 
 
@@ -295,7 +296,7 @@ void declaracaoProcedimentos() :
                 <PARENTESES_ABRE>
             }
             catch(ParseException e){
-                showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Abre parentese faltando", "Descrição");
+                showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Abre parentese faltando", Grammar.descricao);
             }
 
             parametrosFormais() 
@@ -304,7 +305,7 @@ void declaracaoProcedimentos() :
                 <PARENTESES_FECHA>
             }
             catch(ParseException e){
-                showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Fecha parenteses faltando", "Descrição");
+                showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Fecha parenteses faltando", Grammar.descricao);
             }
         ] 
 
@@ -312,7 +313,7 @@ void declaracaoProcedimentos() :
             <PONTO_VIRGULA>
         }
         catch(ParseException e){
-            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Ponto e vírgula faltando", "Descrição");
+            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Ponto e vírgula faltando", Grammar.descricao);
         }
         bloco() 
     ) 
@@ -329,7 +330,7 @@ void parametrosFormais() :
             <PONTO_VIRGULA>
         }
         catch(ParseException e){
-            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Ponto e vírgula faltando", "Descrição");
+            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Ponto e vírgula faltando", Grammar.descricao);
         } 
         secaoParametrosFormais()
     )*
@@ -345,7 +346,7 @@ void secaoParametrosFormais() :
                 <VAR>
             }
             catch(ParseException e){
-                showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Palavra reservada var esperada", "Descrição");
+                showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Palavra reservada var esperada", Grammar.descricao);
             }
         ] 
 
@@ -355,12 +356,12 @@ void secaoParametrosFormais() :
             <DOIS_PONTOS>
         }
         catch(ParseException e){
-            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Dois pontos faltando", "Descrição");
+            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Dois pontos faltando", Grammar.descricao);
         }
         
         tipo() 
+        
     )
-
 }
 
 void tipo() throws ParseException:
@@ -376,7 +377,7 @@ void tipo() throws ParseException:
     |
     (
         {
-            showMessageError(token.next.beginLine, token.next.beginColumn, "Identificador de tipo esperado", "Descrição");
+            showMessageError(token.next.beginLine, token.next.beginColumn, "Identificador de tipo esperado", Grammar.descricao);
             throw generateParseException();
         }
     )
@@ -396,42 +397,83 @@ void comandoComposto():
         }
         catch(ParseException e){
         
-            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Palavra reservada begin esperada", "Descrição");
+            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Palavra reservada begin esperada", Grammar.descricao);
         }
 
         try{
             comando() 
         }
         catch(ParseException e){
-            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Comando estruturado incorretamente", "Descrição");
+            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Comando estruturado incorretamente", Grammar.descricao);
             error_skipto_before(PONTO_VIRGULA, END);
         }
-
+        
+        
         (
+        LOOKAHEAD(<END>|<PONTO_VIRGULA>|comando())
+        try{
+            <END>
+        }
+        catch(ParseException e){
+
+        }
+
+        try{
+            <PONTO_VIRGULA>
+        }
+        catch(ParseException e){
+
+            showMessageError(token.next.beginLine, token.next.beginColumn, "Comando estruturado incorretamente; ponto e vírgula faltando ou palavra reservada end faltando", Grammar.descricao);
+            error_skipto(PONTO_VIRGULA, END);
+        }
+
+        comando()
+        )*
+
+        /*(
+            <END>
+        |
+            <PONTO_VIRGULA>
+        |
+            {showMessageError(token.next.beginLine, token.next.beginColumn, "Comando estruturado incorretamente; ponto e vírgula faltando ou palavra reservada end faltando", Grammar.descricao);
+            error_skipto_before(PONTO_VIRGULA, END);}
+
+            comando()
+        )*
+
+        */
+
+
+
+        /////////////////////
+        /*(
             try{
                 
                 <PONTO_VIRGULA>
             }
             catch(ParseException e){
-                showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Ponto e vírgula faltando", "Descrição");
+                showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Ponto e vírgula faltando", Grammar.descricao);
             } 
 
             try{
                 comando() 
             }
             catch(ParseException e){
-                showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Comando estruturado incorretamente", "Descrição");
+                showMessageError(token.next.beginLine, token.next.beginColumn, "Comando estruturado incorretamente", Grammar.descricao);
                 error_skipto_before(PONTO_VIRGULA, END);
             }
         )* 
 
-        try{
+        LOOKAHEAD(<END>)
+        (
+            
             <END>
-        }
-        catch(ParseException e){
-        
-            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Palavra reservada end esperada", "Descrição");
-        }
+            
+        |
+            
+            {showMessageError(e.token.next.beginLine, e.token.next.beginColumn, "Ponto e vírgula esperado", Grammar.descricao);}
+        )
+        */
 
     )
 
@@ -474,14 +516,14 @@ void comando() :
         }
         catch(ParseException e){
         
-            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Palavra reservada read esperada", "Descrição");
+            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Palavra reservada read esperada", Grammar.descricao);
         }
         try{
             <PARENTESES_ABRE> 
         }
         catch(ParseException e){
         
-            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Abre parenteses esperado", "Descrição");
+            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Abre parenteses esperado", Grammar.descricao);
         }
         
         listaIdentificadores() 
@@ -490,7 +532,7 @@ void comando() :
         }
         catch(ParseException e){
         
-            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Fecha parenteses esperado", "Descrição");
+            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Fecha parenteses esperado", Grammar.descricao);
         }
     )
     | 
@@ -501,14 +543,14 @@ void comando() :
         }
         catch(ParseException e){
         
-            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Palavra reservada write esperada", "Descrição");
+            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Palavra reservada write esperada", Grammar.descricao);
         }
         try{
             <PARENTESES_ABRE> 
         }
         catch(ParseException e){
         
-            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Abre parenteses esperado", "Descrição");
+            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Abre parenteses esperado", Grammar.descricao);
         }
         listaIdentificadores() 
         try{
@@ -516,7 +558,7 @@ void comando() :
         }
         catch(ParseException e){
         
-            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Fecha parenteses esperado", "Descrição");
+            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Fecha parenteses esperado", Grammar.descricao);
         }
         
     )
@@ -527,7 +569,7 @@ void comando() :
 
 }
 
-void atribuicao() :
+void atribuicao() throws ParseException:
 {}
 {
 
@@ -538,13 +580,13 @@ void atribuicao() :
         }
         catch(ParseException e){
         
-            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Operador de atribuição esperado", "Descrição");
+            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Operador de atribuição esperado", Grammar.descricao);
         }
         
         (   
             LOOKAHEAD(<PONTO_VIRGULA>|<END>)
             (
-                    {showMessageError(token.next.beginLine, token.next.beginColumn, "Faltou informar o que será atribuido", "Descrição");
+                    {showMessageError(token.next.beginLine, token.next.beginColumn, "Faltou informar o que será atribuido", Grammar.descricao);
                     error_skipto(PONTO_VIRGULA,END);}
             )
             |
@@ -564,14 +606,14 @@ void chamadaProcedimento() :
         }
         catch(ParseException e){
         
-            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Identificador de procedimento esperado", "Descrição");
+            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Identificador de procedimento esperado", Grammar.descricao);
         }
         try{
             <PARENTESES_ABRE> 
         }
         catch(ParseException e){
         
-            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Abre parenteses esperado", "Descrição");
+            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Abre parenteses esperado", Grammar.descricao);
         }
         listaExpressoes() 
         try{
@@ -579,7 +621,7 @@ void chamadaProcedimento() :
         }
         catch(ParseException e){
         
-            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Fecha parenteses esperado", "Descrição");
+            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Fecha parenteses esperado", Grammar.descricao);
         }
     )
 
@@ -591,7 +633,7 @@ void comandoCondicional() throws ParseException:
     (
         <IF>
         |
-        {showMessageError(token.next.beginLine, token.next.beginColumn, "Palavra reservada IF esperada", "Descrição");
+        {showMessageError(token.next.beginLine, token.next.beginColumn, "Palavra reservada IF esperada", Grammar.descricao);
         throw generateParseException();}
     )
     
@@ -600,7 +642,7 @@ void comandoCondicional() throws ParseException:
     (
         <THEN>
         |
-        {showMessageError(token.next.beginLine, token.next.beginColumn, "Palavra reservada THEN esperada", "Descrição");
+        {showMessageError(token.next.beginLine, token.next.beginColumn, "Palavra reservada THEN esperada", Grammar.descricao);
         throw generateParseException();}
     ) 
     
@@ -614,19 +656,21 @@ void comandoCondicional() throws ParseException:
 void comandoRepetitivo() throws ParseException:
 {}
 {
-    ( 
+    try{
         <WHILE>    
-        |
-        {showMessageError(token.next.beginLine, token.next.beginColumn, "Palavra reservada WHILE esperada", "Descrição");
-        throw generateParseException();}
-    )
+    }
+    catch(ParseException e){
+        showMessageError(token.next.beginLine, token.next.beginColumn, "Palavra reservada WHILE esperada", Grammar.descricao);
+        throw generateParseException();
+    }
+    
 
     expressao()
     
     (
         <DO>
         |
-        {showMessageError(token.next.beginLine, token.next.beginColumn, "Palavra reservada IF esperada", "Descrição");
+        {showMessageError(token.next.beginLine, token.next.beginColumn, "Palavra reservada DO esperada", Grammar.descricao);
         throw generateParseException();}
     )
 
@@ -634,10 +678,18 @@ void comandoRepetitivo() throws ParseException:
     
 }
 
+
 void expressao() :
 {}
 {
-    expressaoSimples() [relacao() expressaoSimples()]
+    expressaoSimples() 
+    
+    try{
+        [relacao() expressaoSimples()]
+    }
+    catch(ParseException e){ return; }
+    
+        
 }
 
 void expressaoSimples() :
@@ -650,7 +702,7 @@ void expressaoSimples() :
         <OP_SUBTRACAO>
     }catch(ParseException e){
         
-        showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Operador de adição ou subtração esperado", "Descrição");
+        showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Operador de adição ou subtração esperado", Grammar.descricao);
     }
     ]
 
@@ -664,7 +716,7 @@ void expressaoSimples() :
                 <OP_ADICAO> | <OP_SUBTRACAO> | <OP_OR>
             }catch(ParseException e){
         
-                showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Operador de adição ou subtração ou OR esperado", "Descrição");
+                showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Operador de adição ou subtração ou OR esperado", Grammar.descricao);
             } 
         ) 
         termo()
@@ -679,7 +731,7 @@ void relacao() :
             <SIMBOLO_IGUAL> | <SIMBOLO_DIFERENTE> | <SIMBOLO_MENOR> | <SIMBOLO_MENOR_IGUAL> | <SIMBOLO_MAIOR_IGUAL> | <SIMBOLO_MAIOR>
         }catch(ParseException e){
         
-            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Operador logico esperado", "Descrição");
+            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Operador logico esperado", Grammar.descricao);
         } 
     )
 }
@@ -694,7 +746,7 @@ void termo() :
                 <OP_MULTIPLICACAO> | <OP_DIVISAO> | <OP_AND>
             }catch(ParseException e){
         
-                showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Operador de multiplicação ou adição ou divisão esperado", "Descrição");
+                showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Operador de multiplicação ou adição ou divisão esperado", Grammar.descricao);
             } 
         ) 
         fator()
@@ -710,7 +762,7 @@ void fator() :
         <NUMERO_INTEIRO> | <NUMERO_REAL>
     }catch(ParseException e){
         
-        showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Número inteiro ou real esperado", "Descrição");
+        showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Número inteiro ou real esperado", Grammar.descricao);
     } 
     |
     (
@@ -718,14 +770,14 @@ void fator() :
             <PARENTESES_ABRE>
         }catch(ParseException e){
         
-            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Abre parenteses esperado", "Descrição");
+            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Abre parenteses esperado", Grammar.descricao);
         }  
         expressao()
         try{
             <PARENTESES_FECHA>
         }catch(ParseException e){
         
-            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Fecha parenteses esperado", "Descrição");
+            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Fecha parenteses esperado", Grammar.descricao);
         } 
     ) 
     | 
@@ -734,7 +786,7 @@ void fator() :
            <OP_NOT>
         }catch(ParseException e){
         
-            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Operador not esperado", "Descrição");
+            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Operador not esperado", Grammar.descricao);
         }
         fator()
     )
@@ -743,7 +795,7 @@ void fator() :
         <TRUE> | <FALSE>
     }catch(ParseException e){
         
-        showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Tipo de dado boleano(TRUE ou FALSE) esperado", "Descrição");
+        showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Tipo de dado boleano(TRUE ou FALSE) esperado", Grammar.descricao);
     } 
 }
 
@@ -757,7 +809,7 @@ void listaExpressoes() :
             <VIRGULA>
         }catch(ParseException e){
         
-            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Virgula esperada", "Descrição");
+            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Virgula esperada", Grammar.descricao);
         }  
         expressao()
     )*
@@ -771,6 +823,6 @@ void variavel() :
         <IDENTIFICADOR>
     }catch(ParseException e){
         
-        showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Identificador esperado", "Descrição");
+        showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Identificador esperado", Grammar.descricao);
     } 
 }
