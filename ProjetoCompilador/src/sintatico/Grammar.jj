@@ -436,18 +436,12 @@ void comandoComposto():
 void comando() :
 {}
 {   
-    LOOKAHEAD(<IDENTIFICADOR> <OP_ATRIBUICAO>)
-    (
-        
-        atribuicao()
-    )
-    | 
     LOOKAHEAD(<IDENTIFICADOR> <PARENTESES_ABRE> expressao() <PARENTESES_FECHA> <PONTO_VIRGULA>)
     (
         
         chamadaProcedimento() 
     )
-    |
+    | 
     LOOKAHEAD(<BEGIN>)
     (
         comandoComposto() 
@@ -515,6 +509,12 @@ void comando() :
             showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Fecha parenteses esperado", Grammar.descricao);
         }
         
+    )
+    |
+    LOOKAHEAD(<IDENTIFICADOR> <OP_ATRIBUICAO> | <IDENTIFICADOR> <DOIS_PONTOS>)
+    (
+        
+        atribuicao()
     )
     |
     (

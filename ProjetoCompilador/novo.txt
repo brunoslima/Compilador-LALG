@@ -6,9 +6,9 @@ procedure proc(var a1 : int);
 int a, b, c;
 boolean d, e, f;
 begin
-	a:=1
+	a:=1;
 	b:=2;
-	read(a);
+	rea(a)
 	write(c);
 	if (a<=1) then
 	begin
