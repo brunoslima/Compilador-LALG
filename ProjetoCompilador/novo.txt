@@ -2,34 +2,23 @@ program correto;
 int a, b, c;
 boolean d, e, f;
 
-procedure proc(var a1 : int);
-int a, b, c;
-boolean d, e, f;
-begin
-	a:=1;
-	b:=2;
-	if (a<=1) then
-	begin
-		a:=2;
-		c:=3
-	end
-end;
+
 
 begin
-	a:=2;
+	a:=2 > ;
 	b:=a 10;
 	c:=11;
-	a:=b + ;
+	a:=b > c;
 	d:=true;
 	e:=false;
 	f:=a;
 	read(a);
 	write(b);
-	if (d) then
+	if (d 15) then
 	begin
 		a:=20;
 		b:=10*c;
-		c:=a  b
+		c:=a div b
 	end;
 	while (a>1) do
 	begin
