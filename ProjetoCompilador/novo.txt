@@ -17,19 +17,19 @@ end;
 
 begin
 	a:=2;
-	b:=10;
+	b:=a 10;
 	c:=11;
-	a:=b+c;
+	a:=b + ;
 	d:=true;
 	e:=false;
 	f:=a;
-	reada);
+	read(a);
 	write(b);
 	if (d) then
 	begin
 		a:=20;
 		b:=10*c;
-		c:=a div b
+		c:=a  b
 	end;
 	while (a>1) do
 	begin

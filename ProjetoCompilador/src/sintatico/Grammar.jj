@@ -642,13 +642,29 @@ void comandoRepetitivo() throws ParseException:
 
 void expressao() :
 {}
-{
-    expressaoSimples() 
-    
+{   
     try{
-        [relacao() expressaoSimples()]
+        expressaoSimples() 
     }
-    catch(ParseException e){ return; }
+    catch(ParseException e){
+
+    }
+    
+    [
+        LOOKAHEAD(relacao() expressaoSimples() | expressaoSimples())
+        try{
+            relacao()
+        }
+        catch(ParseException e){ }
+    
+        
+      
+        expressaoSimples()
+
+    
+    ]
+
+    
     
         
 }
@@ -657,27 +673,25 @@ void expressaoSimples() :
 {}
 {
     [
-    try{
+  
         <OP_ADICAO>
         |
         <OP_SUBTRACAO>
-    }catch(ParseException e){
-        
-        showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Operador de adição ou subtração esperado", Grammar.descricao);
-    }
+ 
     ]
 
     
     termo()
 
     (
-        LOOKAHEAD(<OP_ADICAO> | <OP_SUBTRACAO> | <OP_OR>)
+        //LOOKAHEAD(<OP_ADICAO> | <OP_SUBTRACAO> | <OP_OR>)
+        LOOKAHEAD(<OP_ADICAO> | <OP_SUBTRACAO> | <OP_OR> | termo() relacao() | termo() <PONTO_VIRGULA>)
         (
             try{
-                <OP_ADICAO> | <OP_SUBTRACAO> | <OP_OR>
+                (<OP_ADICAO> | <OP_SUBTRACAO> | <OP_OR>)
             }catch(ParseException e){
         
-                showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Operador de adição ou subtração ou OR esperado", Grammar.descricao);
+                showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Operador lógico ou aritmético esperado", Grammar.descricao);
             } 
         ) 
         termo()
@@ -692,7 +706,7 @@ void relacao() :
             <SIMBOLO_IGUAL> | <SIMBOLO_DIFERENTE> | <SIMBOLO_MENOR> | <SIMBOLO_MENOR_IGUAL> | <SIMBOLO_MAIOR_IGUAL> | <SIMBOLO_MAIOR>
         }catch(ParseException e){
         
-            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Operador logico esperado", Grammar.descricao);
+            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Operador lógico esperado", Grammar.descricao);
         } 
     )
 }
