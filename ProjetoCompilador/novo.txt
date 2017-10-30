@@ -8,8 +8,6 @@ boolean d, e, f;
 begin
 	a:=1;
 	b:=2;
-	rea(a);
-	write(c);
 	if (a<=1) then
 	begin
 		a:=2;
@@ -24,8 +22,8 @@ begin
 	a:=b+c;
 	d:=true;
 	e:=false;
-	f:=true;
-	read(a);
+	f:=a;
+	reada);
 	write(b);
 	if (d) then
 	begin

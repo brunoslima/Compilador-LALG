@@ -412,7 +412,7 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
     }
     if (jj_2_11(2147483647)) {
 showMessageError(token.next.beginLine, token.next.beginColumn, "Faltou informar o que ser\u00e1 atribuido", Grammar.descricao);
-                    error_skipto(PONTO_VIRGULA,END);
+                    error_skipto_before(PONTO_VIRGULA,END);
     } else {
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
       case TRUE:

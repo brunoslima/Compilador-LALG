@@ -548,7 +548,7 @@ void atribuicao() throws ParseException:
             LOOKAHEAD(<PONTO_VIRGULA>|<END>)
             (
                     {showMessageError(token.next.beginLine, token.next.beginColumn, "Faltou informar o que será atribuido", Grammar.descricao);
-                    error_skipto(PONTO_VIRGULA,END);}
+                    error_skipto_before(PONTO_VIRGULA,END);}
             )
             |
             expressao() 
