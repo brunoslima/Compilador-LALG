@@ -5,6 +5,8 @@ options
 PARSER_BEGIN(Grammar)
 package sintatico;
 
+import java.util.ArrayList;
+
 public class Grammar
 {
 public static String descricao = "";
@@ -30,23 +32,28 @@ static void error_skipto_before(int kind) {
 
 }
 
-static void error_skipto(int kind1, int kind2) {
-  ParseException e = generateParseException();  // generate the exception object.
-  //System.out.println(e.toString());  // print the error message
-  Token t;
-  do {
-    t = getNextToken();
-  } while (t.kind != kind1 && t.kind != kind2);
+static void error_skipto(Integer... kind) {
+    ArrayList<Integer> lista = new ArrayList();
+    for(Integer e: kind){
+        lista.add(e);
+    }
+    Token t;
+    do {
+        t = getNextToken();
+
+    } while (!lista.contains(t.kind));
 }
 
-static void error_skipto_before(int kind1, int kind2) {
-  ParseException e = generateParseException();  // generate the exception object.
-  //System.out.println(e.toString());  // print the error message
+static void error_skipto_before(Integer... kind) {
+  ArrayList<Integer> lista = new ArrayList();
+  for(Integer e: kind){
+        lista.add(e);
+  }
   Token t;
   do {
     t = getNextToken();
     t.next = Token.newToken(getToken(1).kind, getToken(1).image);
-  } while (t.next.kind != kind1 && t.next.kind != kind2);
+  } while (!lista.contains(t.next.kind));
 }
 
 static void showMessageError(int line, int column, String message, String descricao){
