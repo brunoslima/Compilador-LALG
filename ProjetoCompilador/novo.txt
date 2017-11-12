@@ -1,26 +1,18 @@
-program correto;
-int a, b, c;
+program aaa correto;
+intsa  a, b, c;
 boolean d, e, f;
 
 
 
 begin
-	a:=2 > ;
-	b:=a 10;
-	c:=11;
-	a:=b > c;
-	d:=true;
-	e:=false;
-	f:=a;
-	read(a);
-	write(b);
-	if (d 15) then
-	begin
+	
+	if (d > ) then
+	
 		a:=20;
 		b:=10*c;
 		c:=a div b
 	end;
-	while (a>1) do
+	while (a = ) 
 	begin
 		if (b>=10) then
 			b:=2;

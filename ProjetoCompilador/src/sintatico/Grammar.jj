@@ -150,8 +150,13 @@ void compilationUnit() :
         error_skipto(PONTO_VIRGULA);
     }
 
-    bloco()
-    {token.next = Token.newToken(getToken(1).kind, getToken(1).image);}
+    try{
+        bloco()
+        {token.next = Token.newToken(getToken(1).kind, getToken(1).image);}
+    }
+    catch(ParseException e){
+        System.out.println("Não deveria passar nunca aqui");
+    }
 
     try{
         <PONTO>
@@ -412,7 +417,11 @@ void comandoComposto():
         }
         catch(ParseException e){
             showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Comando estruturado incorretamente", Grammar.descricao);
-            error_skipto_before(PONTO_VIRGULA, END);
+            if (getToken(1).kind == BEGIN) {
+                error_skipto(END);
+            }
+
+            
         }
         
         
@@ -429,10 +438,19 @@ void comandoComposto():
         catch(ParseException e){
 
             showMessageError(token.next.beginLine, token.next.beginColumn, "Comando estruturado incorretamente; ponto e vírgula faltando ou palavra reservada end faltando", Grammar.descricao);
-            error_skipto(PONTO_VIRGULA, END);
+            error_skipto_before(PONTO_VIRGULA, END);
         }
 
-        comando()
+        try{
+            comando() 
+        }
+        catch(ParseException e){
+            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Comando estruturado incorretamente", Grammar.descricao);
+            
+            if (getToken(1).kind == BEGIN) {
+                error_skipto_before(END);
+            }
+        }
         )*
 
 
@@ -440,7 +458,7 @@ void comandoComposto():
 
 }
 
-void comando() :
+void comando() throws ParseException:
 {}
 {   
     LOOKAHEAD(<IDENTIFICADOR> <PARENTESES_ABRE> expressao() <PARENTESES_FECHA> <PONTO_VIRGULA>)
@@ -454,7 +472,7 @@ void comando() :
         comandoComposto() 
     )
     | 
-    LOOKAHEAD(<IF> <PARENTESES_ABRE> expressao() <PARENTESES_FECHA> <THEN>)
+    LOOKAHEAD(<IF>)
     (    
         comandoCondicional() 
     )
@@ -595,6 +613,9 @@ void comandoCondicional() throws ParseException:
         <IF>
         |
         {showMessageError(token.next.beginLine, token.next.beginColumn, "Palavra reservada IF esperada", Grammar.descricao);
+        if (getToken(1).kind != BEGIN) {
+            error_skipto_before(BEGIN, PONTO_VIRGULA);
+        }
         throw generateParseException();}
     )
     
@@ -604,6 +625,9 @@ void comandoCondicional() throws ParseException:
         <THEN>
         |
         {showMessageError(token.next.beginLine, token.next.beginColumn, "Palavra reservada THEN esperada", Grammar.descricao);
+        if (getToken(1).kind != BEGIN) {
+            error_skipto_before(BEGIN, PONTO_VIRGULA);
+        }
         throw generateParseException();}
     ) 
     
@@ -628,12 +652,18 @@ void comandoRepetitivo() throws ParseException:
 
     expressao()
     
-    (
+    try{
         <DO>
-        |
-        {showMessageError(token.next.beginLine, token.next.beginColumn, "Palavra reservada DO esperada", Grammar.descricao);
-        throw generateParseException();}
-    )
+    }
+    catch(ParseException e){
+        showMessageError(token.next.beginLine, token.next.beginColumn, "Palavra reservada DO esperada", Grammar.descricao);
+        if (getToken(1).kind != BEGIN) {
+            error_skipto_before(IDENTIFICADOR, BEGIN, IF, WHILE, READ, WRITE);
+        }
+        //throw generateParseException();
+    }
+        
+    
 
     comando() 
     
