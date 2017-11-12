@@ -68,14 +68,26 @@ static void showMessageError(int line, int column, String message, String descri
 {showMessageError(token.next.beginLine, token.next.beginColumn, "Palavra reservada program esperada", Grammar.descricao);}
         error_skipto(PONTO_VIRGULA);
     }
-    bloco();
+    try {
+      bloco();
 token.next = Token.newToken(getToken(1).kind, getToken(1).image);
+    } catch (ParseException e) {
+System.out.println("N\u00e3o deveria passar nunca aqui");
+    }
     try {
       jj_consume_token(PONTO);
     } catch (ParseException e) {
 showMessageError(e.currentToken.beginLine, e.currentToken.beginColumn, "Ponto final faltando", Grammar.descricao);
     }
-    jj_consume_token(0);
+    try {
+      jj_consume_token(0);
+    } catch (ParseException e) {
+Token t;
+        do{
+            t = getNextToken();
+            showMessageError(token.beginLine, token.beginColumn, "S\u00edmbolo inesperado", Grammar.descricao);
+        } while(t.kind != EOF);
+    }
   }
 
   static final public void programDeclaration() throws ParseException, ParseException {
@@ -902,69 +914,6 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
     finally { jj_save(12, xla); }
   }
 
-  static private boolean jj_3_4()
- {
-    if (jj_scan_token(IDENTIFICADOR)) return true;
-    if (jj_scan_token(PARENTESES_ABRE)) return true;
-    if (jj_3R_10()) return true;
-    if (jj_scan_token(PARENTESES_FECHA)) return true;
-    if (jj_scan_token(PONTO_VIRGULA)) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_9()
- {
-    if (jj_scan_token(VIRGULA)) return true;
-    if (jj_scan_token(IDENTIFICADOR)) return true;
-    return false;
-  }
-
-  static private boolean jj_3_3()
- {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_9()) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(40)) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(15)) return true;
-    }
-    }
-    return false;
-  }
-
-  static private boolean jj_3R_25()
- {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_scan_token(32)) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(31)) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(33)) return true;
-    }
-    }
-    if (jj_3R_24()) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_15()
- {
-    if (jj_3R_20()) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_21()
- {
-    if (jj_3R_24()) return true;
-    Token xsp;
-    while (true) {
-      xsp = jj_scanpos;
-      if (jj_3R_25()) { jj_scanpos = xsp; break; }
-    }
-    return false;
-  }
-
   static private boolean jj_3R_31()
  {
     if (jj_scan_token(IDENTIFICADOR)) return true;
@@ -1250,6 +1199,69 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
   static private boolean jj_3_5()
  {
     if (jj_scan_token(BEGIN)) return true;
+    return false;
+  }
+
+  static private boolean jj_3_4()
+ {
+    if (jj_scan_token(IDENTIFICADOR)) return true;
+    if (jj_scan_token(PARENTESES_ABRE)) return true;
+    if (jj_3R_10()) return true;
+    if (jj_scan_token(PARENTESES_FECHA)) return true;
+    if (jj_scan_token(PONTO_VIRGULA)) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_9()
+ {
+    if (jj_scan_token(VIRGULA)) return true;
+    if (jj_scan_token(IDENTIFICADOR)) return true;
+    return false;
+  }
+
+  static private boolean jj_3_3()
+ {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_9()) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(40)) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(15)) return true;
+    }
+    }
+    return false;
+  }
+
+  static private boolean jj_3R_25()
+ {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_scan_token(32)) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(31)) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(33)) return true;
+    }
+    }
+    if (jj_3R_24()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_15()
+ {
+    if (jj_3R_20()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_21()
+ {
+    if (jj_3R_24()) return true;
+    Token xsp;
+    while (true) {
+      xsp = jj_scanpos;
+      if (jj_3R_25()) { jj_scanpos = xsp; break; }
+    }
     return false;
   }
 

@@ -165,7 +165,16 @@ void compilationUnit() :
         showMessageError(e.currentToken.beginLine, e.currentToken.beginColumn, "Ponto final faltando", Grammar.descricao);
     }
 
-    <EOF>
+    try{
+        <EOF>
+    }
+    catch(ParseException e){
+        Token t;
+        do{
+            t = getNextToken();
+            showMessageError(token.beginLine, token.beginColumn, "Símbolo inesperado", Grammar.descricao);
+        } while(t.kind != EOF);
+    }
 }
 
 void programDeclaration() throws ParseException:
