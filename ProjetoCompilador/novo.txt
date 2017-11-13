@@ -7,15 +7,15 @@ boolean d, e, f;
 begin
 	
 	if (d > ) then
-	
+	begin
 		a:=20;
-		b:=10*c;
+		b:=10 sa *c;
 		c:=a div b
-	end;
+	
 	while (a = ) 
 	begin
 		if (b>=10) then
-			b:=2;
+			b:=2
 		a:=a-1
-	end
-end.
+	
+end
