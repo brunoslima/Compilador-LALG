@@ -1,21 +1,21 @@
-program aaa correto;
-intsa  a, b, c;
+program correto;
+int  a, b, c;
 boolean d, e, f;
 
 
 
 begin
 	
-	if (d > ) then
+	if (d > 12) then
 	begin
 		a:=20;
-		b:=10 sa *c;
+		b:=10 *c;
 		c:=a div b
-	
-	while (a = ) 
+	end;
+	while (a = 15) do
 	begin
 		if (b>=10) then
-			b:=2
+			b:=2;
 		a:=a-1
-	
-end
+	end
+.
