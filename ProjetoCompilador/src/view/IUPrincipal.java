@@ -27,6 +27,9 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 import lexico.AnalisadorLexico;
 import lexico.Item;
+import sintatico.Grammar;
+import sintatico.JavaCCTest;
+import sintatico.RecuperacaoErros;
 //import sintatico.Lexer;
 //import sintatico.Parser;
 //import sintatico.RecuperacaoErros;
@@ -43,6 +46,7 @@ public class IUPrincipal extends javax.swing.JFrame {
     public TextoDecoracao decoracao;
     public AnalisadorLexico analisador;
     public static String sistema;
+    public Grammar g;
 
     /**
      * Creates new form IUPrincipal
@@ -78,6 +82,7 @@ public class IUPrincipal extends javax.swing.JFrame {
         sistema = System.getProperty("os.name");
         
         this.jTextPane.setBorder(new BordaNumerica());
+        g = new Grammar(new StringReader(""));
     }
 
     /**
@@ -354,46 +359,44 @@ public class IUPrincipal extends javax.swing.JFrame {
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
         // TODO add your handling code here:
-        /*
+        
         String result = "";
-        RecuperacaoErros.erros.clear();
+        RecuperacaoErros.listaErros.clear();
         StyledDocument doc = jTextPaneConsole.getStyledDocument();
         Style style = jTextPaneConsole.addStyle("I'm a Style", null);
+            
+        this.fonte = this.jTextPane.getText();
+            
+        //this.g = new Grammar(new StringReader(this.fonte));
+        Grammar.ReInit(new StringReader(this.fonte));
         
-
-        try{
-            this.fonte = this.jTextPane.getText();
-            Parser p = new Parser(new Lexer(new StringReader(this.fonte)));
-            p.parse();
-            //p.parse();
-            if(RecuperacaoErros.getErros().isEmpty()){
-                StyleConstants.setForeground(style, Color.GREEN);
-                result += "Análise Sintática concluida com sucesso, sem erros.";
-            }
-            else{
-               
-               result = RecuperacaoErros.getErros().get(0);
-               StyleConstants.setForeground(style, Color.RED);
-               
-               result += "Análise Sintática concluida com sucesso, porém há erros.";
-            }
-            
-            jTextPaneConsole.setText("");
-            
-            jConsolePanel.setSelectedIndex(1);
-        
-            try { doc.insertString(doc.getLength(), result,style); }
-            catch (BadLocationException e){}
-            
-
-        }catch(Exception e){
-            System.err.println(e);
-            
+        try {        
+            Grammar.compilationUnit();
+        } catch (sintatico.ParseException ex) {
+            Logger.getLogger(JavaCCTest.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        //this.jConsoleArea.setText(result);
-        //this.jConsoleArea.repaint();        
-        */
+        if(RecuperacaoErros.getErros().isEmpty()){
+            
+            StyleConstants.setForeground(style, Color.GREEN);
+            result += "Análise Sintática concluida com sucesso, sem erros!";
+        }
+        else{
+               
+            result = RecuperacaoErros.getErros();
+            StyleConstants.setForeground(style, Color.RED);
+               
+            result += "\nAnálise Sintática concluida com sucesso, porém há erros...";
+        }
+           
+        jTextPaneConsole.setText("");
+            
+        jConsolePanel.setSelectedIndex(1);
+        
+        try { doc.insertString(doc.getLength(), result,style); }
+        catch (BadLocationException e){}
+              
+        
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     /**

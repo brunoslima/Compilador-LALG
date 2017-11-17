@@ -37,6 +37,8 @@ public class JavaCCTest {
             Logger.getLogger(JavaCCTest.class.getName()).log(Level.SEVERE, null, ex);
         }
         System.out.println("\nAnálise sintática concluída com sucesso.");
+        
+        System.out.println(RecuperacaoErros.getErros());
     }
 
     public static List<Token> tokenize(Grammar parser) throws FileNotFoundException {
