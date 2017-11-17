@@ -189,17 +189,23 @@ void programDeclaration() throws ParseException:
         {throw generateParseException();}
     )
     
-    (
+    try{
         <IDENTIFICADOR>
-    |
-        {showMessageError(token.beginLine, token.beginColumn, "Identificador de programa faltando", Grammar.descricao);}
-    )
+    }
+    catch (ParseException e){
+        showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Identificador de programa faltando", Grammar.descricao);
+        error_skipto(PONTO_VIRGULA);
+        return;
+    }
+    
      
-    (
+    try{
         <PONTO_VIRGULA>
-    |
-        {showMessageError(token.beginLine, token.beginColumn, "Ponto e vírgula faltando", Grammar.descricao);}
-    )
+    }
+    catch(ParseException e){
+        showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Ponto e vírgula faltando", Grammar.descricao);
+        error_skipto_before(INT, BOOLEAN, REAL, PROCEDURE, BEGIN);
+    }
 
 }
 
@@ -212,7 +218,7 @@ void bloco() :
         parteDeclaracaoVariaveis()
     ]
     (
-        LOOKAHEAD(<PROCEDURE> <IDENTIFICADOR> <PARENTESES_ABRE>)
+        LOOKAHEAD(<PROCEDURE> <IDENTIFICADOR> <PARENTESES_ABRE> | <IDENTIFICADOR> <IDENTIFICADOR> <PARENTESES_ABRE>)
         parteDeclaracaoSubRotinas() 
         
         (
@@ -229,6 +235,14 @@ void parteDeclaracaoVariaveis():
 {}
 {
     ( 
+
+        {
+            if (getToken(1).kind == IDENTIFICADOR && getToken(2).kind == IDENTIFICADOR && getToken(3).kind == PARENTESES_ABRE ||
+                getToken(1).kind == IDENTIFICADOR && getToken(2).kind == PARENTESES_ABRE ) {
+            
+                    return;
+            }
+        }
         try{
             declaracaoVariaveis() 
         }
@@ -237,6 +251,13 @@ void parteDeclaracaoVariaveis():
         }
 
         (
+            {
+            if (getToken(1).kind == IDENTIFICADOR && getToken(2).kind == IDENTIFICADOR && getToken(3).kind == PARENTESES_ABRE ||
+                getToken(1).kind == IDENTIFICADOR && getToken(2).kind == PARENTESES_ABRE ) {
+            
+                    return;
+                }
+            }
             try{
                 declaracaoVariaveis()
             }
@@ -251,6 +272,8 @@ void parteDeclaracaoVariaveis():
 void declaracaoVariaveis() throws ParseException:
 {}
 {
+
+    
     tipo() 
     listaIdentificadores()
     (
@@ -267,13 +290,7 @@ void listaIdentificadores() :
     ( 
         variavel() 
         (
-            /*try{
-                <VIRGULA>
-            }
-            catch(ParseException e){
-                
-                showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Vírgula esperada", Grammar.descricao);
-            }*/ //Antigo tratamento das virgulas na lista de variaveis
+            
             LOOKAHEAD(<VIRGULA><IDENTIFICADOR>|<IDENTIFICADOR>|<VIRGULA>)
             (   <VIRGULA>
                 |
@@ -292,18 +309,20 @@ void parteDeclaracaoSubRotinas() :
     
     try{
         <PROCEDURE>
+
+        try{
+            <IDENTIFICADOR>
+        }
+        catch(ParseException e){
+            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Identificador de procedure esperado", Grammar.descricao);
+            error_skipto_before(PONTO_VIRGULA, PARENTESES_ABRE);
+        }
     }
     catch(ParseException e){
         showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Palavra reservada procedure esperada", Grammar.descricao);
+        error_skipto_before(PONTO_VIRGULA, PARENTESES_ABRE);
+  
     }
-
-    try{
-        <IDENTIFICADOR>
-    }
-    catch(ParseException e){
-        showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Identificador de procedure esperado", Grammar.descricao);
-    }
-
 
     declaracaoProcedimentos() 
 
