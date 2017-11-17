@@ -78,7 +78,7 @@ static void showMessageError(int line, int column, String message, String descri
       bloco();
 token.next = Token.newToken(getToken(1).kind, getToken(1).image);
     } catch (ParseException e) {
-System.out.println("N\u00c3\u00a3o deveria passar nunca aqui");
+System.out.println("N\u00e3o deveria passar nunca aqui");
     }
     try {
       jj_consume_token(PONTO);
@@ -91,7 +91,7 @@ showMessageError(e.currentToken.beginLine, e.currentToken.beginColumn, "Ponto fi
 Token t;
         do{
             t = getNextToken();
-            showMessageError(token.beginLine, token.beginColumn, "S\u00c3\u00admbolo inesperado", Grammar.descricao);
+            showMessageError(token.beginLine, token.beginColumn, "S\u00edmbolo inesperado", Grammar.descricao);
         } while(t.kind != EOF);
     }
   }
@@ -116,7 +116,7 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
     try {
       jj_consume_token(PONTO_VIRGULA);
     } catch (ParseException e) {
-showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Ponto e v\u00c3\u00adrgula faltando", Grammar.descricao);
+showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Ponto e v\u00edrgula faltando", Grammar.descricao);
         error_skipto_before(INT, BOOLEAN, REAL, PROCEDURE, BEGIN);
     }
   }
@@ -149,7 +149,7 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
         }
       default:
         jj_la1[2] = jj_gen;
-showMessageError(token.next.beginLine, token.next.beginColumn, "Ponto e v\u00c3\u00adrgula faltando", Grammar.descricao);
+showMessageError(token.next.beginLine, token.next.beginColumn, "Ponto e v\u00edrgula faltando", Grammar.descricao);
       }
     }
     comandoComposto();
@@ -200,7 +200,7 @@ error_skipto(PONTO_VIRGULA);
     if (jj_2_2(2147483647)) {
       jj_consume_token(PONTO_VIRGULA);
     } else {
-showMessageError(token.next.beginLine, token.next.beginColumn, "Ponto e v\u00c3\u00adrgula faltando", Grammar.descricao);
+showMessageError(token.next.beginLine, token.next.beginColumn, "Ponto e v\u00edrgula faltando", Grammar.descricao);
     }
   }
 
@@ -220,7 +220,7 @@ showMessageError(token.next.beginLine, token.next.beginColumn, "Ponto e v\u00c3\
         }
       default:
         jj_la1[4] = jj_gen;
-showMessageError(token.beginLine, token.beginColumn, "V\u00c3\u00adrgula faltando", Grammar.descricao);
+showMessageError(token.beginLine, token.beginColumn, "V\u00edrgula faltando", Grammar.descricao);
       }
       variavel();
     }
@@ -261,7 +261,7 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
     try {
       jj_consume_token(PONTO_VIRGULA);
     } catch (ParseException e) {
-showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Ponto e v\u00c3\u00adrgula faltando", Grammar.descricao);
+showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Ponto e v\u00edrgula faltando", Grammar.descricao);
     }
     bloco();
   }
@@ -282,7 +282,7 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
       try {
         jj_consume_token(PONTO_VIRGULA);
       } catch (ParseException e) {
-showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Ponto e v\u00c3\u00adrgula faltando", Grammar.descricao);
+showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Ponto e v\u00edrgula faltando", Grammar.descricao);
       }
       secaoParametrosFormais();
     }
@@ -378,7 +378,7 @@ if (getToken(1).kind == EOF || getToken(1).kind == PONTO) {
           throw new ParseException();
         }
       } catch (ParseException e) {
-showMessageError(token.next.beginLine, token.next.beginColumn, "Comando estruturado incorretamente; ponto e v\u00c3\u00adrgula faltando ou palavra reservada end faltando", Grammar.descricao);
+showMessageError(token.next.beginLine, token.next.beginColumn, "Comando estruturado incorretamente; ponto e v\u00edrgula faltando ou palavra reservada end faltando", Grammar.descricao);
             error_skipto_before(PONTO_VIRGULA, END);
       }
       try {
@@ -391,7 +391,7 @@ showMessageError(token.next.beginLine, token.next.beginColumn, "Comando estrutur
             }
       }
 if (getToken(1).kind == EOF || getToken(1).kind == PONTO) {
-                showMessageError(token.next.beginLine, token.next.beginColumn, "Comando estruturado incorretamente; ponto e v\u00c3\u00adrgula faltando ou palavra reservada end faltando", Grammar.descricao);
+                showMessageError(token.next.beginLine, token.next.beginColumn, "Comando estruturado incorretamente; ponto e v\u00edrgula faltando ou palavra reservada end faltando", Grammar.descricao);
                 {if ("" != null) return;}
             }
     }
@@ -452,10 +452,10 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
     try {
       jj_consume_token(OP_ATRIBUICAO);
     } catch (ParseException e) {
-showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Operador de atribui\u00c3\u00a7\u00c3\u00a3o esperado", Grammar.descricao);
+showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Operador de atribui\u00e7\u00e3o esperado", Grammar.descricao);
     }
     if (jj_2_12(2147483647)) {
-showMessageError(token.next.beginLine, token.next.beginColumn, "Faltou informar o que ser\u00c3\u00a1 atribuido", Grammar.descricao);
+showMessageError(token.next.beginLine, token.next.beginColumn, "Faltou informar o que ser\u00e1 atribuido", Grammar.descricao);
                     error_skipto_before(PONTO_VIRGULA,END);
     } else {
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
@@ -630,7 +630,7 @@ showMessageError(token.next.beginLine, token.next.beginColumn, "Palavra reservad
           throw new ParseException();
         }
       } catch (ParseException e) {
-showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Operador l\u00c3\u00b3gico ou aritm\u00c3\u00a9tico esperado", Grammar.descricao);
+showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Operador l\u00f3gico ou aritm\u00e9tico esperado", Grammar.descricao);
       }
       termo();
     }
@@ -669,7 +669,7 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
         throw new ParseException();
       }
     } catch (ParseException e) {
-showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Operador l\u00c3\u00b3gico ou aritm\u00c3\u00a9tico esperado", Grammar.descricao);
+showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Operador l\u00f3gico ou aritm\u00e9tico esperado", Grammar.descricao);
     }
   }
 
@@ -712,7 +712,7 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
           throw new ParseException();
         }
       } catch (ParseException e) {
-showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Operador de multiplica\u00c3\u00a7\u00c3\u00a3o ou adi\u00c3\u00a7\u00c3\u00a3o ou divis\u00c3\u00a3o esperado", Grammar.descricao);
+showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Operador de multiplica\u00e7\u00e3o ou adi\u00e7\u00e3o ou divis\u00e3o esperado", Grammar.descricao);
       }
       try {
         fator();
@@ -746,7 +746,7 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
           throw new ParseException();
         }
       } catch (ParseException e) {
-showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "N\u00c3\u00bamero inteiro ou real esperado", Grammar.descricao);
+showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "N\u00famero inteiro ou real esperado", Grammar.descricao);
       }
       break;
       }

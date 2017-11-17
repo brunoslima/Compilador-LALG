@@ -1,12 +1,26 @@
 program correto;
-int  a, b, c;
+int a, b, c;
 boolean d, e, f;
 
+proceure proc1(var a1 : int);
+int a, b, c;
+boolean d, e, f;
+begin
+	a:=1;
+	b:=2;
+	read(a);
+	write(c);
+	if (a<=1) then
+	begin
+		a:=2;
+		c:=3
+	end
+end;
 
 
 begin
 	
-	if (d > 12) then
+	if d > 12 then
 	begin
 		a:=20;
 		b:=10 *c;
@@ -18,4 +32,4 @@ begin
 			b:=2;
 		a:=a-1
 	end
-.
+end.
