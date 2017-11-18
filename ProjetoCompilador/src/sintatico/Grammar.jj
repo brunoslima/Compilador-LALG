@@ -213,24 +213,29 @@ void programDeclaration() throws ParseException:
 }
 
 void bloco() :
-{}
+{int a;}
 {   
     
     [
-        //LOOKAHEAD(tipo() <IDENTIFICADOR> (<PONTO_VIRGULA>|<VIRGULA>) )
+        //LOOKAHEAD(tipo() <IDENTIFICADOR><PONTO_VIRGULA> | tipo() <IDENTIFICADOR><VIRGULA>)
         parteDeclaracaoVariaveis()
     ]
+
+    
     (
         LOOKAHEAD(<PROCEDURE> <IDENTIFICADOR> <PARENTESES_ABRE> | <IDENTIFICADOR> <IDENTIFICADOR> <PARENTESES_ABRE> | <PROCEDURE>)
-        parteDeclaracaoSubRotinas() 
-        
         (
-            <PONTO_VIRGULA>
-        |
-            {showMessageError(token.next.beginLine, token.next.beginColumn, "Ponto e vírgula faltando", Grammar.descricao);}
+            
+            parteDeclaracaoSubRotinas() 
+
+            (
+                <PONTO_VIRGULA>
+            |
+                {showMessageError(token.next.beginLine, token.next.beginColumn, "Ponto e vírgula faltando", Grammar.descricao);}
+            )
         )
     )*
-
+    
     comandoComposto()
 }
 
@@ -354,6 +359,7 @@ void declaracaoProcedimentos() :
             }
             catch(ParseException e){
                 showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Fecha parenteses faltando", Grammar.descricao);
+                error_skipto_before(PONTO_VIRGULA, INT, REAL, BOOLEAN, BEGIN);
             }
         ] 
 
@@ -402,10 +408,10 @@ void secaoParametrosFormais() :
             listaIdentificadores() 
         }
         catch(ParseException e){
-            
+            if (getToken(1).kind != DOIS_PONTOS) error_skipto_before(DOIS_PONTOS, INT, REAL, BOOLEAN, PARENTESES_FECHA, PONTO_VIRGULA);
         }
 
-        {error_skipto_before(DOIS_PONTOS, INT, REAL, BOOLEAN, PARENTESES_FECHA, PONTO_VIRGULA);}
+        
         
         try{
             <DOIS_PONTOS>
@@ -414,7 +420,16 @@ void secaoParametrosFormais() :
             showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Dois pontos faltando", Grammar.descricao);
         }
         
-        tipo() 
+        
+        try{
+            tipo() 
+        }
+        catch(ParseException e){
+            
+            if (getToken(1).kind != PARENTESES_FECHA) {
+                error_skipto_before(PARENTESES_FECHA, PONTO_VIRGULA, INT, REAL, BOOLEAN, BEGIN);
+            }
+        }
         
     )
 }
@@ -453,6 +468,7 @@ void comandoComposto():
         catch(ParseException e){
         
             showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Palavra reservada begin esperada", Grammar.descricao);
+            error_skipto(IDENTIFICADOR, READ, WRITE, IF, WHILE);
         }
 
         try{
@@ -474,6 +490,14 @@ void comandoComposto():
         try{
             (
                 <END>
+                
+                [
+                    LOOKAHEAD(<PONTO_VIRGULA><PONTO>|<PONTO_VIRGULA><END>)
+                    <PONTO_VIRGULA>
+                    {
+                        showMessageError(token.next.beginLine, token.next.beginColumn, "Ponto e vírgula inesperado", Grammar.descricao);
+                    }
+                ]
                 {return;}
             |
                 <PONTO_VIRGULA>
@@ -524,12 +548,12 @@ void comando() throws ParseException:
         comandoComposto() 
     )
     | 
-    LOOKAHEAD(<IF>)
+    LOOKAHEAD(<IF>|<IDENTIFICADOR> expressao() <THEN>)
     (    
         comandoCondicional() 
     )
     | 
-    LOOKAHEAD(<WHILE>)
+    LOOKAHEAD(<WHILE>|<IDENTIFICADOR> expressao() <DO>)
     (
         comandoRepetitivo()
     )
@@ -671,7 +695,15 @@ void comandoCondicional() throws ParseException:
         throw generateParseException();}
     )
     
+   
     expressao()
+    
+    {
+        if (getToken(1).kind == PARENTESES_FECHA) {
+            showMessageError(token.next.beginLine, token.next.beginColumn, "Fecha parenteses inesperado", Grammar.descricao);
+            error_skipto_before(THEN, PONTO_VIRGULA, BEGIN);
+        }
+    }
     
     (
         <THEN>
@@ -680,7 +712,7 @@ void comandoCondicional() throws ParseException:
         if (getToken(1).kind != BEGIN) {
             error_skipto_before(BEGIN, PONTO_VIRGULA);
         }
-        throw generateParseException();}
+        }
     ) 
     
     comando() 
@@ -695,24 +727,28 @@ void comandoRepetitivo() throws ParseException:
 {
     try{
         <WHILE>    
+
+        expressao()
     }
     catch(ParseException e){
         showMessageError(token.next.beginLine, token.next.beginColumn, "Palavra reservada WHILE esperada", Grammar.descricao);
-        throw generateParseException();
+        if (getToken(1).kind != DO) {
+            error_skipto_before(DO, PONTO_VIRGULA, BEGIN, PONTO);
+        }
     }
     
 
-    expressao()
+    
     
     try{
         <DO>
     }
     catch(ParseException e){
-        showMessageError(token.next.beginLine, token.next.beginColumn, "Palavra reservada DO esperada", Grammar.descricao);
+      
+        showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Palavra reservada DO esperada", Grammar.descricao);
         if (getToken(1).kind != BEGIN) {
             error_skipto_before(IDENTIFICADOR, BEGIN, IF, WHILE, READ, WRITE);
         }
-        //throw generateParseException();
     }
         
     

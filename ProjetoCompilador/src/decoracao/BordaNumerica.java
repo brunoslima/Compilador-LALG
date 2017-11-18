@@ -61,7 +61,7 @@ public class BordaNumerica extends AbstractBorder {
         int lenght;
         int px;
         for (; i < rows; i++) {
-            str = String.valueOf(i /*+ 1*/);
+            str = String.valueOf(i + 1);
             lenght = str.length();
             lenght = maxLenght - lenght;
             py = this.lineHeight * i + 14;
