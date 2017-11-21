@@ -769,7 +769,7 @@ void expressao() :
     }
     
     [
-        LOOKAHEAD(relacao() expressaoSimples() | expressaoSimples() | relacao())
+        LOOKAHEAD(relacao() expressaoSimples() | relacao())
         try{
             relacao()
         }
@@ -835,7 +835,7 @@ void termo() :
         fator()
     }
     catch(ParseException e){
-        showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Fator esperado", Grammar.descricao);
+        showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Expressão condicional esperada", Grammar.descricao);
     }
 
     (
@@ -851,7 +851,7 @@ void termo() :
             fator()
         }
         catch(ParseException e){
-            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Fator esperado", Grammar.descricao);
+            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Expressão condicional esperada", Grammar.descricao);
         }
     )*
 }

@@ -65,7 +65,7 @@ public class IUPrincipal extends javax.swing.JFrame {
         }
 
         //Titulo da aplicação
-        this.setTitle("Compilador - Analisador Léxico");
+        this.setTitle("Compilador - Analisador Sintático");
         
         //Icone da aplicação
         ImageIcon imagemTituloJanela = new ImageIcon("imagens/logo.png");
@@ -135,7 +135,7 @@ public class IUPrincipal extends javax.swing.JFrame {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE)
         );
 
         Aba.addTab("Novo", jPanel1);
@@ -235,7 +235,7 @@ public class IUPrincipal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(Aba)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jConsolePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jConsolePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE))
         );
 
         pack();

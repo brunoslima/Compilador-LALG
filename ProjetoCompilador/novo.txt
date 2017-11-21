@@ -19,13 +19,13 @@ begin
 end;
 begin
 	
-	if d > 12 then
+	if (d > 12) then
 	begin
 		a:=20;
 		b:=10 *c;
 		c:=a div b
 	end;
-	whe (a = 15) do
+	while (a = 15) dassdao
 	begin
 		if (b>=10) then
 			b:=2;
