@@ -765,25 +765,28 @@ void expressao() :
         expressaoSimples() 
     }
     catch(ParseException e){
-
+        error_skipto_before(END,PONTO_VIRGULA,PONTO, THEN, DO);
     }
     
     [
-        LOOKAHEAD(relacao() expressaoSimples() | relacao())
+        LOOKAHEAD(<SIMBOLO_IGUAL> | <SIMBOLO_DIFERENTE> | <SIMBOLO_MENOR> | <SIMBOLO_MENOR_IGUAL> | <SIMBOLO_MAIOR_IGUAL> | <SIMBOLO_MAIOR>)
         try{
             relacao()
         }
         catch(ParseException e){ }
     
 
-        expressaoSimples()
+        try{
+            expressaoSimples() 
+        }
+        catch(ParseException e){
+            error_skipto_before(END,PONTO_VIRGULA,PONTO, THEN, DO);
+        }
 
     
     ]
 
-    
-    
-        
+
 }
 
 void expressaoSimples() :
