@@ -107,6 +107,7 @@ public class IUPrincipal extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         MenuAbrir = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem6 = new javax.swing.JMenuItem();
         MenuFechar = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
         MenuAnalisar = new javax.swing.JMenu();
@@ -170,6 +171,15 @@ public class IUPrincipal extends javax.swing.JFrame {
         });
         MenuAbrir.add(jMenuItem1);
 
+        jMenuItem6.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem6.setText("Salvar");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
+        MenuAbrir.add(jMenuItem6);
+
         MenuFechar.setText("Fechar");
         MenuFechar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -190,6 +200,7 @@ public class IUPrincipal extends javax.swing.JFrame {
 
         MenuAnalisar.setText("Analisar");
 
+        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F5, 0));
         jMenuItem2.setText("Análise Léxica");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -198,6 +209,7 @@ public class IUPrincipal extends javax.swing.JFrame {
         });
         MenuAnalisar.add(jMenuItem2);
 
+        jMenuItem5.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F6, 0));
         jMenuItem5.setText("Análise Sintática");
         jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -261,7 +273,6 @@ public class IUPrincipal extends javax.swing.JFrame {
                 this.Aba.setTitleAt(0, nomeArquivo);
                 JOptionPane.showMessageDialog(null, "Arquivo aberto com sucesso!");
                 
-
                 decoracao.colorirTexto();
                 jTextPane.repaint();
                 
@@ -295,7 +306,7 @@ public class IUPrincipal extends javax.swing.JFrame {
 
             lexico.analisar(this.fonte, 0);
 
-            JOptionPane.showMessageDialog(null, "Análise Léxica realizada com sucesso!");
+            //JOptionPane.showMessageDialog(null, "Análise Léxica realizada com sucesso!");
 
             //Inserindo linhas na tabela
             String lexema, token, numLinha, numColunaInicial, numColunaFinal;
@@ -303,9 +314,9 @@ public class IUPrincipal extends javax.swing.JFrame {
 
                 lexema = i.getSimbolo();
                 token = i.getTipo().toString();
-                numLinha = String.valueOf(i.getNumLinha());
-                numColunaInicial = String.valueOf(i.getNumColunaInicial());
-                numColunaFinal = String.valueOf(i.getNumColunaFinal());
+                numLinha = String.valueOf(i.getNumLinha() + 1);
+                numColunaInicial = String.valueOf(i.getNumColunaInicial() + 1);
+                numColunaFinal = String.valueOf(i.getNumColunaFinal() + 1);
 
                 model.addRow(new String[]{lexema, token, numLinha, numColunaInicial, numColunaFinal});
             }
@@ -314,6 +325,8 @@ public class IUPrincipal extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Area de texto vazia!\nAbra um arquivo texto ou escreva um programa na area de texto!");
         }
 
+        jConsolePanel.setSelectedIndex(0);
+        
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
@@ -337,6 +350,8 @@ public class IUPrincipal extends javax.swing.JFrame {
                 model.removeRow(0);
             }
         }
+        
+        this.jTextPaneConsole.setText("");
 
     }//GEN-LAST:event_MenuFecharActionPerformed
 
@@ -355,6 +370,7 @@ public class IUPrincipal extends javax.swing.JFrame {
         
         decoracao.colorirTexto();
         jTextPane.repaint();
+        
     }//GEN-LAST:event_jTextPaneKeyReleased
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
@@ -398,6 +414,13 @@ public class IUPrincipal extends javax.swing.JFrame {
               
         
     }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        // TODO add your handling code here:
+        
+        this.arq.salvarArquivo(this.Aba.getTitleAt(0), this.jTextPane.getText());
+        
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -451,6 +474,7 @@ public class IUPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;

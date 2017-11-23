@@ -27,7 +27,7 @@ public class JavaCCTest {
 
         Arquivo arq = new Arquivo(new File(sourcecode));
         String texto = arq.getTexto();
-        
+
         Grammar g = new Grammar(new StringReader(texto));
 
         Grammar.ReInit(new StringReader(texto));

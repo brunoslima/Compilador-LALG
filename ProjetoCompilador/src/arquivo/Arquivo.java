@@ -7,8 +7,13 @@ package arquivo;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author brunoslima
@@ -56,6 +61,25 @@ public class Arquivo {
         }
         
         System.out.println("Número de linhas: " + num);
+        
+    }
+    
+    public void salvarArquivo(String nome, String conteudo){
+        
+        FileWriter arq = null;
+        try {
+            arq = new FileWriter(nome);
+        } catch (IOException ex) {
+            Logger.getLogger(Arquivo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        PrintWriter gravar = new PrintWriter(arq);
+        
+        gravar.print(conteudo);
+        try {
+            arq.close();
+        } catch (IOException ex) {
+            Logger.getLogger(Arquivo.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
     }
     

@@ -61,7 +61,7 @@ static void error_skipto_before(Integer... kind) {
 
 static void showMessageError(int line, int column, String message, String descricao){
   
-    String erro = "ERRO - " + message + " Linha: " + line + " Coluna: " + column + "\n";
+    String erro = "ERRO - " + message + " - Linha: " + line + " Coluna: " + column + "\n";
     RecuperacaoErros.adicionarErro(erro);
   
     System.out.println("\n=========================\n" +
@@ -505,7 +505,7 @@ void comandoComposto():
         }
         catch(ParseException e){
 
-            showMessageError(token.next.beginLine, token.next.beginColumn, "Comando estruturado incorretamente; ponto e vírgula faltando ou palavra reservada end faltando", Grammar.descricao);
+            showMessageError(token.next.beginLine, token.next.beginColumn, "Comando incorreto, ponto e vírgula faltando ou palavra reservada end faltando", Grammar.descricao);
             error_skipto_before(PONTO_VIRGULA, END);
         }
 
@@ -522,7 +522,7 @@ void comandoComposto():
 
         {
             if (getToken(1).kind == EOF || getToken(1).kind == PONTO) {
-                showMessageError(token.next.beginLine, token.next.beginColumn, "Comando estruturado incorretamente; ponto e vírgula faltando ou palavra reservada end faltando", Grammar.descricao);
+                showMessageError(token.next.beginLine, token.next.beginColumn, "Comando incorreto, ponto e vírgula faltando ou palavra reservada end faltando", Grammar.descricao);
                 return;
             }
         

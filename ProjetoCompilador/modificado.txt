@@ -55,6 +55,4 @@ begin
 	begin
 		c:=c-1
 	end
-end
-
-.
+end.
