@@ -103,8 +103,7 @@ Token t;
   static final public void programDeclaration() throws ParseException, ParseException {Token nomePrograma;
     switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
     case PROGRAM:{
-      nomePrograma = jj_consume_token(PROGRAM);
-System.out.println(nomePrograma.image);
+      jj_consume_token(PROGRAM);
       break;
       }
     default:
@@ -112,7 +111,10 @@ System.out.println(nomePrograma.image);
 {if (true) throw generateParseException();}
     }
     try {
-      jj_consume_token(IDENTIFICADOR);
+      nomePrograma = jj_consume_token(IDENTIFICADOR);
+AnalisadorSemantico.addProcedure(nomePrograma.image, token.beginLine, token.beginColumn);
+            AnalisadorSemantico.selectProcedure(nomePrograma.image);
+            AnalisadorSemantico.setProgramaPrincipal(nomePrograma.image);
     } catch (ParseException e) {
 showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Identificador de programa faltando", Grammar.descricao);
         error_skipto(PONTO_VIRGULA);
@@ -977,27 +979,6 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
     finally { jj_save(14, xla); }
   }
 
-  static private boolean jj_3R_25()
- {
-    if (jj_3R_29()) return true;
-    Token xsp;
-    while (true) {
-      xsp = jj_scanpos;
-      if (jj_3R_30()) { jj_scanpos = xsp; break; }
-    }
-    return false;
-  }
-
-  static private boolean jj_3_6()
- {
-    if (jj_scan_token(IDENTIFICADOR)) return true;
-    if (jj_scan_token(PARENTESES_ABRE)) return true;
-    if (jj_3R_16()) return true;
-    if (jj_scan_token(PARENTESES_FECHA)) return true;
-    if (jj_scan_token(PONTO_VIRGULA)) return true;
-    return false;
-  }
-
   static private boolean jj_3R_36()
  {
     if (jj_scan_token(IDENTIFICADOR)) return true;
@@ -1419,6 +1400,27 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
     }
     }
     }
+    return false;
+  }
+
+  static private boolean jj_3R_25()
+ {
+    if (jj_3R_29()) return true;
+    Token xsp;
+    while (true) {
+      xsp = jj_scanpos;
+      if (jj_3R_30()) { jj_scanpos = xsp; break; }
+    }
+    return false;
+  }
+
+  static private boolean jj_3_6()
+ {
+    if (jj_scan_token(IDENTIFICADOR)) return true;
+    if (jj_scan_token(PARENTESES_ABRE)) return true;
+    if (jj_3R_16()) return true;
+    if (jj_scan_token(PARENTESES_FECHA)) return true;
+    if (jj_scan_token(PONTO_VIRGULA)) return true;
     return false;
   }
 

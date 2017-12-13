@@ -194,17 +194,21 @@ void programDeclaration() throws ParseException:
 {Token nomePrograma; }
 {
     (
-        nomePrograma = <PROGRAM>
-        {System.out.println(nomePrograma.image);
-
-        
-        }
+        <PROGRAM>
     |
         {throw generateParseException();}
     )
     
     try{
-        <IDENTIFICADOR>
+
+        nomePrograma = <IDENTIFICADOR>
+
+        {   
+            AnalisadorSemantico.addProcedure(nomePrograma.image, token.beginLine, token.beginColumn);
+            AnalisadorSemantico.selectProcedure(nomePrograma.image);
+            AnalisadorSemantico.setProgramaPrincipal(nomePrograma.image);
+        
+        }
     }
     catch (ParseException e){
         showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Identificador de programa faltando", Grammar.descricao);

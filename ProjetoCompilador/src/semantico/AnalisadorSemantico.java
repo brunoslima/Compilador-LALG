@@ -16,6 +16,7 @@ public class AnalisadorSemantico {
     private static HashMap<String, Tabela> conjunto = new HashMap<>();
     
     private static Tabela tabelaAtual; 
+    private static String programaPrincipal;
     
     public static void init() {
         
@@ -39,6 +40,12 @@ public class AnalisadorSemantico {
         
         tabelaAtual = conjunto.get(nome);
     }
+
+    public static void setProgramaPrincipal(String programaPrincipal) {
+        AnalisadorSemantico.programaPrincipal = programaPrincipal;
+    }
+    
+    
     
     
     

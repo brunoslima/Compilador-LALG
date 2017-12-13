@@ -15,6 +15,7 @@ import java.util.HashMap;
 public class Tabela {
     
     private static ArrayList<Variaveis> listaParametros = new ArrayList<>();
+    
     private static HashMap<String, Variaveis> tabelaVariaveis = new HashMap<>();
     
     
