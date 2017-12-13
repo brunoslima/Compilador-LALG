@@ -6,6 +6,8 @@ PARSER_BEGIN(Grammar)
 package sintatico;
 
 import java.util.ArrayList;
+import semantico.AnalisadorSemantico;
+import semantico.TabelaErrosSemantico;
 
 public class Grammar
 {
@@ -148,6 +150,11 @@ SKIP :
 void compilationUnit() :
 {}
 {
+    {
+        AnalisadorSemantico.init();
+        TabelaErrosSemantico.init();
+    }
+
     try{
         programDeclaration() 
     }
@@ -184,10 +191,14 @@ void compilationUnit() :
 }
 
 void programDeclaration() throws ParseException:
-{}
+{Token nomePrograma; }
 {
     (
-        <PROGRAM>
+        nomePrograma = <PROGRAM>
+        {System.out.println(nomePrograma.image);
+
+        
+        }
     |
         {throw generateParseException();}
     )

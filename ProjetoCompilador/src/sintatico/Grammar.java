@@ -3,6 +3,8 @@
 package sintatico;
 
 import java.util.ArrayList;
+import semantico.AnalisadorSemantico;
+import semantico.TabelaErrosSemantico;
 
 public class Grammar implements GrammarConstants {
 public static String descricao = "";
@@ -68,6 +70,8 @@ static void showMessageError(int line, int column, String message, String descri
 }
 
   static final public void compilationUnit() throws ParseException {
+AnalisadorSemantico.init();
+        TabelaErrosSemantico.init();
     try {
       programDeclaration();
     } catch (ParseException e) {
@@ -96,10 +100,11 @@ Token t;
     }
   }
 
-  static final public void programDeclaration() throws ParseException, ParseException {
+  static final public void programDeclaration() throws ParseException, ParseException {Token nomePrograma;
     switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
     case PROGRAM:{
-      jj_consume_token(PROGRAM);
+      nomePrograma = jj_consume_token(PROGRAM);
+System.out.println(nomePrograma.image);
       break;
       }
     default:
@@ -972,62 +977,6 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
     finally { jj_save(14, xla); }
   }
 
-  static private boolean jj_3R_30()
- {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_scan_token(32)) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(31)) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(33)) return true;
-    }
-    }
-    if (jj_3R_29()) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_20()
- {
-    if (jj_scan_token(IDENTIFICADOR)) return true;
-    if (jj_scan_token(DOIS_PONTOS)) return true;
-    return false;
-  }
-
-  static private boolean jj_3_8()
- {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_scan_token(17)) {
-    jj_scanpos = xsp;
-    if (jj_3R_17()) return true;
-    }
-    return false;
-  }
-
-  static private boolean jj_3_7()
- {
-    if (jj_scan_token(BEGIN)) return true;
-    return false;
-  }
-
-  static private boolean jj_3_4()
- {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_scan_token(36)) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(5)) {
-    jj_scanpos = xsp;
-    if (jj_3R_12()) {
-    jj_scanpos = xsp;
-    if (jj_3R_13()) return true;
-    }
-    }
-    }
-    return false;
-  }
-
   static private boolean jj_3R_25()
  {
     if (jj_3R_29()) return true;
@@ -1413,6 +1362,62 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
     if (jj_scan_token(14)) {
     jj_scanpos = xsp;
     if (jj_scan_token(3)) return true;
+    }
+    return false;
+  }
+
+  static private boolean jj_3R_30()
+ {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_scan_token(32)) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(31)) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(33)) return true;
+    }
+    }
+    if (jj_3R_29()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_20()
+ {
+    if (jj_scan_token(IDENTIFICADOR)) return true;
+    if (jj_scan_token(DOIS_PONTOS)) return true;
+    return false;
+  }
+
+  static private boolean jj_3_8()
+ {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_scan_token(17)) {
+    jj_scanpos = xsp;
+    if (jj_3R_17()) return true;
+    }
+    return false;
+  }
+
+  static private boolean jj_3_7()
+ {
+    if (jj_scan_token(BEGIN)) return true;
+    return false;
+  }
+
+  static private boolean jj_3_4()
+ {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_scan_token(36)) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(5)) {
+    jj_scanpos = xsp;
+    if (jj_3R_12()) {
+    jj_scanpos = xsp;
+    if (jj_3R_13()) return true;
+    }
+    }
     }
     return false;
   }

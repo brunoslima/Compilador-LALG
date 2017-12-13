@@ -23,7 +23,7 @@ public class JavaCCTest {
 
     public static void main(String[] args) throws FileNotFoundException {
 
-        String sourcecode = "novo.txt";
+        String sourcecode = "teste.txt";
 
         Arquivo arq = new Arquivo(new File(sourcecode));
         String texto = arq.getTexto();
