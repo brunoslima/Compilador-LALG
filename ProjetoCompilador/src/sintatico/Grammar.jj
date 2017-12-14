@@ -431,8 +431,9 @@ void parametrosFormais() :
 }
 
 void secaoParametrosFormais() :
-{}
+{String a; String s;}
 {
+    {a = "";}
     ( 
         [
             try{
@@ -444,7 +445,8 @@ void secaoParametrosFormais() :
         ] 
 
         try{
-            listaIdentificadores() 
+            s = listaIdentificadores() 
+            {a += s;}
         }
         catch(ParseException e){
             if (getToken(1).kind != DOIS_PONTOS) error_skipto_before(DOIS_PONTOS, INT, REAL, BOOLEAN, PARENTESES_FECHA, PONTO_VIRGULA);
@@ -459,7 +461,8 @@ void secaoParametrosFormais() :
         
         
         try{
-            tipo() 
+            s = tipo() 
+            {a += s;}
         }
         catch(ParseException e){
             
@@ -469,6 +472,9 @@ void secaoParametrosFormais() :
         }
         
     )
+
+    {AnalisadorSemantico.tabelaAtual.separarParametros(a);}
+
 }
 
 String tipo() throws ParseException:
@@ -666,11 +672,11 @@ void comando() throws ParseException:
 }
 
 void atribuicao() throws ParseException:
-{}
+{String v;}
 {
 
     ( 
-        variavel() 
+        v = variavel() 
         try{
             <OP_ATRIBUICAO >
         }

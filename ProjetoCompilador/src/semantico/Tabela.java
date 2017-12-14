@@ -124,6 +124,36 @@ public class Tabela {
         
     }
     
+    public void separarParametros(String literal){
+
+        String [] elementos;
+        
+        if(literal.contains("int")){ //int
+            
+            literal = literal.replace("int", "");
+            System.out.println(literal);
+            elementos = literal.split(",");
+            for(int i = 0; i < elementos.length; i++){
+                
+                addParametro(elementos[i], 5); //5 == int
+            }
+            
+        }
+        else if(literal.contains("boolean")){ //boolean
+            
+            literal = literal.replace("boolean", "");
+            System.out.println(literal);
+            
+            elementos = literal.split(",");
+            for(int i = 0; i < elementos.length; i++){
+
+                addParametro(elementos[i], 2); //2 == boolean
+            }
+            
+        }
+        
+    }
+    
     public void visualizar(){
         
         System.out.println("Lista de parametros: ");
