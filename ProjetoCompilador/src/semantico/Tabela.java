@@ -16,18 +16,19 @@ import java.util.Set;
  */
 public class Tabela {
     
-    private static ArrayList<Variaveis> listaParametros = new ArrayList<>();
+    public ArrayList<Variaveis> listaParametros = new ArrayList<>();
+    public HashMap<String, Variaveis> tabelaVariaveis = new HashMap<>();
     
-    private static HashMap<String, Variaveis> tabelaVariaveis = new HashMap<>();
+    public String nome;
     
-    
-    public Tabela() {
+    public Tabela(String nome) {
         
+        this.nome = nome;
         listaParametros.clear();
         tabelaVariaveis.clear();
     }
     
-    public static void addParametro(String nome, int tipo){
+    public void addParametro(String nome, int tipo){
         
         Variaveis v = null;
         
@@ -44,7 +45,7 @@ public class Tabela {
         tabelaVariaveis.put(nome, v);
     }
     
-    public static void addParametro(String nome, int tipo, int valor){
+    public void addParametro(String nome, int tipo, int valor){
         
         Variaveis v = null;
         
@@ -61,7 +62,7 @@ public class Tabela {
         tabelaVariaveis.put(nome, v);
     }
 
-    public static void addVariavel(String nome, int tipo){
+    public void addVariavel(String nome, int tipo){
         
         Variaveis v = null;
         
@@ -77,7 +78,7 @@ public class Tabela {
         tabelaVariaveis.put(nome, v);
     }
     
-    public static void addVariavel(String nome, int tipo, int valor){
+    public void addVariavel(String nome, int tipo, int valor){
         
         Variaveis v = null;
         
@@ -93,7 +94,7 @@ public class Tabela {
         tabelaVariaveis.put(nome, v);
     }
 
-    public static void separarVariaveis(String literal){
+    public void separarVariaveis(String literal){
 
         String [] elementos;
         literal = literal.replace(";", "");
@@ -123,7 +124,7 @@ public class Tabela {
         
     }
     
-    public static void visualizar(){
+    public void visualizar(){
         
         System.out.println("Lista de parametros: ");
         for (Variaveis v : listaParametros) {

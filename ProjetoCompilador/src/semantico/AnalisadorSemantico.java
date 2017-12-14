@@ -34,13 +34,14 @@ public class AnalisadorSemantico {
             TabelaErrosSemantico.add("Procedimento já declarado", linha, coluna);
         }
         else {
-            conjunto.put(nome, new Tabela());
+            conjunto.put(nome, new Tabela(nome));
         }
     }
     
     public static void selectProcedure(String nome){
         
         tabelaAtual = conjunto.get(nome);
+        tabelaAtual.visualizar();
     }
 
     public static void setProgramaPrincipal(String programaPrincipal) {
@@ -68,11 +69,5 @@ public class AnalisadorSemantico {
             }
         }
     }
-    
-    /*
-    public static void test(String a){
-        System.out.println("test" + a);
-    }
-    */
     
 }
