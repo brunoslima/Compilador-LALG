@@ -7,25 +7,26 @@ package semantico;
 
 /**
  *
+ * @author brunoslima
  * @author leandroungari
  */
 public class Boolean extends Variaveis{
     
     private boolean valor;
 
-    public Boolean(String nome) {
-        super(nome);
+    public Boolean(String nome, int tipo) {
+        super(nome, tipo);
         
     }
     
-    public Boolean(boolean valor, String nome) {
-        super(nome);
+    public Boolean(boolean valor, String nome, int tipo) {
+        super(nome, tipo);
         this.valor = valor;
     }
     
     public void visualizar(){
         
-        System.out.println("(" + this.nome + "," + this.valor + ")");
+        System.out.println("(" + this.nome + "," + this.tipo + "," + this.valor + ")");
         
     }
 }

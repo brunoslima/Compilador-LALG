@@ -11,6 +11,7 @@ import java.util.Set;
 
 /**
  *
+ * @author brunoslima
  * @author leandroungari
  */
 public class Tabela {
@@ -32,11 +33,11 @@ public class Tabela {
         
         if (tipo == Variaveis.BOOLEAN) {
             
-            v = new Boolean(nome);
+            v = new Boolean(nome, tipo);
         }
         else if (tipo == Variaveis.INT) {
             
-            v = new Integer(nome);
+            v = new Integer(nome, tipo);
         }
         
         listaParametros.add(v);
@@ -49,11 +50,11 @@ public class Tabela {
         
         if (tipo == Variaveis.BOOLEAN) {
             
-            v = new Boolean((valor == 1), nome);
+            v = new Boolean((valor == 1), nome, tipo);
         }
         else if (tipo == Variaveis.INT) {
             
-            v = new Integer(valor, nome);
+            v = new Integer(valor, nome, tipo);
         }
         
         listaParametros.add(v);
@@ -66,11 +67,11 @@ public class Tabela {
         
         if (tipo == Variaveis.BOOLEAN) {
             
-            v = new Boolean(nome);
+            v = new Boolean(nome, tipo);
         }
         else if (tipo == Variaveis.INT) {
             
-            v = new Integer(nome);
+            v = new Integer(nome, tipo);
         }
         
         tabelaVariaveis.put(nome, v);
@@ -82,27 +83,57 @@ public class Tabela {
         
         if (tipo == Variaveis.BOOLEAN) {
             
-            v = new Boolean((valor == 1), nome);
+            v = new Boolean((valor == 1), nome, tipo);
         }
         else if (tipo == Variaveis.INT) {
             
-            v = new Integer(valor, nome);
+            v = new Integer(valor, nome, tipo);
         }
         
         tabelaVariaveis.put(nome, v);
     }
+
+    public static void separarVariaveis(String literal){
+
+        String [] elementos;
+        literal = literal.replace(";", "");
+        
+        if(literal.charAt(0) == 'i' && literal.charAt(1) == 'n' && literal.charAt(2) == 't'){ //int
+            
+            literal = literal.replace("int", "");
+            
+            elementos = literal.split(",");
+            for(int i = 0; i < elementos.length; i++){
+                
+                addVariavel(elementos[i], 5); //5 == int
+            }
+            
+        }
+        else if(literal.charAt(0) == 'b' && literal.charAt(1) == 'o'){ //boolean
+            
+            literal = literal.replace("boolean", "");
+            
+            elementos = literal.split(",");
+            for(int i = 0; i < elementos.length; i++){
+
+                addVariavel(elementos[i], 2); //2 == boolean
+            }
+            
+        }
+        
+    }
     
-    public void visualizar(){
+    public static void visualizar(){
         
         System.out.println("Lista de parametros: ");
         for (Variaveis v : listaParametros) {
             v.visualizar();
         }
         
+        System.out.println("Variaveis: ");
         Set<String> chaves = tabelaVariaveis.keySet();
         for (String chave : chaves){
             if(chave != null){
-                System.out.println("Tabela: " + chave);
                 tabelaVariaveis.get(chave).visualizar();
             }
         }

@@ -7,8 +7,10 @@ import java.io.FileNotFoundException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import semantico.AnalisadorSemantico;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -39,6 +41,14 @@ public class JavaCCTest {
         System.out.println("\nAnálise sintática concluída com sucesso.");
         
         System.out.println(RecuperacaoErros.getErros());
+        
+        Set<String> chaves = AnalisadorSemantico.conjunto.keySet();
+        for (String chave : chaves){
+            if(chave != null){
+                System.out.println("chave: " + chave);
+                AnalisadorSemantico.conjunto.get(chave).visualizar();
+            }
+        }
     }
 
     public static List<Token> tokenize(Grammar parser) throws FileNotFoundException {

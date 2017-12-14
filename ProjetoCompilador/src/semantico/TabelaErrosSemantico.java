@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 /**
  *
+ * @author brunoslima
  * @author leandroungari
  */
 public class TabelaErrosSemantico {

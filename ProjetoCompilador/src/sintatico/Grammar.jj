@@ -206,9 +206,7 @@ void programDeclaration() throws ParseException:
         {   
             AnalisadorSemantico.addProcedure(nomePrograma.image, token.beginLine, token.beginColumn);
             AnalisadorSemantico.selectProcedure(nomePrograma.image);
-            AnalisadorSemantico.setProgramaPrincipal(nomePrograma.image);
-            AnalisadorSemantico.visualizar(nomePrograma.image);
-        
+            AnalisadorSemantico.setProgramaPrincipal(nomePrograma.image);        
         }
     }
     catch (ParseException e){
@@ -294,8 +292,9 @@ String parteDeclaracaoVariaveis():
             }
         )* 
     )
-    
+
     {return a;}
+
 }
 
 String declaracaoVariaveis() throws ParseException:
@@ -314,7 +313,8 @@ String declaracaoVariaveis() throws ParseException:
         |
         {showMessageError(token.next.beginLine, token.next.beginColumn, "Ponto e vírgula faltando", Grammar.descricao);}
     )
-
+    
+    {AnalisadorSemantico.tabelaAtual.separarVariaveis(a);}
     {return a;}
 }
 
@@ -359,7 +359,6 @@ void parteDeclaracaoSubRotinas() :
             {   
                 AnalisadorSemantico.addProcedure(nomeProcedure.image, token.beginLine, token.beginColumn);
                 AnalisadorSemantico.selectProcedure(nomeProcedure.image);
-                AnalisadorSemantico.visualizar(nomeProcedure.image);
             }
         }
         catch(ParseException e){
@@ -451,8 +450,6 @@ void secaoParametrosFormais() :
             if (getToken(1).kind != DOIS_PONTOS) error_skipto_before(DOIS_PONTOS, INT, REAL, BOOLEAN, PARENTESES_FECHA, PONTO_VIRGULA);
         }
 
-        
-        
         try{
             <DOIS_PONTOS>
         }

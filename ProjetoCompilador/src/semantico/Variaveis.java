@@ -7,22 +7,28 @@ package semantico;
 
 /**
  *
+ * @author brunoslima
  * @author leandroungari
  */
 public class Variaveis {
     
     public String nome;
+    public String tipo;
     
     public static final int BOOLEAN = 2;
     public static final int REAL = 3;
     public static final int INT = 5;
 
-    public Variaveis(String nome) {
+    public Variaveis(String nome, int tipo) {
     
         this.nome = nome;
+        if(tipo == 5) this.tipo = "INT";
+        else if(tipo == 3) this.tipo = "REAL";
+        else if(tipo == 2) this.tipo = "BOOLEAN";
+        
     }
     
     public void visualizar(){
-        System.out.println("(" + this.nome + ")");
+        System.out.println("(" + this.nome + "," + this.tipo + ")");
     }
 }

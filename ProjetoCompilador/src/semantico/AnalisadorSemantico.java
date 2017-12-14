@@ -10,14 +10,15 @@ import java.util.Set;
 
 /**
  *
+ * @author brunoslima
  * @author leandroungari
  */
 public class AnalisadorSemantico {
     
-    private static HashMap<String, Tabela> conjunto = new HashMap<>();
+    public static HashMap<String, Tabela> conjunto = new HashMap<>();
     
     public static Tabela tabelaAtual; 
-    private static String programaPrincipal;
+    public static String programaPrincipal;
     
     public static void init() {
         
@@ -45,20 +46,33 @@ public class AnalisadorSemantico {
     public static void setProgramaPrincipal(String programaPrincipal) {
         AnalisadorSemantico.programaPrincipal = programaPrincipal;
     }
+
+    public static void visualizar(){
+        
+        Set<String> chaves = conjunto.keySet();
+        for (String chave : chaves){
+            if(chave != null){
+                System.out.println("\nTitulo: " + chave);
+                conjunto.get(chave).visualizar();
+            }
+        }
+    }
     
     public static void visualizar(String nome){
         
         Set<String> chaves = conjunto.keySet();
         for (String chave : chaves){
             if(chave != null && chave.equals(nome)){
-                System.out.println("Tabela: " + chave);
+                System.out.println("\nTitulo: " + chave);
                 conjunto.get(chave).visualizar();
             }
         }
     }
     
+    /*
     public static void test(String a){
         System.out.println("test" + a);
     }
+    */
     
 }

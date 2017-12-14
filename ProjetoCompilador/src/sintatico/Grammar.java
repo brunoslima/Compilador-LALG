@@ -115,7 +115,6 @@ Token t;
 AnalisadorSemantico.addProcedure(nomePrograma.image, token.beginLine, token.beginColumn);
             AnalisadorSemantico.selectProcedure(nomePrograma.image);
             AnalisadorSemantico.setProgramaPrincipal(nomePrograma.image);
-            AnalisadorSemantico.visualizar(nomePrograma.image);
     } catch (ParseException e) {
 showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Identificador de programa faltando", Grammar.descricao);
         error_skipto(PONTO_VIRGULA);
@@ -220,6 +219,7 @@ a += t.image;
     } else {
 showMessageError(token.next.beginLine, token.next.beginColumn, "Ponto e v\u00c3\u00adrgula faltando", Grammar.descricao);
     }
+AnalisadorSemantico.tabelaAtual.separarVariaveis(a);
 {if ("" != null) return a;}
     throw new Error("Missing return statement in function");
   }
@@ -260,7 +260,6 @@ a += s;
         nomeProcedure = jj_consume_token(IDENTIFICADOR);
 AnalisadorSemantico.addProcedure(nomeProcedure.image, token.beginLine, token.beginColumn);
                 AnalisadorSemantico.selectProcedure(nomeProcedure.image);
-                AnalisadorSemantico.visualizar(nomeProcedure.image);
       } catch (ParseException e) {
 showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Identificador de procedure esperado", Grammar.descricao);
             error_skipto_before(PONTO_VIRGULA, PARENTESES_ABRE);
@@ -1008,6 +1007,24 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
     finally { jj_save(14, xla); }
   }
 
+  static private boolean jj_3_5()
+ {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_14()) {
+    jj_scanpos = xsp;
+    if (jj_3R_15()) return true;
+    }
+    return false;
+  }
+
+  static private boolean jj_3R_14()
+ {
+    if (jj_scan_token(PONTO_VIRGULA)) return true;
+    if (jj_scan_token(PONTO)) return true;
+    return false;
+  }
+
   static private boolean jj_3R_35()
  {
     Token xsp;
@@ -1300,17 +1317,6 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
     return false;
   }
 
-  static private boolean jj_3R_25()
- {
-    if (jj_3R_29()) return true;
-    Token xsp;
-    while (true) {
-      xsp = jj_scanpos;
-      if (jj_3R_30()) { jj_scanpos = xsp; break; }
-    }
-    return false;
-  }
-
   static private boolean jj_3_4()
  {
     Token xsp;
@@ -1324,6 +1330,17 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
     if (jj_3R_13()) return true;
     }
     }
+    }
+    return false;
+  }
+
+  static private boolean jj_3R_25()
+ {
+    if (jj_3R_29()) return true;
+    Token xsp;
+    while (true) {
+      xsp = jj_scanpos;
+      if (jj_3R_30()) { jj_scanpos = xsp; break; }
     }
     return false;
   }
@@ -1432,24 +1449,6 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
     }
     }
     if (jj_3R_25()) return true;
-    return false;
-  }
-
-  static private boolean jj_3_5()
- {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_14()) {
-    jj_scanpos = xsp;
-    if (jj_3R_15()) return true;
-    }
-    return false;
-  }
-
-  static private boolean jj_3R_14()
- {
-    if (jj_scan_token(PONTO_VIRGULA)) return true;
-    if (jj_scan_token(PONTO)) return true;
     return false;
   }
 
