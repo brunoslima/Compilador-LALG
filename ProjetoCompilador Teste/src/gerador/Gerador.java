@@ -31,7 +31,7 @@ public class Gerador {
         this.contadorDados = 0;
     }
 
-    public Gerador(String nomePrograma) {
+    public Gerador(String nomePrograma ) {
         this.nomePrograma = nomePrograma;
         this.listaVariaveis = new HashMap<>();
         this.listaComandos = new ArrayList<>();
