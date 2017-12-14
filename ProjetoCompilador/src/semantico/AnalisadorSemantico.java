@@ -6,6 +6,7 @@
 package semantico;
 
 import java.util.HashMap;
+import java.util.Set;
 
 /**
  *
@@ -45,10 +46,15 @@ public class AnalisadorSemantico {
         AnalisadorSemantico.programaPrincipal = programaPrincipal;
     }
     
-    
-    
-    
-    
-    
+    public static void visualizar(String nome){
+        
+        Set<String> chaves = conjunto.keySet();
+        for (String chave : chaves){
+            if(chave != null && chave.equals(nome)){
+                System.out.println("Tabela: " + chave);
+                conjunto.get(chave).visualizar();
+            }
+        }
+    }
     
 }

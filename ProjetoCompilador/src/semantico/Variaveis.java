@@ -11,7 +11,7 @@ package semantico;
  */
 public class Variaveis {
     
-    private String nome;
+    public String nome;
     
     public static final int BOOLEAN = 2;
     public static final int REAL = 3;
@@ -22,5 +22,7 @@ public class Variaveis {
         this.nome = nome;
     }
     
-    
+    public void visualizar(){
+        System.out.println("(" + this.nome + ")");
+    }
 }

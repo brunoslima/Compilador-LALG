@@ -7,6 +7,7 @@ package semantico;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
 
 /**
  *
@@ -56,6 +57,22 @@ public class Tabela {
         }
         
         tabelaVariaveis.put(nome, v);
+    }
+    
+    public void visualizar(){
+        
+        System.out.println("Lista de parametros: ");
+        for (Variaveis v : listaParametros) {
+            v.visualizar();
+        }
+        
+        Set<String> chaves = tabelaVariaveis.keySet();
+        for (String chave : chaves){
+            if(chave != null){
+                System.out.println("Tabela: " + chave);
+                tabelaVariaveis.get(chave).visualizar();
+            }
+        }
     }
     
 }

@@ -207,6 +207,7 @@ void programDeclaration() throws ParseException:
             AnalisadorSemantico.addProcedure(nomePrograma.image, token.beginLine, token.beginColumn);
             AnalisadorSemantico.selectProcedure(nomePrograma.image);
             AnalisadorSemantico.setProgramaPrincipal(nomePrograma.image);
+            AnalisadorSemantico.visualizar(nomePrograma.image);
         
         }
     }
@@ -328,14 +329,20 @@ void listaIdentificadores() :
 
 
 void parteDeclaracaoSubRotinas() :
-{}
+{Token nomeProcedure;}
 {   
     
     try{
         <PROCEDURE>
 
         try{
-            <IDENTIFICADOR>
+            nomeProcedure = <IDENTIFICADOR>
+
+            {   
+                AnalisadorSemantico.addProcedure(nomeProcedure.image, token.beginLine, token.beginColumn);
+                AnalisadorSemantico.selectProcedure(nomeProcedure.image);
+                AnalisadorSemantico.visualizar(nomeProcedure.image);
+            }
         }
         catch(ParseException e){
             showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Identificador de procedure esperado", Grammar.descricao);

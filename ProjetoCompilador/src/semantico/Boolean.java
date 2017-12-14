@@ -18,5 +18,9 @@ public class Boolean extends Variaveis{
         this.valor = valor;
     }
     
-    
+    public void visualizar(){
+        
+        System.out.println("(" + this.nome + "," + this.valor + ")");
+        
+    }
 }
