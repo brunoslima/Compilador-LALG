@@ -15,7 +15,7 @@ public class AnalisadorSemantico {
     
     private static HashMap<String, Tabela> conjunto = new HashMap<>();
     
-    private static Tabela tabelaAtual; 
+    public static Tabela tabelaAtual; 
     private static String programaPrincipal;
     
     public static void init() {
