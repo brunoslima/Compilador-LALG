@@ -314,7 +314,7 @@ String declaracaoVariaveis() throws ParseException:
         {showMessageError(token.next.beginLine, token.next.beginColumn, "Ponto e vírgula faltando", Grammar.descricao);}
     )
     
-    {AnalisadorSemantico.tabelaAtual.separarVariaveis(a);}
+    {AnalisadorSemantico.tabelaAtual.separarVariaveis(a, token.beginLine, token.beginColumn);}
     {return a;}
 }
 
@@ -473,7 +473,7 @@ void secaoParametrosFormais() :
         
     )
 
-    {AnalisadorSemantico.tabelaAtual.separarParametros(a);}
+    {AnalisadorSemantico.tabelaAtual.separarParametros(a, token.beginLine, token.beginColumn);}
 
 }
 

@@ -11,6 +11,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import semantico.AnalisadorSemantico;
+import semantico.TabelaErrosSemantico;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -49,6 +50,8 @@ public class JavaCCTest {
                 AnalisadorSemantico.conjunto.get(chave).visualizar();
             }
         }
+        
+        TabelaErrosSemantico.visualizar();
     }
 
     public static List<Token> tokenize(Grammar parser) throws FileNotFoundException {

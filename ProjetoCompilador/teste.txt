@@ -2,9 +2,9 @@ program correto;
 int a, b, c;
 boolean d, e, f;
 
-procedure proc(var b,c,d : int; c: boolean);
+procedure proc(var b,b,c,d : int; c : boolean);
 int a, b, c, h, i, j;
-boolean d, e, f, g;
+boolean d, e, f, g, g;
 begin
 	a:=1;
 	b:=2;

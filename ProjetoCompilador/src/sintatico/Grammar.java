@@ -219,7 +219,7 @@ a += t.image;
     } else {
 showMessageError(token.next.beginLine, token.next.beginColumn, "Ponto e v\u00c3\u00adrgula faltando", Grammar.descricao);
     }
-AnalisadorSemantico.tabelaAtual.separarVariaveis(a);
+AnalisadorSemantico.tabelaAtual.separarVariaveis(a, token.beginLine, token.beginColumn);
 {if ("" != null) return a;}
     throw new Error("Missing return statement in function");
   }
@@ -352,7 +352,7 @@ if (getToken(1).kind != PARENTESES_FECHA) {
                 error_skipto_before(PARENTESES_FECHA, PONTO_VIRGULA, INT, REAL, BOOLEAN, BEGIN);
             }
     }
-AnalisadorSemantico.tabelaAtual.separarParametros(a);
+AnalisadorSemantico.tabelaAtual.separarParametros(a, token.beginLine, token.beginColumn);
   }
 
   static final public String tipo() throws ParseException, ParseException {Token a;

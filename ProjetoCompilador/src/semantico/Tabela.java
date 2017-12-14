@@ -94,7 +94,7 @@ public class Tabela {
         tabelaVariaveis.put(nome, v);
     }
 
-    public void separarVariaveis(String literal){
+    public void separarVariaveis(String literal, int linha, int coluna){
 
         String [] elementos;
         literal = literal.replace(";", "");
@@ -106,7 +106,8 @@ public class Tabela {
             elementos = literal.split(",");
             for(int i = 0; i < elementos.length; i++){
                 
-                addVariavel(elementos[i], 5); //5 == int
+                if(!verificarExistencia(elementos[i]))addVariavel(elementos[i], 5); //5 == int
+                else TabelaErrosSemantico.add("Variavel " + elementos[i] + " já declarada neste escopo", linha, coluna);
             }
             
         }
@@ -117,41 +118,61 @@ public class Tabela {
             elementos = literal.split(",");
             for(int i = 0; i < elementos.length; i++){
 
-                addVariavel(elementos[i], 2); //2 == boolean
+                if(!verificarExistencia(elementos[i])) addVariavel(elementos[i], 2); //2 == boolean
+                else TabelaErrosSemantico.add("Variavel " + elementos[i] + " já declarada neste escopo", linha, coluna);
             }
             
         }
         
     }
     
-    public void separarParametros(String literal){
+    public void separarParametros(String literal, int linha, int coluna){
 
         String [] elementos;
         
         if(literal.contains("int")){ //int
             
             literal = literal.replace("int", "");
-            System.out.println(literal);
+
             elementos = literal.split(",");
             for(int i = 0; i < elementos.length; i++){
                 
-                addParametro(elementos[i], 5); //5 == int
+                if(!verificarExistencia(elementos[i])) addParametro(elementos[i], 5); //5 == int
+                else TabelaErrosSemantico.add("Variavel " + elementos[i] + " já declarada neste parametro", linha, coluna);
             }
             
         }
         else if(literal.contains("boolean")){ //boolean
             
             literal = literal.replace("boolean", "");
-            System.out.println(literal);
             
             elementos = literal.split(",");
             for(int i = 0; i < elementos.length; i++){
 
-                addParametro(elementos[i], 2); //2 == boolean
+                if(!verificarExistencia(elementos[i]))addParametro(elementos[i], 2); //2 == boolean
+                else TabelaErrosSemantico.add("Variavel " + elementos[i] + " já declarada neste escopo", linha, coluna);
             }
             
         }
         
+    }
+    
+    public boolean verificarExistencia(String nome){
+
+        for (Variaveis v : listaParametros) {
+            if(v.nome.equals(nome)){
+                return true;
+            }
+        }
+        
+        Set<String> chaves = tabelaVariaveis.keySet();
+        for (String chave : chaves){
+            if(chave.equals(nome)){
+                return true;
+            }
+        }
+        
+        return false;
     }
     
     public void visualizar(){
