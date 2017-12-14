@@ -179,12 +179,15 @@ public class Comando {
     
     public static void leit(){
         
+        //mostra o texto pedindo a entrada também na tela
         String valor = JOptionPane.showInputDialog(null, "Entre com um valor inteiro: ");
         
         interpretador.getPilha().push(Integer.parseInt(valor));
     }
 
     static void leich() {
+        
+        //mostra o texto pedindo a entrada também na tela
         String valor = JOptionPane.showInputDialog(null, "Entre com um valor caracter: ");
         
         interpretador.getPilha().push(Integer.parseInt(valor));
@@ -228,6 +231,7 @@ public class Comando {
 
     static void para() {
         
+        //Mostrar texto com mensagem de fim de execução
         interpretador.setFlagEncerrarExecucao(true);
     }
 }

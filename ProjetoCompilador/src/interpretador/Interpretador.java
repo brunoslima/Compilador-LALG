@@ -10,8 +10,6 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Stack;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 
@@ -120,152 +118,181 @@ public class Interpretador {
         
         switch(comando[0]){
             
+            //OK
             case "CRCT":
                 
                 Comando.crct(Integer.parseInt(comando[1]));
                 break;
             
+                //OK
             case "CRVL":
                 
                 Comando.crvl(Integer.parseInt(comando[1]));
                 break;
-                
+            
+            //OK
             case "ARMZ":
                 
                 Comando.armz(Integer.parseInt(comando[1]));
                 break;
             
+            //OK
             case "SOMA":
                 
                 Comando.soma();
                 break;
                 
+            //OK    
             case "SUBT":
                 
                 Comando.subt();
                 break;    
             
+            //OK    
             case "MULT":
                 
                 Comando.mult();
                 break;
                 
+            //OK    
             case "DIVI":
                 
                 Comando.divi();
                 break;    
             
+            //OK    
             case "MODI":
                 
                 Comando.modi();
                 break;
-                
+            
+            //OK    
             case "INVR":
                 
                 Comando.invr();
                 break;
-                
+            
+            //OK    
             case "CONJ":
                 
                 Comando.conj();
                 break;
-                
+            
+            //OK    
             case "DISJ":
                 
                 Comando.disj();
                 break;
                 
+            //OK
             case "NEGA":
                 
                 Comando.nega();
                 break;
             
+            //OK    
             case "CMME":
                 
                 Comando.cmme();
                 break;
-                
+            
+            //OK    
             case "CMMA":
                 
                 Comando.cmma();
                 break;
             
+            //OK    
             case "CMIG":
                 
                 Comando.cmig();
                 break;
                 
+            //OK
             case "CMDG":
                 
                 Comando.cmdg();
                 break;
-                
+            
+            //OK    
             case "CMAG":
                 
                 Comando.cmag();
                 break;
                 
+            //OK
             case "CMEG":
                 
                 Comando.cmeg();
                 break;
-                
+            
+            //OK    
             case "DSVS":
                 
                 Comando.dsvs(Integer.parseInt(comando[1]));
                 break;
                 
+            //OK
             case "DSVF":
                 
                 Comando.dsvf(Integer.parseInt(comando[1]));
                 break;
                 
+            //OK
             case "NADA":
                 
                 Comando.nada();
                 break;
                 
-                
+            //OK    
             case "LEIT":
                 
                 Comando.leit();
                 break;
                 
+            //OK    
             case "LEICH":
                 
                 Comando.leich();
                 break;
-                
+            
+            //OK    
             case "IMPR":
                 
                 Comando.impr();
                 break;
-                
+            
+            //OK    
             case "IMPC":
                 
                 Comando.impc();
                 break;
                 
+            //OK
             case "IMPE":
                 
                 Comando.impe();
                 break;
-                
+            
+            //OK
             case "INPP":
                 
                 Comando.inpp();
                 break;
                 
+            //OK
             case "AMEM":
                 
                 Comando.amem(Integer.parseInt(comando[1]));
                 break;
             
+            //OK
             case "DMEM":
                 
                 Comando.dmem(Integer.parseInt(comando[1]));
                 break;
                 
+            //OK    
             case "PARA":
                 
                 Comando.para();
