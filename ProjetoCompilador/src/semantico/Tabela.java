@@ -26,6 +26,23 @@ public class Tabela {
         tabelaVariaveis.clear();
     }
     
+    public static void addParametro(String nome, int tipo){
+        
+        Variaveis v = null;
+        
+        if (tipo == Variaveis.BOOLEAN) {
+            
+            v = new Boolean(nome);
+        }
+        else if (tipo == Variaveis.INT) {
+            
+            v = new Integer(nome);
+        }
+        
+        listaParametros.add(v);
+        tabelaVariaveis.put(nome, v);
+    }
+    
     public static void addParametro(String nome, int tipo, int valor){
         
         Variaveis v = null;
@@ -40,6 +57,22 @@ public class Tabela {
         }
         
         listaParametros.add(v);
+        tabelaVariaveis.put(nome, v);
+    }
+
+    public static void addVariavel(String nome, int tipo){
+        
+        Variaveis v = null;
+        
+        if (tipo == Variaveis.BOOLEAN) {
+            
+            v = new Boolean(nome);
+        }
+        else if (tipo == Variaveis.INT) {
+            
+            v = new Integer(nome);
+        }
+        
         tabelaVariaveis.put(nome, v);
     }
     

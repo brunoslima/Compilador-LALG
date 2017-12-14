@@ -13,6 +13,11 @@ public class Boolean extends Variaveis{
     
     private boolean valor;
 
+    public Boolean(String nome) {
+        super(nome);
+        
+    }
+    
     public Boolean(boolean valor, String nome) {
         super(nome);
         this.valor = valor;

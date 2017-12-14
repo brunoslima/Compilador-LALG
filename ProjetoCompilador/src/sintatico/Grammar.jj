@@ -229,7 +229,7 @@ void programDeclaration() throws ParseException:
 }
 
 void bloco() :
-{int a;}
+{Token c;}
 {   
     
     [
@@ -242,7 +242,7 @@ void bloco() :
         LOOKAHEAD(<PROCEDURE> <IDENTIFICADOR> <PARENTESES_ABRE> | <IDENTIFICADOR> <IDENTIFICADOR> <PARENTESES_ABRE> | <PROCEDURE>)
         (
             
-            parteDeclaracaoSubRotinas() 
+            parteDeclaracaoSubRotinas()
 
             (
                 <PONTO_VIRGULA>
@@ -255,20 +255,22 @@ void bloco() :
     comandoComposto()
 }
 
-void parteDeclaracaoVariaveis():
-{}
+String parteDeclaracaoVariaveis():
+{String a; String s;}
 {
+    {a = "";}
     ( 
 
         {
             if (getToken(1).kind == IDENTIFICADOR && getToken(2).kind == IDENTIFICADOR && getToken(3).kind == PARENTESES_ABRE ||
                 getToken(1).kind == IDENTIFICADOR && getToken(2).kind == PARENTESES_ABRE ) {
             
-                    return;
+                    return a;
             }
         }
         try{
-            declaracaoVariaveis() 
+            s = declaracaoVariaveis()
+            {a += s;}
         }
         catch(ParseException e){
             error_skipto(PONTO_VIRGULA);
@@ -280,50 +282,66 @@ void parteDeclaracaoVariaveis():
                 getToken(1).kind == IDENTIFICADOR && getToken(2).kind == PARENTESES_ABRE ||
                 getToken(1).kind == PROCEDURE) {
             
-                    return;
+                    return a;
                 }
             }
             try{
-                declaracaoVariaveis()
+                s = declaracaoVariaveis()
+                {a += s;}
             }
             catch(ParseException e){
                 error_skipto(PONTO_VIRGULA);
             }
         )* 
     )
-   
+    
+    {return a;}
 }
 
-void declaracaoVariaveis() throws ParseException:
-{}
+String declaracaoVariaveis() throws ParseException:
+{String a; String s; Token t;}
 {
-
-    
-    tipo() 
-    listaIdentificadores()
+    {t = null;}
+    {a = "";}
+    s = tipo()
+    {a += s;}
+    s = listaIdentificadores()
+    {a += s;}
     (
         LOOKAHEAD(<PONTO_VIRGULA>)
-        <PONTO_VIRGULA>
+        t = <PONTO_VIRGULA>
+        {a += t.image;}
         |
         {showMessageError(token.next.beginLine, token.next.beginColumn, "Ponto e vírgula faltando", Grammar.descricao);}
     )
+
+    {return a;}
 }
 
-void listaIdentificadores() :
-{}
+String listaIdentificadores() :
+{String a; String s; Token t;}
 { 
+    {t = null;}
+    {a = "";}
     ( 
-        variavel() 
+        s = variavel()
+        {a += s;}
         (
             
             LOOKAHEAD(<VIRGULA><IDENTIFICADOR>|<IDENTIFICADOR>|<VIRGULA>)
-            (   <VIRGULA>
+            (   
+                t = <VIRGULA>
+                {a += t.image;}
                 |
                 {showMessageError(token.beginLine, token.beginColumn, "Vírgula faltando", Grammar.descricao);}
             )
-            variavel()
+            s = variavel()
+            {a += s;}
         )* 
     )
+
+    {return a;}
+
 }
 
 
@@ -456,23 +474,27 @@ void secaoParametrosFormais() :
     )
 }
 
-void tipo() throws ParseException:
-{}
+String tipo() throws ParseException:
+{Token a;}
 {
-
+    {a = null;}
     
-    <INT> 
-    | 
-    <BOOLEAN> 
-    | 
-    <REAL>
-    |
     (
-        {
-            showMessageError(token.next.beginLine, token.next.beginColumn, "Identificador de tipo esperado", Grammar.descricao);
-            throw generateParseException();
-        }
+        a = <INT>
+        | 
+        a = <BOOLEAN> 
+        | 
+        a = <REAL>
+        |
+        (
+            {
+                showMessageError(token.next.beginLine, token.next.beginColumn, "Identificador de tipo esperado", Grammar.descricao);
+                throw generateParseException();
+            }
+        )
     )
+
+    {return a.image;}
     
 }
 
@@ -944,13 +966,16 @@ void listaExpressoes() :
 }
 
 
-void variavel() :
-{}
+String variavel() :
+{Token a;}
 {
+    {a = null;}
     try{
-        <IDENTIFICADOR>
+        a = <IDENTIFICADOR>
     }catch(ParseException e){
         
         showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Identificador esperado", Grammar.descricao);
     } 
+
+    {return a.image;}
 }

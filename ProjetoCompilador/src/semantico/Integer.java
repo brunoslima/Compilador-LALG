@@ -13,6 +13,11 @@ public class Integer extends Variaveis {
     
     private int valor;
 
+    public Integer(String nome) {
+        super(nome);
+        
+    }
+    
     public Integer(int valor, String nome) {
         super(nome);
         this.valor = valor;

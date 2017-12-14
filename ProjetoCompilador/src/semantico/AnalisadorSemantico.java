@@ -57,4 +57,8 @@ public class AnalisadorSemantico {
         }
     }
     
+    public static void test(String a){
+        System.out.println("test" + a);
+    }
+    
 }
