@@ -5,6 +5,7 @@
  */
 package semantico;
 
+import gerador.Gerador;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
@@ -106,7 +107,13 @@ public class Tabela {
             elementos = literal.split(",");
             for(int i = 0; i < elementos.length; i++){
                 
-                if(!verificarExistencia(elementos[i]))addVariavel(elementos[i], 5); //5 == int
+                if(!verificarExistencia(elementos[i])) {
+                    
+                    addVariavel(elementos[i], 5);
+                    
+                    Gerador.declararVariavel(elementos[i], gerador.Variavel.INT);
+                    
+                } //5 == int
                 else TabelaErrosSemantico.add("Variavel " + elementos[i] + " já declarada neste escopo", linha, coluna);
             }
             
@@ -118,7 +125,11 @@ public class Tabela {
             elementos = literal.split(",");
             for(int i = 0; i < elementos.length; i++){
 
-                if(!verificarExistencia(elementos[i])) addVariavel(elementos[i], 2); //2 == boolean
+                if(!verificarExistencia(elementos[i])) {
+                    addVariavel(elementos[i], 2);
+                    
+                    Gerador.declararVariavel(elementos[i], gerador.Variavel.BOOLEAN);
+                } //2 == boolean
                 else TabelaErrosSemantico.add("Variavel " + elementos[i] + " já declarada neste escopo", linha, coluna);
             }
             

@@ -18,46 +18,44 @@ import java.util.HashMap;
  */
 public class Gerador {
     
-    private String nomePrograma;
-    private int contadorDados;
+    private static String nomePrograma;
+    private static int contadorDados;
     
-    private HashMap<String, Variavel> listaVariaveis;
-    private ArrayList<String> listaComandos;
+    private static HashMap<String, Variavel> listaVariaveis;
+    private static ArrayList<String> listaComandos;
 
-    public Gerador() {
-        
-        this.listaVariaveis = new HashMap<>();
-        this.listaComandos = new ArrayList<>();
-        this.contadorDados = 0;
+    public static HashMap<String, Variavel> getListaVariaveis() {
+        return listaVariaveis;
     }
 
-    public Gerador(String nomePrograma) {
-        this.nomePrograma = nomePrograma;
-        this.listaVariaveis = new HashMap<>();
-        this.listaComandos = new ArrayList<>();
-        this.contadorDados = 0;
+    public static ArrayList<String> getListaComandos() {
+        return listaComandos;
+    }
+    
+
+    public static void init() {
+        
+        listaVariaveis = new HashMap<>();
+        listaComandos = new ArrayList<>();
+        contadorDados = 0;
     }
 
     public String getNomePrograma() {
         return nomePrograma;
     }
 
-    public void setNomePrograma(String nomePrograma) {
-        this.nomePrograma = nomePrograma;
+    public static void setNomePrograma(String nomePrograma) {
+        Gerador.nomePrograma = nomePrograma;
     }
     
-    /**
-     * Comandos de geração de código
-     * 
-     */
-    
-    public void iniciarPrograma(String nomePrograma) {
+    //ok
+    public static void iniciarPrograma(String nomePrograma) {
         
-        this.nomePrograma = nomePrograma;
+        Gerador.nomePrograma = nomePrograma;
         listaComandos.add("INPP");
     }
-    
-    public void declararVariavel(String nome, int tipo) {
+    //ok
+    public static void declararVariavel(String nome, int tipo) {
         
         Variavel v = null;
         
@@ -75,158 +73,185 @@ public class Gerador {
         listaComandos.add("AMEM 1");
     }
     
-    public void atribuicaoVariavel(String nomeVariavel) {
+    public static void atribuicaoVariavel(String nomeVariavel) {
         
         int enderecoAlocacao = listaVariaveis.get(nomeVariavel).getEnderecoAlocacao();
         
         listaComandos.add("ARMZ " + enderecoAlocacao);
     }
     
-    public void leituraInteiro() {
+    public static void leituraInteiro() {
         
         listaComandos.add("LEIT");
     }
     
     
-    public void leituraCaracter() {
+    public static void leituraCaracter() {
         
         listaComandos.add("LEICH");
     }
     
-    public void carregarValorConstante(int valor) {
+    public static void carregarValorConstante(int valor) {
         
         listaComandos.add("CRCT " + valor);
     }
     
-    public void carregarValorDaVariavel(String nomeVariavel) {
+    public static void carregarValorDaVariavel(String nomeVariavel) {
         
         int enderecoAlocacao = listaVariaveis.get(nomeVariavel).getEnderecoAlocacao();
         
         listaComandos.add("CRVL " + enderecoAlocacao);
     }
     
-    public void adicao() {
+    public static void adicao() {
         
         listaComandos.add("SOMA");
     } 
     
-    public void subtracao() {
+    public static void subtracao() {
         
         listaComandos.add("SUBT");
     }
     
-    public void multiplicacao() {
+    public static void multiplicacao() {
         
         listaComandos.add("MULT");
     }
     
-    public void divisao() {
+    public static void divisao() {
         
         listaComandos.add("DIVI");
     }
     
-    public void modulo() {
+    public static void modulo() {
         
         listaComandos.add("MODI");
     }
     
-    public void inversao() {
+    public static void inversao() {
         
         listaComandos.add("INVR");
     }
     
-    public void conjuncao() {
+    public static void conjuncao() {
         
         listaComandos.add("CONJ");
     }
     
-    public void disjuncao() {
+    public static void disjuncao() {
         
         listaComandos.add("DISJ");
     }
     
-    public void negacao() {
+    public static void negacao() {
         
         listaComandos.add("NEGA");
     }
     
-    public void comparaMaior() {
+    public static void comparaMaior() {
         
         listaComandos.add("CMMA");
     }
     
-    public void comparaMenor() {
+    public static void comparaMenor() {
         
         listaComandos.add("CMME");
     }
     
-    public void comparaIgual() {
+    public static void comparaIgual() {
         
         listaComandos.add("CMIG");
     }
     
-    public void comparaDesigual() {
+    public static void comparaDesigual() {
         
         listaComandos.add("CMDG");
     }
     
-    public void comparaMenorIgual() {
+    public static void comparaMenorIgual() {
         
         listaComandos.add("CMEG");
     }
     
-    public void comparaMaiorIgual() {
+    public static void comparaMaiorIgual() {
         
         listaComandos.add("CMAG");
     }
     
-    public void desvioIncondicional(){
+    public static void desvioIncondicional(){
         
         listaComandos.add("DSVS");
     }
     
-    public void desvioSeFalso(){
+    public static void desvioSeFalso(){
         
         listaComandos.add("DSVF");
     }
     
-    public void executaNada(){
+    public static void executaNada(){
         
         listaComandos.add("NADA");
     }
     
-    public void imprimeInteiro(){
+    public static void imprimeInteiro(){
         
         listaComandos.add("IMPR");
     }
     
-    public void imprimeCaracter(){
+    public static void imprimeCaracter(){
         
         listaComandos.add("IMPC");
     }
     
-    public void imprimeNovaLinha(){
+    public static void imprimeNovaLinha(){
         
         listaComandos.add("IMPE");
     }
     
-    public void alocaMemoria(int n) {
+    public static void alocaMemoria(int n) {
         
         listaComandos.add("AMEM " + n);
     }
     
-    public void desalocaMemoria(int n) {
+    public static void desalocaMemoria(int n) {
         
         listaComandos.add("DMEM " + n);
     }
     
-    public void finalizarPrograma(){
+    //ok
+    public static void finalizarPrograma(){
         
         listaComandos.add("PARA");
     }
     
     
-    public void gerarArquivo(String filename) throws FileNotFoundException{
+    ///////////////////////////
+    public static void listaVariaveisRead(String s) {
+        
+        //System.out.println("Lista: " + s + " >");
+        String[] lista = s.split(",");
+        
+        for(String variavel: lista){
+            
+            Gerador.leituraInteiro();
+            Gerador.atribuicaoVariavel(variavel);
+        }
+
+    }
+    
+    public static void listaVariaveisWrite(String s){
+        
+        String[] lista = s.split(",");
+        
+        for(String variavel: lista){
+            
+            Gerador.carregarValorDaVariavel(variavel);
+            Gerador.imprimeInteiro();
+        }
+    }
+    
+    
+    public static void gerarArquivo(String filename) throws FileNotFoundException{
         
         
         PrintStream arquivo = new PrintStream(new File(filename));

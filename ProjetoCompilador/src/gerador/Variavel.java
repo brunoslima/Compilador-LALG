@@ -9,7 +9,7 @@ package gerador;
  *
  * @author leandroungari
  */
-abstract class Variavel {
+public abstract class Variavel {
     
     private String nome;
     private int enderecoAlocacao;

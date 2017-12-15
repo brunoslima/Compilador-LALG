@@ -8,6 +8,7 @@ package sintatico;
 import java.util.ArrayList;
 import semantico.AnalisadorSemantico;
 import semantico.TabelaErrosSemantico;
+import gerador.Gerador;
 
 public class Grammar
 {
@@ -156,6 +157,7 @@ void compilationUnit() :
     }
 
     try{
+
         programDeclaration() 
     }
     catch(ParseException e){
@@ -173,6 +175,7 @@ void compilationUnit() :
 
     try{
         <PONTO>
+        {Gerador.finalizarPrograma();}
     }
     catch(ParseException e){
         showMessageError(e.currentToken.beginLine, e.currentToken.beginColumn, "Ponto final faltando", Grammar.descricao);
@@ -206,7 +209,9 @@ void programDeclaration() throws ParseException:
         {   
             AnalisadorSemantico.addProcedure(nomePrograma.image, token.beginLine, token.beginColumn);
             AnalisadorSemantico.selectProcedure(nomePrograma.image);
-            AnalisadorSemantico.setProgramaPrincipal(nomePrograma.image);        
+            AnalisadorSemantico.setProgramaPrincipal(nomePrograma.image);     
+
+            Gerador.iniciarPrograma(nomePrograma.image);
         }
     }
     catch (ParseException e){
@@ -325,7 +330,9 @@ String listaIdentificadores() :
     {a = "";}
     ( 
         s = variavel()
-        {a += s;}
+        {   
+            a += s;
+        }
         (
             
             LOOKAHEAD(<VIRGULA><IDENTIFICADOR>|<IDENTIFICADOR>|<VIRGULA>)
@@ -582,7 +589,7 @@ void comandoComposto():
 }
 
 void comando() throws ParseException:
-{}
+{String s; }
 {   
     LOOKAHEAD(<IDENTIFICADOR> <PARENTESES_ABRE> expressao() <PARENTESES_FECHA> <PONTO_VIRGULA>)
     (
@@ -622,7 +629,11 @@ void comando() throws ParseException:
             showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Abre parenteses esperado", Grammar.descricao);
         }
         
-        listaIdentificadores() 
+        s = listaIdentificadores() 
+
+        {
+            Gerador.listaVariaveisRead(s);
+        }
         try{
             <PARENTESES_FECHA> 
         }
@@ -648,7 +659,11 @@ void comando() throws ParseException:
         
             showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Abre parenteses esperado", Grammar.descricao);
         }
-        listaIdentificadores() 
+        s = listaIdentificadores() 
+        {
+            Gerador.listaVariaveisWrite(s);
+        }
+
         try{
             <PARENTESES_FECHA> 
         }
@@ -806,10 +821,14 @@ void comandoRepetitivo() throws ParseException:
 
 
 void expressao() :
-{}
+{String simboloRelacao; }
 {   
     try{
         expressaoSimples() 
+
+        {
+            //pegar o primeiro elemento
+        }
     }
     catch(ParseException e){
         error_skipto_before(END,PONTO_VIRGULA,PONTO, THEN, DO);
@@ -818,19 +837,25 @@ void expressao() :
     [
         LOOKAHEAD(<SIMBOLO_IGUAL> | <SIMBOLO_DIFERENTE> | <SIMBOLO_MENOR> | <SIMBOLO_MENOR_IGUAL> | <SIMBOLO_MAIOR_IGUAL> | <SIMBOLO_MAIOR>)
         try{
-            relacao()
+            simboloRelacao = relacao()
         }
         catch(ParseException e){ }
     
 
         try{
             expressaoSimples() 
+        
+            {
+                //pegar o primeiro elemento
+            }
         }
         catch(ParseException e){
             error_skipto_before(END,PONTO_VIRGULA,PONTO, THEN, DO);
         }
 
-    
+        {
+            //montar comparação
+        }
     ]
 
 

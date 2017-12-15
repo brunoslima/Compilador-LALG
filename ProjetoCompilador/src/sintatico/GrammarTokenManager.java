@@ -4,6 +4,7 @@ package sintatico;
 import java.util.ArrayList;
 import semantico.AnalisadorSemantico;
 import semantico.TabelaErrosSemantico;
+import gerador.Gerador;
 
 /** Token Manager. */
 @SuppressWarnings("unused")public class GrammarTokenManager implements GrammarConstants {

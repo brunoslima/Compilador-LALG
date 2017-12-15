@@ -2,6 +2,7 @@ program correto;
 int a, b, c;
 boolean d, e, f;
 
+{
 procedure proc(var b,b,c,d : int; c : boolean);
 int a, b, c, h, i, j;
 boolean d, e, f, g, g;
@@ -16,7 +17,7 @@ begin
 		c:=3
 	end
 end;
-
+}
 begin
 	a:=2;
 	b:=10;

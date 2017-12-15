@@ -2,10 +2,13 @@ package sintatico;
 
 
 import arquivo.Arquivo;
+import gerador.Gerador;
+import gerador.Variavel;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
@@ -27,7 +30,12 @@ public class JavaCCTest {
     public static void main(String[] args) throws FileNotFoundException {
 
         String sourcecode = "teste.txt";
+        
+        ////////////////
+        // Gerador
 
+        Gerador.init();
+        
         Arquivo arq = new Arquivo(new File(sourcecode));
         String texto = arq.getTexto();
 
@@ -42,6 +50,9 @@ public class JavaCCTest {
         System.out.println("\nAnálise sintática concluída com sucesso.");
         
         System.out.println(RecuperacaoErros.getErros());
+        
+        HashMap<String, Variavel> lista = Gerador.getListaVariaveis();
+        String comandos = Gerador.getListaComandos().toString();
         
         Set<String> chaves = AnalisadorSemantico.conjunto.keySet();
         for (String chave : chaves){
