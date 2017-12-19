@@ -12,14 +12,14 @@ package semantico;
  */
 public class Boolean extends Variaveis{
     
-    private boolean valor;
+    //private boolean valor;
 
     public Boolean(String nome, int tipo) {
         super(nome, tipo);
         
     }
     
-    public Boolean(boolean valor, String nome, int tipo) {
+    public Boolean(String valor, String nome, int tipo) {
         super(nome, tipo);
         this.valor = valor;
     }
@@ -30,7 +30,4 @@ public class Boolean extends Variaveis{
         
     }
     
-    public void setValor(String valor){
-        
-    }
 }

@@ -14,6 +14,7 @@ public class Variaveis {
     
     public String nome;
     public String tipo;
+    public String valor;
     
     public static final int BOOLEAN = 2;
     public static final int REAL = 3;
@@ -26,6 +27,10 @@ public class Variaveis {
         else if(tipo == 3) this.tipo = "REAL";
         else if(tipo == 2) this.tipo = "BOOLEAN";
         
+    }
+    
+    public void setValor(String valor){
+        this.valor = valor;
     }
     
     public void visualizar(){

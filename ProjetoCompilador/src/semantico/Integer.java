@@ -12,14 +12,14 @@ package semantico;
  */
 public class Integer extends Variaveis {
     
-    private int valor;
+    //private int valor;
 
     public Integer(String nome, int tipo) {
         super(nome, tipo);
         
     }
     
-    public Integer(int valor, String nome, int tipo) {
+    public Integer(String valor, String nome, int tipo) {
         super(nome, tipo);
         this.valor = valor;
     }
@@ -30,7 +30,4 @@ public class Integer extends Variaveis {
         
     }
     
-    public void setValor(String valor){
-        
-    }
 }

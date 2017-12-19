@@ -533,6 +533,8 @@ showMessageError(token.next.beginLine, token.next.beginColumn, "Faltou informar 
         throw new ParseException();
       }
     }
+System.out.println("teste\u005cn\u005cn\u005cn");
+    AnalisadorSemantico.tabelaAtual.atribuirValor(v,valor);
   }
 
   static final public void chamadaProcedimento() throws ParseException {
@@ -1061,13 +1063,6 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
     finally { jj_save(14, xla); }
   }
 
-  static private boolean jj_3R_24()
- {
-    if (jj_3R_26()) return true;
-    if (jj_3R_23()) return true;
-    return false;
-  }
-
   static private boolean jj_3_11()
  {
     if (jj_scan_token(WRITE)) return true;
@@ -1127,6 +1122,13 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
     return false;
   }
 
+  static private boolean jj_3R_37()
+ {
+    if (jj_scan_token(OP_NOT)) return true;
+    if (jj_3R_29()) return true;
+    return false;
+  }
+
   static private boolean jj_3_3()
  {
     Token xsp;
@@ -1148,10 +1150,12 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
     return false;
   }
 
-  static private boolean jj_3R_37()
+  static private boolean jj_3R_16()
  {
-    if (jj_scan_token(OP_NOT)) return true;
-    if (jj_3R_29()) return true;
+    if (jj_3R_23()) return true;
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_24()) jj_scanpos = xsp;
     return false;
   }
 
@@ -1174,15 +1178,6 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
     if (jj_scan_token(4)) return true;
     }
     }
-    return false;
-  }
-
-  static private boolean jj_3R_16()
- {
-    if (jj_3R_23()) return true;
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_24()) jj_scanpos = xsp;
     return false;
   }
 
@@ -1211,13 +1206,6 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
     return false;
   }
 
-  static private boolean jj_3R_20()
- {
-    if (jj_scan_token(IDENTIFICADOR)) return true;
-    if (jj_scan_token(DOIS_PONTOS)) return true;
-    return false;
-  }
-
   static private boolean jj_3_15()
  {
     Token xsp;
@@ -1235,6 +1223,13 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
     }
     }
     }
+    return false;
+  }
+
+  static private boolean jj_3R_20()
+ {
+    if (jj_scan_token(IDENTIFICADOR)) return true;
+    if (jj_scan_token(DOIS_PONTOS)) return true;
     return false;
   }
 
@@ -1304,12 +1299,6 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
     return false;
   }
 
-  static private boolean jj_3_2()
- {
-    if (jj_scan_token(PONTO_VIRGULA)) return true;
-    return false;
-  }
-
   static private boolean jj_3R_35()
  {
     Token xsp;
@@ -1318,6 +1307,12 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
     jj_scanpos = xsp;
     if (jj_3R_41()) return true;
     }
+    return false;
+  }
+
+  static private boolean jj_3_2()
+ {
+    if (jj_scan_token(PONTO_VIRGULA)) return true;
     return false;
   }
 
@@ -1359,16 +1354,6 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
     return false;
   }
 
-  static private boolean jj_3_6()
- {
-    if (jj_scan_token(IDENTIFICADOR)) return true;
-    if (jj_scan_token(PARENTESES_ABRE)) return true;
-    if (jj_3R_16()) return true;
-    if (jj_scan_token(PARENTESES_FECHA)) return true;
-    if (jj_scan_token(PONTO_VIRGULA)) return true;
-    return false;
-  }
-
   static private boolean jj_3R_27()
  {
     Token xsp;
@@ -1377,6 +1362,16 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
     jj_scanpos = xsp;
     if (jj_3R_32()) return true;
     }
+    return false;
+  }
+
+  static private boolean jj_3_6()
+ {
+    if (jj_scan_token(IDENTIFICADOR)) return true;
+    if (jj_scan_token(PARENTESES_ABRE)) return true;
+    if (jj_3R_16()) return true;
+    if (jj_scan_token(PARENTESES_FECHA)) return true;
+    if (jj_scan_token(PONTO_VIRGULA)) return true;
     return false;
   }
 
@@ -1423,6 +1418,13 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
     return false;
   }
 
+  static private boolean jj_3R_22()
+ {
+    if (jj_3R_25()) return true;
+    if (jj_scan_token(PONTO_VIRGULA)) return true;
+    return false;
+  }
+
   static private boolean jj_3R_10()
  {
     if (jj_scan_token(IDENTIFICADOR)) return true;
@@ -1446,13 +1448,6 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
  {
     if (jj_scan_token(IDENTIFICADOR)) return true;
     if (jj_scan_token(OP_ATRIBUICAO)) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_22()
- {
-    if (jj_3R_25()) return true;
-    if (jj_scan_token(PONTO_VIRGULA)) return true;
     return false;
   }
 
@@ -1539,6 +1534,13 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
       xsp = jj_scanpos;
       if (jj_3R_30()) { jj_scanpos = xsp; break; }
     }
+    return false;
+  }
+
+  static private boolean jj_3R_24()
+ {
+    if (jj_3R_26()) return true;
+    if (jj_3R_23()) return true;
     return false;
   }
 

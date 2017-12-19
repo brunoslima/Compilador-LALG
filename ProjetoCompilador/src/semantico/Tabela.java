@@ -47,13 +47,13 @@ public class Tabela {
         tabelaVariaveis.put(nome, v);
     }
     
-    public void addParametro(String nome, int tipo, int valor){
+    public void addParametro(String nome, int tipo, String valor){
         
         Variaveis v = null;
         
         if (tipo == Variaveis.BOOLEAN) {
             
-            v = new Boolean((valor == 1), nome, tipo);
+            v = new Boolean(valor, nome, tipo);
         }
         else if (tipo == Variaveis.INT) {
             
@@ -80,13 +80,13 @@ public class Tabela {
         tabelaVariaveis.put(nome, v);
     }
     
-    public void addVariavel(String nome, int tipo, int valor){
+    public void addVariavel(String nome, int tipo, String valor){
         
         Variaveis v = null;
         
         if (tipo == Variaveis.BOOLEAN) {
             
-            v = new Boolean((valor == 1), nome, tipo);
+            v = new Boolean(valor, nome, tipo);
         }
         else if (tipo == Variaveis.INT) {
             
@@ -204,9 +204,9 @@ public class Tabela {
     }
     
     public void atribuirValor(String variavel, String valor){
-                
+                System.out.println("OLAAAAAAAAAAAAAAA\n\n\n\n\n");
         Variaveis v = tabelaVariaveis.get(variavel);
-        //v.setValor(valor); //String que vem como parametro
+        v.setValor(valor); //String que vem como parametro
     }
     
 }
