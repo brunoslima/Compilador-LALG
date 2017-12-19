@@ -687,9 +687,9 @@ void comando() throws ParseException:
 }
 
 void atribuicao() throws ParseException:
-{String v;}
+{String v; String valor;}
 {
-
+    {valor = "";}
     ( 
         v = variavel() 
         try{
@@ -707,9 +707,11 @@ void atribuicao() throws ParseException:
                     error_skipto_before(PONTO_VIRGULA,END);}
             )
             |
-            expressao() 
+            valor = expressao() 
         )
     )
+
+    
 
 }
 
@@ -820,11 +822,16 @@ void comandoRepetitivo() throws ParseException:
 }
 
 
-void expressao() :
-{String simboloRelacao; }
+String expressao() :
+{String simboloRelacao; String valor; String s;}
 {   
+
+    {s = "";}
+    {valor = "";}
+
     try{
-        expressaoSimples() 
+        s = expressaoSimples() 
+        {valor += s;}
 
         {
             //pegar o primeiro elemento
@@ -838,12 +845,14 @@ void expressao() :
         LOOKAHEAD(<SIMBOLO_IGUAL> | <SIMBOLO_DIFERENTE> | <SIMBOLO_MENOR> | <SIMBOLO_MENOR_IGUAL> | <SIMBOLO_MAIOR_IGUAL> | <SIMBOLO_MAIOR>)
         try{
             simboloRelacao = relacao()
+            {valor += simboloRelacao;}
         }
         catch(ParseException e){ }
     
 
         try{
-            expressaoSimples() 
+            s = expressaoSimples() 
+            {valor += s;}
         
             {
                 //pegar o primeiro elemento
@@ -858,56 +867,93 @@ void expressao() :
         }
     ]
 
+    {return valor;}
 
 }
 
-void expressaoSimples() :
-{}
+String expressaoSimples() :
+{String valor; String s; Token t;}
 {
+
+    {valor = "";}
+    {s = "";}
+    {t = null;}
+
     [
   
-        <OP_ADICAO>
+        t = <OP_ADICAO>
         |
-        <OP_SUBTRACAO>
- 
+        t = <OP_SUBTRACAO>
+        {valor += t.image;}
+
     ]
 
     
-    termo()
+    s = termo()
+    {valor += s;}
 
     (
         //LOOKAHEAD(<OP_ADICAO> | <OP_SUBTRACAO> | <OP_OR>)
         LOOKAHEAD(<OP_ADICAO> | <OP_SUBTRACAO> | <OP_OR> | termo() relacao() | termo() <PONTO_VIRGULA>)
         (
             try{
-                (<OP_ADICAO> | <OP_SUBTRACAO> | <OP_OR>)
+                (
+                
+                    t = <OP_ADICAO> 
+                    |
+                    t = <OP_SUBTRACAO> 
+                    | 
+                    t = <OP_OR>
+                    {valor += t.image;}
+
+                )
             }catch(ParseException e){
         
                 showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Operador lógico ou aritmético esperado", Grammar.descricao);
             } 
         ) 
-        termo()
+        s = termo()
+        {valor += s;}
+
     )*
+
+    {return valor;}
+
 }
 
-void relacao() :
-{}
+String relacao() :
+{String valor; String s; Token t;}
 {
+    
+    {s = "";}
+    {valor = "";}
+    {t = null;}
+
     (
         try{
-            <SIMBOLO_IGUAL> | <SIMBOLO_DIFERENTE> | <SIMBOLO_MENOR> | <SIMBOLO_MENOR_IGUAL> | <SIMBOLO_MAIOR_IGUAL> | <SIMBOLO_MAIOR>
+            t = <SIMBOLO_IGUAL> | t = <SIMBOLO_DIFERENTE> | t = <SIMBOLO_MENOR> | t = <SIMBOLO_MENOR_IGUAL> | t = <SIMBOLO_MAIOR_IGUAL> | t = <SIMBOLO_MAIOR>
+            {valor += t.image;}
         }catch(ParseException e){
         
             showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Operador lógico ou aritmético esperado", Grammar.descricao);
         } 
     )
+
+    {return valor;}
+
 }
 
-void termo() :
-{}
+String termo() :
+{String valor; String s; Token t;}
 {
+
+    {valor = "";}
+    {s = "";}
+    {t = null;}
+
     try{
-        fator()
+        s = fator()
+        {valor += s;}
     }
     catch(ParseException e){
         showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Expressão condicional esperada", Grammar.descricao);
@@ -916,28 +962,37 @@ void termo() :
     (
         (
             try{
-                <OP_MULTIPLICACAO> | <OP_DIVISAO> | <OP_AND>
+                t = <OP_MULTIPLICACAO> | t = <OP_DIVISAO> | t = <OP_AND>
+                {valor += t.image;}
             }catch(ParseException e){
         
                 showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Operador de multiplicação ou adição ou divisão esperado", Grammar.descricao);
             } 
         ) 
         try{
-            fator()
+            s = fator()
+            {valor += s;}
         }
         catch(ParseException e){
             showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Expressão condicional esperada", Grammar.descricao);
         }
     )*
+
+    {return valor;}
+
 }
 
 
-void fator() :
-{}
+String fator() :
+{String valor = ""; String s = ""; Token t = null;}
 {
-    variavel() | 
+
+    s = variavel()
+    {valor += s;}
+    | 
     try{ 
-        <NUMERO_INTEIRO> | <NUMERO_REAL>
+        t = <NUMERO_INTEIRO> | t = <NUMERO_REAL>
+        {valor += t.image;}
     }catch(ParseException e){
         
         showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Número inteiro ou real esperado", Grammar.descricao);
@@ -945,14 +1000,17 @@ void fator() :
     |
     (
         try{
-            <PARENTESES_ABRE>
+            t = <PARENTESES_ABRE>
+            {valor += t.image;}
         }catch(ParseException e){
         
             showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Abre parenteses esperado", Grammar.descricao);
         }  
-        expressao()
+        s = expressao()
+        {valor += s;}
         try{
-            <PARENTESES_FECHA>
+            t = <PARENTESES_FECHA>
+            {valor += t.image;}
         }catch(ParseException e){
         
             showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Fecha parenteses esperado", Grammar.descricao);
@@ -961,20 +1019,26 @@ void fator() :
     | 
     (
         try{
-           <OP_NOT>
+           t = <OP_NOT>
+           {valor += t.image;}
         }catch(ParseException e){
         
             showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Operador not esperado", Grammar.descricao);
         }
-        fator()
+        s = fator()
+        {valor += s;}
     )
     | 
     try{
-        <TRUE> | <FALSE>
+        t = <TRUE> | t = <FALSE>
+        {valor += t.image;}
     }catch(ParseException e){
         
         showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Tipo de dado boleano(TRUE ou FALSE) esperado", Grammar.descricao);
     } 
+    
+    {return valor;}
+
 }
 
 void listaExpressoes() :

@@ -9,6 +9,7 @@ import gerador.Gerador;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
+import static semantico.AnalisadorSemantico.conjunto;
 
 /**
  *
@@ -200,6 +201,12 @@ public class Tabela {
                 tabelaVariaveis.get(chave).visualizar();
             }
         }
+    }
+    
+    public void atribuirValor(String variavel, String valor){
+                
+        Variaveis v = tabelaVariaveis.get(variavel);
+        //v.setValor(valor); //String que vem como parametro
     }
     
 }

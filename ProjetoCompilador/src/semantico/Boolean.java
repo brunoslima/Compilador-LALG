@@ -29,4 +29,8 @@ public class Boolean extends Variaveis{
         System.out.println("(" + this.nome + "," + this.tipo + "," + this.valor + ")");
         
     }
+    
+    public void setValor(String valor){
+        
+    }
 }

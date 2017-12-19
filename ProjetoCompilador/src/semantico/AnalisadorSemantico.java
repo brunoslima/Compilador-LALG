@@ -70,4 +70,20 @@ public class AnalisadorSemantico {
         }
     }
     
+    /*public static void atribuirValor(String nome, String variavel, String valor){
+
+        Set<String> chaves = conjunto.keySet();
+        for (String chave : chaves){ //Percorendo todas os conjuntos
+            
+            if(chave != null && chave.equals(nome)){ //Selecionando o conjunto desejado (escopo)
+                //System.out.println("\nTitulo: " + chave);
+                
+                Variaveis v = conjunto.get(chave).tabelaVariaveis.get(variavel);
+                //v.setValor(valor); //String que vem como parametro
+            }
+        }
+        
+    }
+    */
+    
 }
