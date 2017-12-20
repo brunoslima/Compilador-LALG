@@ -709,6 +709,8 @@ void atribuicao() throws ParseException:
             |
             valor = expressao() 
         )
+
+        {Gerador.atribuicaoVariavel(v); }
     )
 
     {System.out.println("teste\n\n\n");
@@ -779,11 +781,19 @@ void comandoCondicional() throws ParseException:
         }
         }
     ) 
+
+    {Gerador.verificaIf(); }
     
     comando() 
     
+    {Gerador.desvioIf(); }
     
-    [ LOOKAHEAD(1) <ELSE> comando()]
+    [ 
+        LOOKAHEAD(1) <ELSE> 
+        {Gerador.verificaElse(); }
+        comando()
+        {Gerador.desvioElse(); }
+    ]
 
 }
 
@@ -792,8 +802,9 @@ void comandoRepetitivo() throws ParseException:
 {
     try{
         <WHILE>    
-
+        
         expressao()
+        {Gerador.verificaWhile(); }
     }
     catch(ParseException e){
         showMessageError(token.next.beginLine, token.next.beginColumn, "Palavra reservada WHILE esperada", Grammar.descricao);
@@ -819,6 +830,8 @@ void comandoRepetitivo() throws ParseException:
     
 
     comando() 
+
+    {Gerador.desvioWhile(); }
     
 }
 
@@ -834,9 +847,7 @@ String expressao() :
         s = expressaoSimples() 
         {valor += s;}
 
-        {
-            //pegar o primeiro elemento
-        }
+        
     }
     catch(ParseException e){
         error_skipto_before(END,PONTO_VIRGULA,PONTO, THEN, DO);
@@ -865,6 +876,7 @@ String expressao() :
 
         {
             //montar comparação
+            Gerador.verificaRelacao(simboloRelacao);
         }
     ]
 

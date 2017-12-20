@@ -1,5 +1,6 @@
 package gerador;
 
+import interpretador.Comando;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
@@ -17,6 +18,10 @@ import java.util.HashMap;
  * @author leandroungari
  */
 public class Gerador {
+    
+    private static int posicaoIF;
+    private static int posicaoELSE;
+    private static int posicaoWHILE;
     
     private static String nomePrograma;
     private static int contadorDados;
@@ -73,6 +78,7 @@ public class Gerador {
         listaComandos.add("AMEM 1");
     }
     
+    //ok
     public static void atribuicaoVariavel(String nomeVariavel) {
         
         int enderecoAlocacao = listaVariaveis.get(nomeVariavel).getEnderecoAlocacao();
@@ -80,15 +86,86 @@ public class Gerador {
         listaComandos.add("ARMZ " + enderecoAlocacao);
     }
     
+    //ok
     public static void leituraInteiro() {
         
         listaComandos.add("LEIT");
     }
     
-    
+    //ok
     public static void leituraCaracter() {
         
         listaComandos.add("LEICH");
+    }
+    
+    public static void verificaIf(){
+        
+        posicaoIF = listaComandos.size();
+        executaNada();
+    }
+    
+    public static void desvioIf(){
+        
+        desvioSeFalso(posicaoIF, listaComandos.size() + 1);
+    }
+    
+    public static void verificaElse(){
+        
+        executaNada();
+        posicaoELSE = listaComandos.size() - 1;
+    }
+    
+    public static void desvioElse(){
+        
+        desvioIncondicional(posicaoELSE, listaComandos.size());
+    }
+    
+    public static void verificaWhile() {
+        
+        posicaoWHILE = listaComandos.size();
+        executaNada();
+    }
+    
+    public static void desvioWhile() {
+        
+        executaNada();
+        desvioIncondicional(listaComandos.size() - 1, posicaoWHILE);
+        desvioSeFalso(posicaoWHILE, listaComandos.size());
+    }
+    
+    public static void verificaRelacao(String simbolo){
+        
+        switch(simbolo) {
+            //<SIMBOLO_IGUAL> 
+            //| t = <SIMBOLO_DIFERENTE> 
+            //| t = <SIMBOLO_MENOR> 
+            //| t = <SIMBOLO_MENOR_IGUAL> 
+            //| t = <SIMBOLO_MAIOR_IGUAL> 
+            //| t = <SIMBOLO_MAIOR>
+            case "=":
+                comparaIgual();
+                break;
+                
+            case "<>":
+                comparaDesigual();
+                break;
+                
+            case "<":
+                comparaMenor();
+                break;
+                
+            case "<=":
+                comparaMenorIgual();
+                break;
+                
+            case ">=":
+                comparaMaiorIgual();
+                break;
+                
+            case ">":
+                comparaMaior();
+                break;
+        }
     }
     
     public static void carregarValorConstante(int valor) {
@@ -178,14 +255,14 @@ public class Gerador {
         listaComandos.add("CMAG");
     }
     
-    public static void desvioIncondicional(){
+    public static void desvioIncondicional(int posicaoComando, int posicaoDesvio){
         
-        listaComandos.add("DSVS");
+        listaComandos.set(posicaoComando, "DSVS " + posicaoDesvio);
     }
     
-    public static void desvioSeFalso(){
+    public static void desvioSeFalso(int posicaoComando, int posicaoDesvio){
         
-        listaComandos.add("DSVF");
+        listaComandos.set(posicaoComando, "DSVF " + posicaoDesvio);
     }
     
     public static void executaNada(){
