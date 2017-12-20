@@ -837,7 +837,7 @@ void comandoRepetitivo() throws ParseException:
 
 
 String expressao() :
-{String simboloRelacao; String valor; String s;}
+{String simboloRelacao = ""; String valor; String s;}
 {   
 
     {s = "";}
@@ -894,9 +894,12 @@ String expressaoSimples() :
 
     [
   
-        t = <OP_ADICAO>
+        (
+            t = <OP_ADICAO>
         |
-        t = <OP_SUBTRACAO>
+            t = <OP_SUBTRACAO>
+            {Gerador.inverterSinal(); }
+        )
         {valor += t.image;}
 
     ]
@@ -927,7 +930,8 @@ String expressaoSimples() :
         ) 
         s = termo()
         {valor += s;}
-
+        {Gerador.verificarOperador(t.image);}
+        
     )*
 
     {return valor;}
@@ -989,6 +993,8 @@ String termo() :
         catch(ParseException e){
             showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Expressão condicional esperada", Grammar.descricao);
         }
+
+        {Gerador.verificarOperador(t.image);}
     )*
 
     {return valor;}
@@ -1000,56 +1006,65 @@ String fator() :
 {String valor = ""; String s = ""; Token t = null;}
 {
 
-    s = variavel()
-    {valor += s;}
-    | 
-    try{ 
-        t = <NUMERO_INTEIRO> | t = <NUMERO_REAL>
-        {valor += t.image;}
-    }catch(ParseException e){
-        
-        showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Número inteiro ou real esperado", Grammar.descricao);
-    } 
-    |
     (
-        try{
-            t = <PARENTESES_ABRE>
-            {valor += t.image;}
-        }catch(ParseException e){
-        
-            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Abre parenteses esperado", Grammar.descricao);
-        }  
-        s = expressao()
+        s = variavel()
         {valor += s;}
-        try{
-            t = <PARENTESES_FECHA>
-            {valor += t.image;}
-        }catch(ParseException e){
-        
-            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Fecha parenteses esperado", Grammar.descricao);
-        } 
-    ) 
-    | 
-    (
-        try{
-           t = <OP_NOT>
-           {valor += t.image;}
-        }catch(ParseException e){
-        
-            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Operador not esperado", Grammar.descricao);
+        {
+            Gerador.carregarValorDaVariavel(s);
         }
-        s = fator()
-        {valor += s;}
-    )
     | 
-    try{
-        t = <TRUE> | t = <FALSE>
-        {valor += t.image;}
-    }catch(ParseException e){
-        
-        showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Tipo de dado boleano(TRUE ou FALSE) esperado", Grammar.descricao);
-    } 
-    
+        try{ 
+            t = <NUMERO_INTEIRO> | t = <NUMERO_REAL>
+            {valor += t.image;}
+
+            {
+                Gerador.carregarValorConstante(Integer.parseInt(t.image));
+            }
+        }catch(ParseException e){
+
+            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Número inteiro ou real esperado", Grammar.descricao);
+        } 
+    |
+        (
+            try{
+                t = <PARENTESES_ABRE>
+                {valor += t.image;}
+            }catch(ParseException e){
+
+                showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Abre parenteses esperado", Grammar.descricao);
+            }  
+            s = expressao()
+            {valor += s;}
+            try{
+                t = <PARENTESES_FECHA>
+                {valor += t.image;}
+            }catch(ParseException e){
+
+                showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Fecha parenteses esperado", Grammar.descricao);
+            } 
+        ) 
+    | 
+        (
+            try{
+               t = <OP_NOT>
+               {valor += t.image;}
+               {Gerador.verificarOperador(t.image);}
+            }catch(ParseException e){
+
+                showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Operador not esperado", Grammar.descricao);
+            }
+            s = fator()
+            {valor += s;}
+        )
+    | 
+        try{
+            t = <TRUE> | t = <FALSE>
+            {valor += t.image;}
+        }catch(ParseException e){
+
+            showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Tipo de dado boleano(TRUE ou FALSE) esperado", Grammar.descricao);
+        } 
+    )
     {return valor;}
 
 }

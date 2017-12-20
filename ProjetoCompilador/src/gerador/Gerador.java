@@ -168,6 +168,47 @@ public class Gerador {
         }
     }
     
+    public static void inverterSinal() {
+        
+        inversao();
+    }
+    
+    public static void verificarOperador(String operador){
+        
+        switch(operador) {
+            
+            case "+":
+                adicao();
+                break;
+                
+            case "-":
+                subtracao();
+                break;
+                
+            case "or":
+                disjuncao();
+                break;
+                
+            case "*":
+                multiplicacao();
+                break;
+                
+            case "/":
+                divisao();
+                
+                break;
+                
+            case "and":
+                disjuncao();
+                break;
+                
+            case "not":
+                
+                negacao();
+                break;
+        }
+    }
+    
     public static void carregarValorConstante(int valor) {
         
         listaComandos.add("CRCT " + valor);
