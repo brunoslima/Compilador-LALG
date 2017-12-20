@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Stack;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -19,9 +20,12 @@ import java.util.HashMap;
  */
 public class Gerador {
     
-    private static int posicaoIF;
-    private static int posicaoELSE;
-    private static int posicaoWHILE;
+    private static Stack<java.lang.Integer> posicaoIF;
+    private static Stack<java.lang.Integer> posicaoIFAUX;
+    private static Stack<java.lang.Integer> posicaoELSE;
+    private static Stack<java.lang.Integer> posicaoWHILE;
+    
+    private static int posicaoExpressao;
     
     private static String nomePrograma;
     private static int contadorDados;
@@ -42,6 +46,10 @@ public class Gerador {
         
         listaVariaveis = new HashMap<>();
         listaComandos = new ArrayList<>();
+        posicaoIF = new Stack<>();
+        posicaoIFAUX = new Stack<>();
+        posicaoELSE = new Stack<>();
+        posicaoWHILE = new Stack<>();
         contadorDados = 0;
     }
 
@@ -99,38 +107,51 @@ public class Gerador {
     }
     
     public static void verificaIf(){
-        
-        posicaoIF = listaComandos.size();
+        posicaoIF.push(listaComandos.size());
+        //posicaoIF = listaComandos.size();
         executaNada();
     }
     
     public static void desvioIf(){
         
-        desvioSeFalso(posicaoIF, listaComandos.size() + 1);
+        desvioSeFalso(posicaoIF.peek(), listaComandos.size());
+        posicaoIFAUX.push(posicaoIF.pop());
     }
     
     public static void verificaElse(){
         
         executaNada();
-        posicaoELSE = listaComandos.size() - 1;
+        posicaoELSE.push(listaComandos.size() - 1);
+        //posicaoELSE = listaComandos.size() - 1;
+    }
+    
+    public static void setExpressao(int num) {
+        
+        posicaoExpressao = num;
     }
     
     public static void desvioElse(){
         
-        desvioIncondicional(posicaoELSE, listaComandos.size());
+        desvioIncondicional(posicaoELSE.peek(), listaComandos.size());
+        desvioSeFalso(posicaoIFAUX.pop(), posicaoELSE.pop() + 1);
     }
     
     public static void verificaWhile() {
         
-        posicaoWHILE = listaComandos.size();
+        posicaoWHILE.push(listaComandos.size());
         executaNada();
+    }
+    
+    public static int getContador() {
+        
+        return listaComandos.size();
     }
     
     public static void desvioWhile() {
         
         executaNada();
-        desvioIncondicional(listaComandos.size() - 1, posicaoWHILE);
-        desvioSeFalso(posicaoWHILE, listaComandos.size());
+        desvioIncondicional(listaComandos.size() - 1, posicaoExpressao);
+        desvioSeFalso(posicaoWHILE.pop(), listaComandos.size());
     }
     
     public static void verificaRelacao(String simbolo){
@@ -193,7 +214,7 @@ public class Gerador {
                 multiplicacao();
                 break;
                 
-            case "/":
+            case "div":
                 divisao();
                 
                 break;

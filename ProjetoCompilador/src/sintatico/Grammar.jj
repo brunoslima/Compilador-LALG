@@ -802,7 +802,7 @@ void comandoRepetitivo() throws ParseException:
 {
     try{
         <WHILE>    
-        
+        {Gerador.setExpressao(Gerador.getContador()); }
         expressao()
         {Gerador.verificaWhile(); }
     }
@@ -948,7 +948,7 @@ String relacao() :
 
     (
         try{
-            t = <SIMBOLO_IGUAL> | t = <SIMBOLO_DIFERENTE> | t = <SIMBOLO_MENOR> | t = <SIMBOLO_MENOR_IGUAL> | t = <SIMBOLO_MAIOR_IGUAL> | t = <SIMBOLO_MAIOR>
+            (t = <SIMBOLO_IGUAL> | t = <SIMBOLO_DIFERENTE> | t = <SIMBOLO_MENOR> | t = <SIMBOLO_MENOR_IGUAL> | t = <SIMBOLO_MAIOR_IGUAL> | t = <SIMBOLO_MAIOR>)
             {valor += t.image;}
         }catch(ParseException e){
         
@@ -1014,7 +1014,8 @@ String fator() :
         }
     | 
         try{ 
-            t = <NUMERO_INTEIRO> | t = <NUMERO_REAL>
+            (t = <NUMERO_INTEIRO> | t = <NUMERO_REAL>)
+
             {valor += t.image;}
 
             {

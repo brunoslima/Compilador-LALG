@@ -29,7 +29,7 @@ public class JavaCCTest {
 
     public static void main(String[] args) throws FileNotFoundException {
 
-        String sourcecode = "teste.txt";
+        String sourcecode = "bytecode.txt";
         
         ////////////////
         // Gerador
@@ -53,6 +53,8 @@ public class JavaCCTest {
         
         HashMap<String, Variavel> lista = Gerador.getListaVariaveis();
         String comandos = Gerador.getListaComandos().toString();
+        
+        Gerador.gerarArquivo("programa.in");
         
         Set<String> chaves = AnalisadorSemantico.conjunto.keySet();
         for (String chave : chaves){

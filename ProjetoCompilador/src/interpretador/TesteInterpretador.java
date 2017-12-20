@@ -20,7 +20,7 @@ public class TesteInterpretador {
         Interpretador in = new Interpretador();
         try {
 
-            in.lerArquivo("teste.in");
+            in.lerArquivo("programa.in");
 
             in.executar();
 

@@ -1,0 +1,19 @@
+program testebytecode;
+int x, y, z;
+begin
+	
+	read(x,y);
+	while x < y do
+	begin
+		write(x,y);
+		x := x + 1
+	end;
+
+	z := x + y;
+	if x >= 4 then write(z)
+	else write(y);
+
+	z := 10*x div 2;
+	write(z)
+	
+end.
