@@ -712,9 +712,8 @@ void atribuicao() throws ParseException:
 
         {Gerador.atribuicaoVariavel(v); }
     )
-
-    {System.out.println("teste\n\n\n");
-    AnalisadorSemantico.tabelaAtual.atribuirValor(v,valor);}
+    
+    {AnalisadorSemantico.tabelaAtual.atribuirValor(v,valor,token.beginLine,token.beginColumn);}
 
 }
 
@@ -896,7 +895,7 @@ String expressaoSimples() :
   
         (
             t = <OP_ADICAO>
-        |
+            |
             t = <OP_SUBTRACAO>
             {Gerador.inverterSinal(); }
         )
@@ -915,14 +914,15 @@ String expressaoSimples() :
             try{
                 (
                 
-                    t = <OP_ADICAO> 
+                    t = <OP_ADICAO>
                     |
                     t = <OP_SUBTRACAO> 
                     | 
                     t = <OP_OR>
-                    {valor += t.image;}
 
                 )
+                {valor += t.image;}
+
             }catch(ParseException e){
         
                 showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Operador lógico ou aritmético esperado", Grammar.descricao);
@@ -979,8 +979,9 @@ String termo() :
     (
         (
             try{
-                t = <OP_MULTIPLICACAO> | t = <OP_DIVISAO> | t = <OP_AND>
-                {valor += t.image;}
+                (t = <OP_MULTIPLICACAO> | t = <OP_DIVISAO> | t = <OP_AND>)
+                {s = t.image;}
+                {valor += s;}
             }catch(ParseException e){
         
                 showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Operador de multiplicação ou adição ou divisão esperado", Grammar.descricao);
@@ -1047,7 +1048,7 @@ String fator() :
     | 
         (
             try{
-               t = <OP_NOT>
+               (t = <OP_NOT>)
                {valor += t.image;}
                {Gerador.verificarOperador(t.image);}
             }catch(ParseException e){

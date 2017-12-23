@@ -203,10 +203,61 @@ public class Tabela {
         }
     }
     
-    public void atribuirValor(String variavel, String valor){
-                System.out.println("OLAAAAAAAAAAAAAAA\n\n\n\n\n");
+    public void atribuirValor(String variavel, String valor, int linha, int coluna){
+
         Variaveis v = tabelaVariaveis.get(variavel);
         v.setValor(valor); //String que vem como parametro
+        
+        this.verificaAtribuicao(v,linha,coluna);
+    }
+    
+    public void verificaAtribuicao(Variaveis v, int linha, int coluna){
+        
+        if(v.tipo.equals("INT")){
+            
+            this.verificaAtribuicaoINT(v,linha,coluna);
+            
+        }
+        else if(v.tipo.equals("BOOLEAN")){
+            
+            this.verificaAtribuicaoBOOLEAN(v,linha,coluna);
+        }
+        
+    }
+    
+    public void verificaAtribuicaoINT(Variaveis v, int linha, int coluna){
+        
+        String valor = v.valor;
+        
+        if(valor.contains("true") || valor.contains("false")){ //Inteiro não pode receber true ou false
+            TabelaErrosSemantico.add("ERRO: Atribuindo valor booleano em uma variavel do tipo inteiro", linha, coluna);
+            return;
+        }
+        else if(this.existeOperadorLogico(valor)){ //Inteiro não pode receber uma expressão lógica
+            TabelaErrosSemantico.add("ERRO: Atribuindo valor booleano em uma variavel do tipo inteiro", linha, coluna);
+            return;
+        }
+        
+        //Verificação de tipos
+        
+    }
+    
+    public void verificaAtribuicaoBOOLEAN(Variaveis v, int linha, int coluna){
+        
+    }
+    
+    public boolean existeOperadorLogico(String valor){
+        
+        if(valor.contains(">") || valor.contains("<") || valor.contains(">=") || valor.contains("<=")){
+            return true;
+        }
+        else if(valor.contains("=") || valor.contains("<>")){
+            return true;
+        }
+        else if(valor.contains("and") || valor.contains("not")|| valor.contains("or")){
+            return true;
+        }
+        return false;
     }
     
 }
