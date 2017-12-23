@@ -8,6 +8,8 @@ begin
 	c := c >= 20;
 	j := a + b - c div a;
 	k := j and b;
+	t := false;
+	t := true;
 	t2 := 12;
 	t3 := 2 + 20;
 	t4 := t3;

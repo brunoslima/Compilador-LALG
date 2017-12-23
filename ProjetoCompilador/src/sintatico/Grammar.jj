@@ -1060,7 +1060,7 @@ String fator() :
         )
     | 
         try{
-            t = <TRUE> | t = <FALSE>
+            (t = <TRUE> | t = <FALSE>)
             {valor += t.image;}
         }catch(ParseException e){
 

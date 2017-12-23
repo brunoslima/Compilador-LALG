@@ -902,7 +902,6 @@ valor += s;
           }
         case FALSE:{
           t = jj_consume_token(FALSE);
-valor += t.image;
           break;
           }
         default:
@@ -910,6 +909,7 @@ valor += t.image;
           jj_consume_token(-1);
           throw new ParseException();
         }
+valor += t.image;
       } catch (ParseException e) {
 showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Tipo de dado boleano(TRUE ou FALSE) esperado", Grammar.descricao);
       }
@@ -1326,12 +1326,6 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
     return false;
   }
 
-  static private boolean jj_3R_38()
- {
-    if (jj_scan_token(FALSE)) return true;
-    return false;
-  }
-
   static private boolean jj_3R_22()
  {
     if (jj_3R_25()) return true;
@@ -1433,7 +1427,7 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
     xsp = jj_scanpos;
     if (jj_scan_token(9)) {
     jj_scanpos = xsp;
-    if (jj_3R_38()) return true;
+    if (jj_scan_token(10)) return true;
     }
     return false;
   }
