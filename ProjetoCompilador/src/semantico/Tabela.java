@@ -9,6 +9,7 @@ import gerador.Gerador;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
+import java.util.regex.Pattern;
 import static semantico.AnalisadorSemantico.conjunto;
 
 /**
@@ -238,7 +239,24 @@ public class Tabela {
             return;
         }
         
-        //Verificação de tipos
+        //Verificação de tipos das variaveis que formam a expressão
+        valor = this.retirarOperadores(valor);
+        String[] valores = valor.split (Pattern.quote (" "));        
+        
+        for(int i = 0; i < valores.length; i++){
+            
+            //Se não for um número, é uma variavel, então precisa verificar se seu tipo é inteiro;
+            if(!this.isNumber(valores[i])){
+                
+                Variaveis aux = tabelaVariaveis.get(valores[i]);
+                if(!aux.tipo.equals("INT")){
+                    TabelaErrosSemantico.add("ERRO: Atribuindo valor booleano em uma variavel do tipo inteiro", linha, coluna);
+                    break;
+                }//Fim do if
+                
+            }//Fim do if que verifica se é diferente de uma número
+            
+        }//Fim do for
         
     }
     
@@ -258,6 +276,37 @@ public class Tabela {
             return true;
         }
         return false;
+    }
+    
+    public String retirarOperadores(String valor){
+        
+        //Operadores aritimeticos: + - * div;
+        
+        valor = valor.replace("+"," ");
+        valor = valor.replace("-"," ");
+        valor = valor.replace("*"," ");
+        valor = valor.replace("div"," ");
+        
+        //Parenteses ( );
+        
+        valor = valor.replace("("," ");
+        valor = valor.replace(")"," ");
+
+        return valor;
+        
+    }
+    
+    public boolean isNumber(String s) {
+        
+        char[] c = s.toCharArray();
+        
+        for(int i=0; i < c.length; i++ ){
+            
+            // verifica se o char não é um dígito
+            if (!Character.isDigit(c[i])) return(false);
+        }
+        
+        return true;
     }
     
 }

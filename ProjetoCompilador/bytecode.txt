@@ -1,11 +1,13 @@
 program testebytecode;
-int x, y, z, a, b, c;
+int x, y, z, a, b, c, j, k;
+boolean t;
 begin
 	
-	a := 23 and 4;
-	b := a * 10 > true;
-	c := false;
-	c := c + 20;
+	a := 23 + 4;
+	b := a * 10 + t;
+	c := c >= 20;
+	j := a + b - c div a;
+	k := j and b;
 	
 	read(x,y);
 	while x < y do
