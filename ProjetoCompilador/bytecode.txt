@@ -1,6 +1,6 @@
 program testebytecode;
 int x, y, z, a, b, c, j, k;
-boolean t;
+boolean t, t2, t3, t4, t5;
 begin
 	
 	a := 23 + 4;
@@ -8,6 +8,11 @@ begin
 	c := c >= 20;
 	j := a + b - c div a;
 	k := j and b;
+	t2 := 12;
+	t3 := 2 + 20;
+	t4 := t3;
+	t5 := a;
+
 	
 	read(x,y);
 	while x < y do

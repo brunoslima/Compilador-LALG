@@ -261,6 +261,37 @@ public class Tabela {
     }
     
     public void verificaAtribuicaoBOOLEAN(Variaveis v, int linha, int coluna){
+    
+        String valor = v.valor;
+        if(this.existeOperadorLogico(valor)){ //Se existe então deve ter apenas 1;
+            
+            //Se existe operação logica unica forma aceita é: variavel1 op_logico variavel2
+            
+        }
+        else{
+            
+            if(this.existeOperadorAritmetico(valor)){ //Verificando se uma expressão aritmetica está sendo atribuida
+                TabelaErrosSemantico.add("ERRO - Atribuindo o resultado de uma operação aritmetica em uma variavel booleana", linha, coluna);
+                return;
+            }
+            
+            if(this.isNumber(valor)){ //Verificando se um número está sendo atribuido
+                TabelaErrosSemantico.add("ERRO - Atribuindo um valor inteiro em uma variavel do tipo boolean", linha, coluna);
+                return;
+            }
+            
+            if(!valor.equalsIgnoreCase("true") && !valor.equalsIgnoreCase("false")){ //Significa que é uma variavel
+                
+                Variaveis aux = tabelaVariaveis.get(valor);
+
+                if(aux.tipo.equals("INT")){ //Atribuir uma variavel do tipo inteiro em uma do tipo booleano da erro
+                    TabelaErrosSemantico.add("ERRO - Atribuindo uma variavel de valor inteiro em uma variavel di tipo boolean", linha, coluna);
+                    return;
+                }//Fim do if interno
+                
+            }//Fim do if externo
+            
+        }
         
     }
     
@@ -276,6 +307,11 @@ public class Tabela {
             return true;
         }
         return false;
+    }
+    
+    public boolean existeOperadorAritmetico(String valor){
+        
+        return (valor.contains("+") || valor.contains("-") || valor.contains("*") || valor.contains("div"));
     }
     
     public String retirarOperadores(String valor){
