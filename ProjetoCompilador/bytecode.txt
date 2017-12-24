@@ -1,19 +1,19 @@
 program testebytecode;
 int x, y, z, a, b, c, j, k;
-boolean t, t2, t3, t4, t5;
+boolean t, t2, t3, t4, t5, t6;
 begin
 	
-	a := 23 + 4;
-	b := a * 10 + t;
+	a := (23 + 4) + 3;
+	b := a * (10 + t) + 3;
 	c := c >= 20;
 	j := a + b - c div a;
 	k := j and b;
-	t := false;
 	t := true;
 	t2 := 12;
 	t3 := 2 + 20;
 	t4 := t3;
 	t5 := a;
+	t6 := (a <= b) <> 4;
 
 	
 	read(x,y);

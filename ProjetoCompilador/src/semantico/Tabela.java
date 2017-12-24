@@ -263,9 +263,16 @@ public class Tabela {
     public void verificaAtribuicaoBOOLEAN(Variaveis v, int linha, int coluna){
     
         String valor = v.valor;
-        if(this.existeOperadorLogico(valor)){ //Se existe então deve ter apenas 1;
+        if(this.existeOperadorLogico(valor)){ //Se existe operador logico
             
-            //Se existe operação logica unica forma aceita é: variavel1 op_logico variavel2
+            //Se existe operação logica, deve conter apenas um operador logico
+            if(this.getQuantidadeOperadorLogico(valor) == 1){
+                
+            }
+            else{
+                TabelaErrosSemantico.add("ERRO - Atribuição de uma expressão invalida a uma variavel booleana", linha, coluna);
+                return;
+            }
             
         }
         else{
@@ -285,7 +292,7 @@ public class Tabela {
                 Variaveis aux = tabelaVariaveis.get(valor);
 
                 if(aux.tipo.equals("INT")){ //Atribuir uma variavel do tipo inteiro em uma do tipo booleano da erro
-                    TabelaErrosSemantico.add("ERRO - Atribuindo uma variavel de valor inteiro em uma variavel di tipo boolean", linha, coluna);
+                    TabelaErrosSemantico.add("ERRO - Atribuindo uma variavel de valor inteiro em uma variavel do tipo boolean", linha, coluna);
                     return;
                 }//Fim do if interno
                 
@@ -307,6 +314,20 @@ public class Tabela {
             return true;
         }
         return false;
+    }
+    
+    public int getQuantidadeOperadorLogico(String valor){
+        
+        int cont = 0;
+        for(int i = 0; i < valor.length(); i++){
+            
+            if(valor.charAt(i) == '>' || valor.charAt(i) == '<' || valor.charAt(i) == '='){
+                
+                cont++;
+                if(valor.charAt(i+1) == '=' || valor.charAt(i+1) == '>') i++;
+            }
+        }
+        return(cont);
     }
     
     public boolean existeOperadorAritmetico(String valor){
