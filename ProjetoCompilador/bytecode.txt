@@ -1,20 +1,21 @@
 program testebytecode;
 int x, y, z, a, b, c, j, k;
-boolean t, t2, t3, t4, t5, t6;
+boolean t, t2, t3, t4, t5, t6, t7, t8;
 begin
 	
 	a := (23 + 4) + 3;
-	b := a * (10 + t) + 3;
-	c := c >= 20;
+	b := a * (10 + t) + 3; //erro1
+	c := c >= 20; //erro2
 	j := a + b - c div a;
-	k := j and b;
+	k := j and b; //erro3
 	t := true;
-	t2 := 12;
-	t3 := 2 + 20;
+	t2 := 12; //erro4
+	t3 := 2 + 20; //erro5
 	t4 := t3;
-	t5 := a;
-	t6 := (a <= b) <> 4;
-
+	t5 := a; //erro6
+	t6 := (a <= b) <> 4; //erro7
+	t7 := (1 + 2 + a) >= c;
+	t8 := (1 + 2 + t) <> (a + 27 div t6); //erro8
 	
 	read(x,y);
 	while x < y do

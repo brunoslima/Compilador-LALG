@@ -268,6 +268,24 @@ public class Tabela {
             //Se existe operação logica, deve conter apenas um operador logico
             if(this.getQuantidadeOperadorLogico(valor) == 1){
                 
+                valor = this.retirarOperadoresLogicos(valor);
+                
+                //Separando as duas expressoes: exp1 op_logico exp2;
+                String[] expressoes = valor.split (Pattern.quote (" "));
+                String exp1 = expressoes[0];
+                String exp2 = expressoes[1];
+                
+                exp1 = this.retirarOperadores(exp1);
+                String[] valores1 = exp1.split (Pattern.quote (" "));
+                
+                exp2 = this.retirarOperadores(exp2);
+                String[] valores2 = exp2.split (Pattern.quote (" "));
+                
+                //Verificando se ambas as expressoes contém apenas valores ou variaveis inteiras
+                if(!this.isInteiros(valores1) || !this.isInteiros(valores2)){
+                    TabelaErrosSemantico.add("ERRO: Atribuindo uma expressão de resultando não booleano a uma variavel booleana", linha, coluna);
+                }
+                
             }
             else{
                 TabelaErrosSemantico.add("ERRO - Atribuição de uma expressão invalida a uma variavel booleana", linha, coluna);
@@ -351,6 +369,44 @@ public class Tabela {
 
         return valor;
         
+    }
+    
+    public String retirarOperadoresLogicos(String valor){
+        
+        //Operadores: > < >= <=;
+        
+        valor = valor.replace(">"," ");
+        valor = valor.replace("<"," ");
+        valor = valor.replace(">="," ");
+        valor = valor.replace("<="," ");
+        valor = valor.replace("="," ");
+        valor = valor.replace("<>"," ");
+        
+        valor = valor.replace("and"," ");
+        valor = valor.replace("not"," ");
+        valor = valor.replace("or"," ");
+
+        return valor;
+        
+    }
+    
+    public boolean isInteiros(String [] valores){
+        
+        for(int i = 0; i < valores.length; i++){
+            
+            //Se não for um número, é uma variavel, então precisa verificar se seu tipo é inteiro;
+            if(!this.isNumber(valores[i])){
+                
+                Variaveis aux = tabelaVariaveis.get(valores[i]);
+                if(!aux.tipo.equals("INT")){
+                    return false;
+                }//Fim do if
+                
+            }//Fim do if que verifica se é diferente de uma número
+            
+        }//Fim do for
+        
+        return true;
     }
     
     public boolean isNumber(String s) {
