@@ -5,15 +5,15 @@ boolean d, e, f;
 begin
 	
 	a := 1;
-	b := 2;
+	b := z;
 	c := 3;
-	if (d > 12) then
+	if (a > 12) then
 	begin
 		a:=20;
 		b:=10 *c;
 		c:=a div b
 	end;
-	while (a = 15) do
+	while (z) do
 	begin
 		if (b>=10) then
 			b:=2;

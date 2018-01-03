@@ -1010,6 +1010,7 @@ String fator() :
 
     (
         s = variavel()
+        {AnalisadorSemantico.tabelaAtual.verificarVariavelNulaUtilizada(s, token.beginLine, token.beginColumn);}
         {valor += s;}
         {
             Gerador.carregarValorDaVariavel(s);
@@ -1095,6 +1096,7 @@ String variavel() :
     {a = null;}
     try{
         a = <IDENTIFICADOR>
+
     }catch(ParseException e){
         
         showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Identificador esperado", Grammar.descricao);

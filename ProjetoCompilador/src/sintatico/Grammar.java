@@ -836,6 +836,7 @@ Gerador.verificarOperador(t.image);
     switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
     case IDENTIFICADOR:{
       s = variavel();
+AnalisadorSemantico.tabelaAtual.verificarVariavelNulaUtilizada(s, token.beginLine, token.beginColumn);
 valor += s;
 Gerador.carregarValorDaVariavel(s);
       break;
@@ -1268,6 +1269,12 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
     return false;
   }
 
+  static private boolean jj_3R_37()
+ {
+    if (jj_scan_token(IDENTIFICADOR)) return true;
+    return false;
+  }
+
   static private boolean jj_3_9()
  {
     Token xsp;
@@ -1284,12 +1291,6 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
     if (jj_scan_token(IDENTIFICADOR)) return true;
     if (jj_3R_16()) return true;
     if (jj_scan_token(THEN)) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_37()
- {
-    if (jj_scan_token(IDENTIFICADOR)) return true;
     return false;
   }
 
@@ -1396,6 +1397,17 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
     return false;
   }
 
+  static private boolean jj_3R_36()
+ {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_scan_token(9)) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(10)) return true;
+    }
+    return false;
+  }
+
   static private boolean jj_3R_10()
  {
     if (jj_scan_token(IDENTIFICADOR)) return true;
@@ -1419,17 +1431,6 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
  {
     if (jj_scan_token(IDENTIFICADOR)) return true;
     if (jj_scan_token(OP_ATRIBUICAO)) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_36()
- {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_scan_token(9)) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(10)) return true;
-    }
     return false;
   }
 

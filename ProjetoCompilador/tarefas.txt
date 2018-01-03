@@ -7,7 +7,7 @@
 
 - checagem de tipos na passagem de valores e atribuição
 - variavel ou procedure foi declarada mas não usada - V
-- variavel está sendo usada mas nunca recebeu valor antes
+- variavel está sendo usada mas nunca recebeu valor antes - V
 - procedimento foi utilizado mas não foi declarado
 - operador com variaveis de tipo errado, um inteiro dividido por um booleano - V
 - divisao por zero (não sei é a semantica, o interpretador está trabatando pelo que lembro)
