@@ -416,7 +416,8 @@ void declaracaoProcedimentos() :
         catch(ParseException e){
             showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Ponto e vírgula faltando", Grammar.descricao);
         }
-        bloco() 
+        bloco()
+        {AnalisadorSemantico.selectProcedure(AnalisadorSemantico.getProgramaPrincipal());} 
     ) 
 
 }

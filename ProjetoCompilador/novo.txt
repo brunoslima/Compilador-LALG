@@ -1,21 +1,28 @@
 program correto;
-int a, b, c, z;
+int a, b, c, dd, z;
 boolean d, e, f;
 
+procedure proc1(var a1 : int);
+int a, z;
+begin
+
+	a := z
+
+end;
 begin
 	
 	a := 1;
 	b := z;
 	c := 3;
-	if (a > 12) then
+	if (d > 12) then
 	begin
 		a:=20;
 		b:=10 *c;
 		c:=a div b
 	end;
-	while (z) do
+	while (a = 15) do
 	begin
-		if (b>=10) then
+		if (z) then
 			b:=2;
 		a:=a-1
 	end

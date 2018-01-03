@@ -299,6 +299,7 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
 showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Ponto e v\u00c3\u00adrgula faltando", Grammar.descricao);
     }
     bloco();
+AnalisadorSemantico.selectProcedure(AnalisadorSemantico.getProgramaPrincipal());
   }
 
   static final public void parametrosFormais() throws ParseException {
@@ -1120,6 +1121,26 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
     return false;
   }
 
+  static private boolean jj_3_15()
+ {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_scan_token(29)) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(30)) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(34)) {
+    jj_scanpos = xsp;
+    if (jj_3R_21()) {
+    jj_scanpos = xsp;
+    if (jj_3R_22()) return true;
+    }
+    }
+    }
+    }
+    return false;
+  }
+
   static private boolean jj_3_3()
  {
     Token xsp;
@@ -1138,26 +1159,6 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
  {
     if (jj_scan_token(VIRGULA)) return true;
     if (jj_scan_token(IDENTIFICADOR)) return true;
-    return false;
-  }
-
-  static private boolean jj_3_15()
- {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_scan_token(29)) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(30)) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(34)) {
-    jj_scanpos = xsp;
-    if (jj_3R_21()) {
-    jj_scanpos = xsp;
-    if (jj_3R_22()) return true;
-    }
-    }
-    }
-    }
     return false;
   }
 
@@ -1250,16 +1251,16 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
     return false;
   }
 
+  static private boolean jj_3_10()
+ {
+    if (jj_scan_token(READ)) return true;
+    return false;
+  }
+
   static private boolean jj_3R_12()
  {
     if (jj_scan_token(IDENTIFICADOR)) return true;
     if (jj_scan_token(VIRGULA)) return true;
-    return false;
-  }
-
-  static private boolean jj_3_10()
- {
-    if (jj_scan_token(READ)) return true;
     return false;
   }
 
@@ -1408,14 +1409,6 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
     return false;
   }
 
-  static private boolean jj_3R_10()
- {
-    if (jj_scan_token(IDENTIFICADOR)) return true;
-    if (jj_scan_token(IDENTIFICADOR)) return true;
-    if (jj_scan_token(PARENTESES_ABRE)) return true;
-    return false;
-  }
-
   static private boolean jj_3_12()
  {
     Token xsp;
@@ -1431,6 +1424,14 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
  {
     if (jj_scan_token(IDENTIFICADOR)) return true;
     if (jj_scan_token(OP_ATRIBUICAO)) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_10()
+ {
+    if (jj_scan_token(IDENTIFICADOR)) return true;
+    if (jj_scan_token(IDENTIFICADOR)) return true;
+    if (jj_scan_token(PARENTESES_ABRE)) return true;
     return false;
   }
 

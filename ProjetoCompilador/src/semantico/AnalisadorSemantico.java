@@ -47,6 +47,10 @@ public class AnalisadorSemantico {
     public static void setProgramaPrincipal(String programaPrincipal) {
         AnalisadorSemantico.programaPrincipal = programaPrincipal;
     }
+    
+    public static String getProgramaPrincipal(){
+        return programaPrincipal;
+    }
 
     public static void verificaVariaveisNaoUtilizadas(){
         

@@ -29,7 +29,7 @@ public class JavaCCTest {
 
     public static void main(String[] args) throws FileNotFoundException {
 
-        String sourcecode = "novo.txt";
+        String sourcecode = "correto1.txt";
         
         ////////////////
         // Gerador
