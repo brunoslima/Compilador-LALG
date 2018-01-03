@@ -1,0 +1,13 @@
+===============================
+== FUNCIONALIDADES SEMANTICO ==
+===============================
+
+- declaração de variáveis usadas
+- declaração de procedimentos usados
+- checagem de tipos na passagem de valores e atribuição
+- a variavel ou procedure é declarada uma unica vez
+- variavel ou procedure foi declarada mas não usada
+- variavel está sendo usada mas nunca recebeu valor antes
+- operador com variaveis de tipo errado, um inteiro dividido por um booleano
+- divisao por zero (não sei é a semantica, o interpretador está trabatando pelo que lembro)
+- read e write com variaveis do mesmo tipo
