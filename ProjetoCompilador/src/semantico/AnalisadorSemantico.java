@@ -48,6 +48,16 @@ public class AnalisadorSemantico {
         AnalisadorSemantico.programaPrincipal = programaPrincipal;
     }
 
+    public static void verificaVariaveisNaoUtilizadas(){
+        
+        Set<String> chaves = conjunto.keySet();
+        for (String chave : chaves){
+            if(chave != null){
+                conjunto.get(chave).verificarVariaveisNaoUtilizadas();
+            }
+        }        
+    }
+    
     public static void visualizar(){
         
         Set<String> chaves = conjunto.keySet();

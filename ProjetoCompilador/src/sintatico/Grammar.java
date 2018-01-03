@@ -87,6 +87,7 @@ System.out.println("N\u00c3\u00a3o deveria passar nunca aqui");
     }
     try {
       jj_consume_token(PONTO);
+AnalisadorSemantico.verificaVariaveisNaoUtilizadas();
 Gerador.finalizarPrograma();
     } catch (ParseException e) {
 showMessageError(e.currentToken.beginLine, e.currentToken.beginColumn, "Ponto final faltando", Grammar.descricao);

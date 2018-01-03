@@ -175,6 +175,7 @@ void compilationUnit() :
 
     try{
         <PONTO>
+        {AnalisadorSemantico.verificaVariaveisNaoUtilizadas();}
         {Gerador.finalizarPrograma();}
     }
     catch(ParseException e){

@@ -422,4 +422,15 @@ public class Tabela {
         return true;
     }
     
+    public void verificarVariaveisNaoUtilizadas(){
+        
+        Set<String> chaves = tabelaVariaveis.keySet();
+        for (String chave : chaves){
+            if(tabelaVariaveis.get(chave).valor == null){
+                TabelaErrosSemantico.add("WARNING - Variavel " + tabelaVariaveis.get(chave).nome + " foi declarada mas não foi utililizada.", 0, 0);
+            }
+        }
+        
+    }
+    
 }

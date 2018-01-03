@@ -1,22 +1,7 @@
 program correto;
-int a, b, c;
+int a, b, c, z;
 boolean d, e, f;
 
-procedure proc1(var a1 : int);
-int a, b, c;
-boolean d, e, f;
-begin
-	a:=1;
-	b:=2;
-	read(a);
-	write(c);
-	if (a<=1) then
-	begin
-		a:=2;
-		c:=3
-	end
-	else a:=3
-end;
 begin
 	
 	a := 1;
@@ -28,7 +13,7 @@ begin
 		b:=10 *c;
 		c:=a div b
 	end;
-	while (a = 15) then
+	while (a = 15) do
 	begin
 		if (b>=10) then
 			b:=2;
