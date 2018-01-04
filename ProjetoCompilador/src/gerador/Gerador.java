@@ -33,6 +33,7 @@ public class Gerador {
     
     private static HashMap<String, Variavel> listaVariaveis;
     private static ArrayList<String> listaComandos;
+    public static boolean foiExecutado;
 
     public static HashMap<String, Variavel> getListaVariaveis() {
         return listaVariaveis;

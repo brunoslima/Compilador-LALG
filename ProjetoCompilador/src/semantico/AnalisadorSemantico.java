@@ -20,6 +20,7 @@ public class AnalisadorSemantico {
     public static Tabela tabelaAtual; 
     public static String programaPrincipal;
     public static boolean temErro;
+    public static boolean foiExecutado /*= true*/; //inicializado verdadeiro só para testes
     
     public static void init() {
         

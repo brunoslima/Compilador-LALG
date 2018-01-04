@@ -8,6 +8,9 @@ package view;
 import arquivo.Arquivo;
 import decoracao.BordaNumerica;
 import decoracao.TextoDecoracao;
+import gerador.Gerador;
+import interpretador.Interpretador;
+import interpretador.TesteInterpretador;
 import java.awt.Color;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -15,7 +18,6 @@ import java.io.StringReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
-import javax.swing.InputMap;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -27,6 +29,7 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 import lexico.AnalisadorLexico;
 import lexico.Item;
+import semantico.AnalisadorSemantico;
 import sintatico.Grammar;
 import sintatico.JavaCCTest;
 import sintatico.RecuperacaoErros;
@@ -54,7 +57,7 @@ public class IUPrincipal extends javax.swing.JFrame {
     public IUPrincipal() {
 
         initComponents();
-                
+
         //Interface padrão ao sistema.
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -66,11 +69,11 @@ public class IUPrincipal extends javax.swing.JFrame {
 
         //Titulo da aplicação
         this.setTitle("Compilador - Analisador Sintático");
-        
+
         //Icone da aplicação
         ImageIcon imagemTituloJanela = new ImageIcon("imagens/logo.png");
         setIconImage(imagemTituloJanela.getImage());
-                
+
         //Inicializando variaveis
         this.arq = new Arquivo();
         this.lexico = null;
@@ -78,9 +81,9 @@ public class IUPrincipal extends javax.swing.JFrame {
 
         this.decoracao = new TextoDecoracao(jTextPane);
         this.analisador = new AnalisadorLexico();
-        
+
         sistema = System.getProperty("os.name");
-        
+
         this.jTextPane.setBorder(new BordaNumerica());
         g = new Grammar(new StringReader(""));
     }
@@ -95,6 +98,7 @@ public class IUPrincipal extends javax.swing.JFrame {
     private void initComponents() {
 
         jFileChooser1 = new javax.swing.JFileChooser();
+        jMenuItem8 = new javax.swing.JMenuItem();
         Aba = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -113,8 +117,13 @@ public class IUPrincipal extends javax.swing.JFrame {
         MenuAnalisar = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
+        jMenuItem7 = new javax.swing.JMenuItem();
+        jMenuItem9 = new javax.swing.JMenuItem();
+        jMenuItem10 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
+
+        jMenuItem8.setText("jMenuItem8");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -218,6 +227,28 @@ public class IUPrincipal extends javax.swing.JFrame {
         });
         MenuAnalisar.add(jMenuItem5);
 
+        jMenuItem7.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F7, 0));
+        jMenuItem7.setText("Análise Semântica");
+        MenuAnalisar.add(jMenuItem7);
+
+        jMenuItem9.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F8, 0));
+        jMenuItem9.setText("Geração de Código");
+        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem9ActionPerformed(evt);
+            }
+        });
+        MenuAnalisar.add(jMenuItem9);
+
+        jMenuItem10.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F9, 0));
+        jMenuItem10.setText("Interpretar Código Intermediário");
+        jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem10ActionPerformed(evt);
+            }
+        });
+        MenuAnalisar.add(jMenuItem10);
+
         jMenuBar1.add(MenuAnalisar);
 
         jMenu3.setText("Ajuda");
@@ -272,10 +303,10 @@ public class IUPrincipal extends javax.swing.JFrame {
                 this.jTextPane.setText(this.fonte);
                 this.Aba.setTitleAt(0, nomeArquivo);
                 JOptionPane.showMessageDialog(null, "Arquivo aberto com sucesso!");
-                
+
                 decoracao.colorirTexto();
                 jTextPane.repaint();
-                
+
             } catch (FileNotFoundException ex) {
 
                 Logger.getLogger(IUPrincipal.class.getName()).log(Level.SEVERE, null, ex);
@@ -300,14 +331,13 @@ public class IUPrincipal extends javax.swing.JFrame {
             }
         }
 
-            if (!this.fonte.equals("")) {
+        if (!this.fonte.equals("")) {
 
             this.lexico = new AnalisadorLexico();
 
             lexico.analisar(this.fonte, 0);
 
             //JOptionPane.showMessageDialog(null, "Análise Léxica realizada com sucesso!");
-
             //Inserindo linhas na tabela
             String lexema, token, numLinha, numColunaInicial, numColunaFinal;
             for (Item i : lexico.getTabela()) {
@@ -326,7 +356,7 @@ public class IUPrincipal extends javax.swing.JFrame {
         }
 
         jConsolePanel.setSelectedIndex(0);
-        
+
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
@@ -350,7 +380,7 @@ public class IUPrincipal extends javax.swing.JFrame {
                 model.removeRow(0);
             }
         }
-        
+
         this.jTextPaneConsole.setText("");
 
     }//GEN-LAST:event_MenuFecharActionPerformed
@@ -367,60 +397,118 @@ public class IUPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jTextPaneKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextPaneKeyReleased
-        
+
         decoracao.colorirTexto();
         jTextPane.repaint();
-        
+
     }//GEN-LAST:event_jTextPaneKeyReleased
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
         // TODO add your handling code here:
-        
+
         String result = "";
         RecuperacaoErros.listaErros.clear();
         StyledDocument doc = jTextPaneConsole.getStyledDocument();
         Style style = jTextPaneConsole.addStyle("I'm a Style", null);
-            
+
         this.fonte = this.jTextPane.getText();
-            
+
         //this.g = new Grammar(new StringReader(this.fonte));
         Grammar.ReInit(new StringReader(this.fonte));
-        
-        try {        
+
+        try {
             Grammar.compilationUnit();
         } catch (sintatico.ParseException ex) {
             Logger.getLogger(JavaCCTest.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        if(RecuperacaoErros.getErros().isEmpty()){
-            
+
+        if (RecuperacaoErros.getErros().isEmpty()) {
+
             StyleConstants.setForeground(style, Color.GREEN);
             result += "Análise Sintática concluida com sucesso, sem erros!";
-        }
-        else{
-               
+        } else {
+
             result = RecuperacaoErros.getErros();
             StyleConstants.setForeground(style, Color.RED);
-               
+
             result += "\nAnálise Sintática concluida com sucesso, porém há erros...";
         }
-           
+
         jTextPaneConsole.setText("");
-            
+
         jConsolePanel.setSelectedIndex(1);
-        
-        try { doc.insertString(doc.getLength(), result,style); }
-        catch (BadLocationException e){}
-              
-        
+
+        try {
+            doc.insertString(doc.getLength(), result, style);
+        } catch (BadLocationException e) {
+        }
+
+
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
         // TODO add your handling code here:
-        
+
         this.arq.salvarArquivo(this.Aba.getTitleAt(0), this.jTextPane.getText());
-        
+
     }//GEN-LAST:event_jMenuItem6ActionPerformed
+
+    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
+
+        //////////
+        //Já é verificado se o analisador semantico tem erros, se tiver não roda
+        if (!AnalisadorSemantico.foiExecutado) {
+
+            JOptionPane.showMessageDialog(this, "Você deve executar o analisador semântico antes!!", "Analisador Semântico", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
+        if (AnalisadorSemantico.temErro) {
+
+            JOptionPane.showMessageDialog(this, "Há erros semânticos, você deve corrigí-los antes!", "Analisador Semântico", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
+        JFileChooser salvar = new JFileChooser();
+        if (JFileChooser.APPROVE_OPTION == salvar.showSaveDialog(this)) {
+
+            try {
+                System.out.println(salvar.getSelectedFile().getAbsolutePath());
+                Gerador.gerarArquivo(salvar.getSelectedFile().getAbsolutePath());
+
+                Gerador.foiExecutado = true;
+
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(IUPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_jMenuItem9ActionPerformed
+
+    private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
+
+        if (!Gerador.foiExecutado) {
+            JOptionPane.showMessageDialog(this, "Você deve executar o gerador de código antes!!", "Gerador de Código", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        
+        JFileChooser abrir = new JFileChooser();
+
+        if (JFileChooser.APPROVE_OPTION == abrir.showOpenDialog(this)) {
+
+            Interpretador in = new Interpretador();
+            try {
+
+                in.lerArquivo(abrir.getSelectedFile().getAbsolutePath());
+
+                in.executar();
+
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(TesteInterpretador.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+
+    }//GEN-LAST:event_jMenuItem10ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -454,7 +542,7 @@ public class IUPrincipal extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new IUPrincipal().setVisible(true);
-                
+
             }
         });
     }
@@ -470,11 +558,15 @@ public class IUPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem10;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
+    private javax.swing.JMenuItem jMenuItem8;
+    private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;

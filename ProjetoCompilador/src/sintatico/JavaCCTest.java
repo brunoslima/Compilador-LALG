@@ -34,6 +34,7 @@ public class JavaCCTest {
         ////////////////
         // Gerador
 
+        //incluir essa linha na parte de linkar o analisador semantico também, porque o gerador é inicializado junto
         Gerador.init();
         
         Arquivo arq = new Arquivo(new File(sourcecode));
