@@ -19,11 +19,12 @@ public class AnalisadorSemantico {
     
     public static Tabela tabelaAtual; 
     public static String programaPrincipal;
+    public static boolean temErro;
     
     public static void init() {
         
         conjunto.clear();
-        
+        AnalisadorSemantico.temErro = false;
         tabelaAtual = null;
     }
     
