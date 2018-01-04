@@ -24,6 +24,7 @@ begin
 	write(b);
 	read(d,e);
 	write(f,d,e,b);
+	write(a,b,g);
 	if (d) then
 	begin
 		a:=20;

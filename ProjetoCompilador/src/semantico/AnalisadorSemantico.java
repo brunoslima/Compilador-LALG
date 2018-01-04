@@ -86,6 +86,20 @@ public class AnalisadorSemantico {
 
     }
     
+    public static void verificaVariavelUtilizadaRM(String s, int linha, int coluna){
+        
+        String[] expressoes = s.split (Pattern.quote (","));
+        
+        String tipo = "";
+        for (int i = 0; i < expressoes.length; i++) {
+                
+            if(tabelaAtual.tabelaVariaveis.get(expressoes[i]).valor == null){
+                TabelaErrosSemantico.add("ERRO - Variavel " + expressoes[i] + " está sendo utilizada porem ainda não foi inicializada", linha, coluna);
+            }
+        }
+
+    }
+    
     public static void visualizar(){
         
         Set<String> chaves = conjunto.keySet();

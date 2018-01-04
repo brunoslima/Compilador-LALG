@@ -493,6 +493,7 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
       }
       s = listaIdentificadores();
 AnalisadorSemantico.verificaTiposParametrosRW(s,token.beginLine,token.beginColumn,1);
+AnalisadorSemantico.verificaVariavelUtilizadaRM(s,token.beginLine,token.beginColumn);
 Gerador.listaVariaveisWrite(s);
       try {
         jj_consume_token(PARENTESES_FECHA);

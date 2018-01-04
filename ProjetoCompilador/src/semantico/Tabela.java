@@ -438,7 +438,7 @@ public class Tabela {
         Set<String> chaves = tabelaVariaveis.keySet();
         for (String chave : chaves){
             if(tabelaVariaveis.get(chave).nome.equals(nomeVariavel) && tabelaVariaveis.get(chave).valor == null){
-                TabelaErrosSemantico.add("WARNING - Variavel " + tabelaVariaveis.get(chave).nome + " está sendo utilizada porem ainda não foi inicializada.", linha, coluna);
+                TabelaErrosSemantico.add("ERRO - Variavel " + tabelaVariaveis.get(chave).nome + " está sendo utilizada porem ainda não foi inicializada.", linha, coluna);
             }
         }
         

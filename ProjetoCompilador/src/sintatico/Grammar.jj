@@ -633,7 +633,6 @@ void comando() throws ParseException:
         
         s = listaIdentificadores()
         {AnalisadorSemantico.verificaTiposParametrosRW(s,token.beginLine,token.beginColumn,0);}
-
         {
             Gerador.listaVariaveisRead(s);
         }
@@ -664,6 +663,7 @@ void comando() throws ParseException:
         }
         s = listaIdentificadores()
         {AnalisadorSemantico.verificaTiposParametrosRW(s,token.beginLine,token.beginColumn,1);} 
+        {AnalisadorSemantico.verificaVariavelUtilizadaRM(s,token.beginLine,token.beginColumn);}
         {
             Gerador.listaVariaveisWrite(s);
         }
