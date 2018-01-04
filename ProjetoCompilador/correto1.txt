@@ -2,7 +2,7 @@ program correto;
 int a, b, c, z, g;
 boolean d, e, f;
 
-procedure proc(var a1 : int);
+procedure proc(var a1, a2 : int);
 int a, b, c, z, zz;
 boolean d, e, f;
 begin
@@ -11,12 +11,21 @@ begin
 		a:=12
 end;
 
+procedure proc1(var a1, a2 : int);
+int a, b;
+begin
+	//DEU ERRO AQUI NO GERADOR AO DESCOMENTAR A ATRIBUIÇÃO
+	//a:=a1 + a2;
+	//b:=a1 - a2
+end;
 
 begin
 	a:=2;
 	b:=10;
 	c:=z;
 	a:=b+c;
+	proc(a);
+	proc1(a,b); //DEU ERRO AQUI, AQUELA PARTE DO SINTATICO
 	proc2(b);
 	d:=true;
 	e:=false;

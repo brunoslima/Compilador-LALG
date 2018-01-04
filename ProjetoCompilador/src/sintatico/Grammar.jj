@@ -723,7 +723,7 @@ void atribuicao() throws ParseException:
 }
 
 void chamadaProcedimento() :
-{Token t = null; String s = "";}
+{Token t = null; String s = ""; String list = "";}
 {
     
     ( 
@@ -744,7 +744,8 @@ void chamadaProcedimento() :
         
             showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Abre parenteses esperado", Grammar.descricao);
         }
-        listaExpressoes() 
+        list = listaExpressoes()
+        {AnalisadorSemantico.verificacaoParametros(s,list,token.beginLine,token.beginColumn);}
         try{
             <PARENTESES_FECHA> 
         }
@@ -1080,20 +1081,24 @@ String fator() :
 
 }
 
-void listaExpressoes() :
-{}
+String listaExpressoes() :
+{String l = ""; String s = ""; Token t = null;}
 {
-    expressao() 
+    l = expressao() 
 
     (
         try{
-            <VIRGULA>
+            t = <VIRGULA>
+            {l += t.image;}
         }catch(ParseException e){
         
             showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Virgula esperada", Grammar.descricao);
         }  
-        expressao()
+        s = expressao()
+        {l += s;}
     )*
+
+    {return l;}
 }
 
 

@@ -17,6 +17,7 @@ import semantico.AnalisadorSemantico;
 
 /**
  *
+ * @author brunoslima
  * @author leandroungari
  */
 public class Gerador {

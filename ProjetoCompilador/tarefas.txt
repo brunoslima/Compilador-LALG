@@ -2,7 +2,7 @@
 == FUNCIONALIDADES SEMANTICO ==
 ===============================
 
-- checagem de tipos na passagem de valores e atribuição
+- checagem de tipos na passagem de valores e atribuição - ACHO QUE FOI!!!
 - variavel ou procedure foi declarada mas não usada - V
 - variavel está sendo usada mas nunca recebeu valor antes - V
 - procedimento foi utilizado mas não foi declarado - V

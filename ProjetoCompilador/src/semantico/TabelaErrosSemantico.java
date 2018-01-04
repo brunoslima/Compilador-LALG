@@ -27,6 +27,11 @@ public class TabelaErrosSemantico {
         lista.add(new ErroSemantico(message, linha, coluna));
     }
     
+    public static void add (String message) {
+        
+        lista.add(new ErroSemantico(message));
+    }
+    
     public static void visualizar(){
             
         System.out.println("Lista de erros semanticos: ");
@@ -47,7 +52,9 @@ public class TabelaErrosSemantico {
             this.coluna = coluna;
         }
         
-        
+        public ErroSemantico(String message) {
+            this.message = message;
+        }        
 
         public String getMessage() {
             return message;

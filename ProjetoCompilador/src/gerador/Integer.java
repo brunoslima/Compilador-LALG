@@ -7,6 +7,7 @@ package gerador;
 
 /**
  *
+ * @author brunoslima
  * @author leandroungari
  */
 public class Integer extends Variavel{

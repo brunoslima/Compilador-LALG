@@ -36,7 +36,7 @@ public class AnalisadorSemantico {
         
         if (conjunto.containsKey(nome)) {
             
-            TabelaErrosSemantico.add("Procedimento já declarado", linha, coluna);
+            TabelaErrosSemantico.add("ERRO - Procedimento já declarado.", linha, coluna);
         }
         else {
             conjunto.put(nome, new Tabela(nome));
@@ -79,8 +79,8 @@ public class AnalisadorSemantico {
             for (int j = 0; j < expressoes.length; j++) {
                 
                 if(!tipo.equals(tabelaAtual.tabelaVariaveis.get(expressoes[j]).tipo)){
-                    if(RW == 0) TabelaErrosSemantico.add("ERRO - Parametros de tipos diferentes passados ao READ", linha, coluna);
-                    else TabelaErrosSemantico.add("ERRO - Parametros de tipos diferentes passados ao WRITE", linha, coluna);
+                    if(RW == 0) TabelaErrosSemantico.add("ERRO - Parâmetros de tipos diferentes passados ao READ.", linha, coluna);
+                    else TabelaErrosSemantico.add("ERRO - Parâmetros de tipos diferentes passados ao WRITE.", linha, coluna);
                     return;
                 }
             }
@@ -96,7 +96,7 @@ public class AnalisadorSemantico {
         for (int i = 0; i < expressoes.length; i++) {
                 
             if(tabelaAtual.tabelaVariaveis.get(expressoes[i]).valor == null){
-                TabelaErrosSemantico.add("ERRO - Variavel " + expressoes[i] + " está sendo utilizada porem ainda não foi inicializada", linha, coluna);
+                TabelaErrosSemantico.add("ERRO - Variável " + expressoes[i] + " está sendo utilizada porem ainda não foi inicializada.", linha, coluna);
             }
         }
 
@@ -116,7 +116,7 @@ public class AnalisadorSemantico {
             }
         }
         
-        if(verif == 0) TabelaErrosSemantico.add("ERRO - Procedimento " + s + " foi utilizado porem não foi declarado", linha, coluna);
+        if(verif == 0) TabelaErrosSemantico.add("ERRO - Procedimento " + s + " foi utilizado porem não foi declarado.", linha, coluna);
         
     }
     
@@ -127,10 +127,26 @@ public class AnalisadorSemantico {
             if(chave != null && !chave.equals(programaPrincipal)){
                 
                 if(!procedimentosUtilizados.contains(chave)){
-                    TabelaErrosSemantico.add("WARNING - Procedimento " + chave + " foi declarado porem não foi utilizado", 0, 0);
+                    TabelaErrosSemantico.add("WARNING - Procedimento " + chave + " foi declarado porem não foi utilizado.");
                 }
             }
         }
+    }
+    
+    public static void verificacaoParametros(String procedimento, String listaExpressao, int linha, int coluna){
+        
+        Set<String> chaves = conjunto.keySet();
+        for (String chave : chaves){
+            
+            if(chave != null){                
+                if(chave.equals(procedimento)){
+                    conjunto.get(chave).verificarTiposParametros(listaExpressao,linha,coluna);
+                    return;
+                }
+            }
+            
+        }
+        
     }
     
     public static void visualizar(){

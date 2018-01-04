@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
+ * @author brunoslima
  * @author leandroungari
  */
 public class Interpretador {

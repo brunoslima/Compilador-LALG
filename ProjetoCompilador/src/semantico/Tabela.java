@@ -116,7 +116,7 @@ public class Tabela {
                     Gerador.declararVariavel(elementos[i], gerador.Variavel.INT);
                     
                 } //5 == int
-                else TabelaErrosSemantico.add("Variavel " + elementos[i] + " já declarada neste escopo", linha, coluna);
+                else TabelaErrosSemantico.add("Variável " + elementos[i] + " já declarada neste escopo.", linha, coluna);
             }
             
         }
@@ -132,7 +132,7 @@ public class Tabela {
                     
                     Gerador.declararVariavel(elementos[i], gerador.Variavel.BOOLEAN);
                 } //2 == boolean
-                else TabelaErrosSemantico.add("Variavel " + elementos[i] + " já declarada neste escopo", linha, coluna);
+                else TabelaErrosSemantico.add("Variável " + elementos[i] + " já declarada neste escopo.", linha, coluna);
             }
             
         }
@@ -151,7 +151,7 @@ public class Tabela {
             for(int i = 0; i < elementos.length; i++){
                 
                 if(!verificarExistencia(elementos[i])) addParametro(elementos[i], 5); //5 == int
-                else TabelaErrosSemantico.add("Variavel " + elementos[i] + " já declarada neste parametro", linha, coluna);
+                else TabelaErrosSemantico.add("Variável " + elementos[i] + " já declarada neste parâmetro.", linha, coluna);
             }
             
         }
@@ -163,7 +163,7 @@ public class Tabela {
             for(int i = 0; i < elementos.length; i++){
 
                 if(!verificarExistencia(elementos[i]))addParametro(elementos[i], 2); //2 == boolean
-                else TabelaErrosSemantico.add("Variavel " + elementos[i] + " já declarada neste escopo", linha, coluna);
+                else TabelaErrosSemantico.add("Variável " + elementos[i] + " já declarada neste escopo.", linha, coluna);
             }
             
         }
@@ -190,12 +190,12 @@ public class Tabela {
     
     public void visualizar(){
         
-        System.out.println("Lista de parametros: ");
+        System.out.println("Lista de parâmetros: ");
         for (Variaveis v : listaParametros) {
             v.visualizar();
         }
         
-        System.out.println("Variaveis: ");
+        System.out.println("Variáveis: ");
         Set<String> chaves = tabelaVariaveis.keySet();
         for (String chave : chaves){
             if(chave != null){
@@ -209,33 +209,41 @@ public class Tabela {
         Variaveis v = tabelaVariaveis.get(variavel);
         v.setValor(valor); //String que vem como parametro
         
-        this.verificaAtribuicao(v,linha,coluna);
+        this.verificaAtribuicao(v,linha,coluna,0);
     }
     
-    public void verificaAtribuicao(Variaveis v, int linha, int coluna){
+    public void verificaAtribuicao(Variaveis v, int linha, int coluna, int msg){
+        
+        //msg == 0 - Para atribuição
+        //msg == 1 - Para parametros
         
         if(v.tipo.equals("INT")){
             
-            this.verificaAtribuicaoINT(v,linha,coluna);
+            this.verificaAtribuicaoINT(v,linha,coluna,0);
             
         }
         else if(v.tipo.equals("BOOLEAN")){
             
-            this.verificaAtribuicaoBOOLEAN(v,linha,coluna);
+            this.verificaAtribuicaoBOOLEAN(v,linha,coluna,0);
         }
         
     }
     
-    public void verificaAtribuicaoINT(Variaveis v, int linha, int coluna){
+    public void verificaAtribuicaoINT(Variaveis v, int linha, int coluna, int msg){
+
+        //msg == 0 - Para atribuição
+        //msg == 1 - Para parametros
         
         String valor = v.valor;
         
         if(valor.contains("true") || valor.contains("false")){ //Inteiro não pode receber true ou false
-            TabelaErrosSemantico.add("ERRO: Atribuindo valor booleano em uma variavel do tipo inteiro", linha, coluna);
+            if(msg == 0) TabelaErrosSemantico.add("ERRO: Atribuindo valor BOOLEAN em uma variável do tipo INT.", linha, coluna);
+            else if(msg == 1) TabelaErrosSemantico.add("ERRO: Parâmetro esperado do tipo INT recebendo um tipo BOOLEAN.", linha, coluna); 
             return;
         }
         else if(this.existeOperadorLogico(valor)){ //Inteiro não pode receber uma expressão lógica
-            TabelaErrosSemantico.add("ERRO: Atribuindo valor booleano em uma variavel do tipo inteiro", linha, coluna);
+            if(msg == 0) TabelaErrosSemantico.add("ERRO: Atribuindo valor BOOLEAN em uma variável do tipo INT.", linha, coluna);
+            else if(msg == 1) TabelaErrosSemantico.add("ERRO: Parâmetro esperado do tipo INT recebendo um tipo BOOLEAN.", linha, coluna); 
             return;
         }
         
@@ -250,7 +258,8 @@ public class Tabela {
                 
                 Variaveis aux = tabelaVariaveis.get(valores[i]);
                 if(!aux.tipo.equals("INT")){
-                    TabelaErrosSemantico.add("ERRO: Atribuindo valor booleano em uma variavel do tipo inteiro", linha, coluna);
+                    if(msg == 0) TabelaErrosSemantico.add("ERRO: Atribuindo valor BOOLEAN em uma variável do tipo INT.", linha, coluna);
+                    else if(msg == 1) TabelaErrosSemantico.add("ERRO: Parâmetro esperado do tipo INT recebendo um tipo BOOLEAN.", linha, coluna); 
                     break;
                 }//Fim do if
                 
@@ -260,8 +269,11 @@ public class Tabela {
         
     }
     
-    public void verificaAtribuicaoBOOLEAN(Variaveis v, int linha, int coluna){
-    
+    public void verificaAtribuicaoBOOLEAN(Variaveis v, int linha, int coluna, int msg){
+
+        //msg == 0 - Para atribuição
+        //msg == 1 - Para parametros
+        
         String valor = v.valor;
         if(this.existeOperadorLogico(valor)){ //Se existe operador logico
             
@@ -283,12 +295,14 @@ public class Tabela {
                 
                 //Verificando se ambas as expressoes contém apenas valores ou variaveis inteiras
                 if(!this.isInteiros(valores1) || !this.isInteiros(valores2)){
-                    TabelaErrosSemantico.add("ERRO: Atribuindo uma expressão de resultando não booleano a uma variavel booleana", linha, coluna);
+                    if(msg == 0) TabelaErrosSemantico.add("ERRO: Atribuindo uma expressão de resultando INT a uma variável do tipo BOOLEAN.", linha, coluna);
+                    else if(msg == 1) TabelaErrosSemantico.add("ERRO: Parâmetro esperado do tipo BOOLEAN recebendo expressão de resultando INT.", linha, coluna); 
                 }
                 
             }
             else{
-                TabelaErrosSemantico.add("ERRO - Atribuição de uma expressão invalida a uma variavel booleana", linha, coluna);
+                if(msg == 0) TabelaErrosSemantico.add("ERRO - Atribuição de uma expressão inválida a uma variável do tipo BOOLEAN.", linha, coluna);
+                else if(msg == 1) TabelaErrosSemantico.add("ERRO - Parâmetro esperado do tipo BOOLEAN recebendo uma expressão inválida.", linha, coluna);
                 return;
             }
             
@@ -296,12 +310,14 @@ public class Tabela {
         else{
             
             if(this.existeOperadorAritmetico(valor)){ //Verificando se uma expressão aritmetica está sendo atribuida
-                TabelaErrosSemantico.add("ERRO - Atribuindo o resultado de uma operação aritmetica em uma variavel booleana", linha, coluna);
+                if(msg == 0) TabelaErrosSemantico.add("ERRO - Atribuindo o resultado de uma operação aritmética em uma variável do tipo BOOLEAN.", linha, coluna);
+                else if(msg == 1) TabelaErrosSemantico.add("ERRO - Parâmetro esperado do tipo BOOLEAN recebendo o resultado de uma operação aritmética.", linha, coluna);
                 return;
             }
             
             if(this.isNumber(valor)){ //Verificando se um número está sendo atribuido
-                TabelaErrosSemantico.add("ERRO - Atribuindo um valor inteiro em uma variavel do tipo boolean", linha, coluna);
+                if(msg == 0) TabelaErrosSemantico.add("ERRO - Atribuindo um valor INT em uma variável do tipo BOOLEAN.", linha, coluna);
+                else if(msg == 1) TabelaErrosSemantico.add("ERRO - Parâmetro esperado do tipo BOOLEAN recebendo um valor INT.", linha, coluna);
                 return;
             }
             
@@ -310,7 +326,8 @@ public class Tabela {
                 Variaveis aux = tabelaVariaveis.get(valor);
 
                 if(aux.tipo.equals("INT")){ //Atribuir uma variavel do tipo inteiro em uma do tipo booleano da erro
-                    TabelaErrosSemantico.add("ERRO - Atribuindo uma variavel de valor inteiro em uma variavel do tipo boolean", linha, coluna);
+                    if(msg == 0) TabelaErrosSemantico.add("ERRO - Atribuindo uma variável de valor INT em uma variável do tipo BOOLEAN.", linha, coluna);
+                    else if(msg == 1) TabelaErrosSemantico.add("ERRO - Parâmetro esperado do tipo BOOLEAN recebendo uma variável de valor INT.", linha, coluna);
                     return;
                 }//Fim do if interno
                 
@@ -427,7 +444,7 @@ public class Tabela {
         Set<String> chaves = tabelaVariaveis.keySet();
         for (String chave : chaves){
             if(tabelaVariaveis.get(chave).valor == null){
-                TabelaErrosSemantico.add("WARNING - Variavel " + tabelaVariaveis.get(chave).nome + " foi declarada mas não foi utililizada.", 0, 0);
+                TabelaErrosSemantico.add("WARNING - Variável " + tabelaVariaveis.get(chave).nome + " foi declarada mas não foi utililizada.");
             }
         }
         
@@ -438,10 +455,28 @@ public class Tabela {
         Set<String> chaves = tabelaVariaveis.keySet();
         for (String chave : chaves){
             if(tabelaVariaveis.get(chave).nome.equals(nomeVariavel) && tabelaVariaveis.get(chave).valor == null){
-                TabelaErrosSemantico.add("ERRO - Variavel " + tabelaVariaveis.get(chave).nome + " está sendo utilizada porem ainda não foi inicializada.", linha, coluna);
+                TabelaErrosSemantico.add("ERRO - Variável " + tabelaVariaveis.get(chave).nome + " está sendo utilizada porem ainda não foi inicializada.", linha, coluna);
             }
         }
         
+    }
+    
+    public void verificarTiposParametros(String lista, int linha, int coluna){
+        
+        String[] expressoes = lista.split (Pattern.quote (","));
+        
+        if(expressoes.length != listaParametros.size()){
+            TabelaErrosSemantico.add("ERRO - Quantidade de parâmetros informados não atende a quantidade de parâmetros esperada pelo procedimento.", linha, coluna);
+            return;            
+        }
+        
+        for (int i = 0; i < listaParametros.size(); i++) {
+            
+            Variaveis p = listaParametros.get(i);
+            p.setValor(expressoes[i]); //String que vem como parametro
+        
+            this.verificaAtribuicao(p,linha,coluna,1);
+        }
     }
     
 }
