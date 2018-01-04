@@ -205,7 +205,7 @@ public class Tabela {
     }
     
     public void atribuirValor(String variavel, String valor, int linha, int coluna){
-        System.out.println(variavel + " valor: " + valor + "\n\n");
+
         Variaveis v = tabelaVariaveis.get(variavel);
         v.setValor(valor); //String que vem como parametro
         

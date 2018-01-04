@@ -20,8 +20,10 @@ begin
 	d:=true;
 	e:=false;
 	f:=true;
-	read(a);
+	read(a,d);
 	write(b);
+	read(d,e);
+	write(f,d,e,b);
 	if (d) then
 	begin
 		a:=20;

@@ -473,6 +473,7 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
 showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Abre parenteses esperado", Grammar.descricao);
       }
       s = listaIdentificadores();
+AnalisadorSemantico.verificaTiposParametrosRW(s,token.beginLine,token.beginColumn,0);
 Gerador.listaVariaveisRead(s);
       try {
         jj_consume_token(PARENTESES_FECHA);
@@ -491,6 +492,7 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
 showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Abre parenteses esperado", Grammar.descricao);
       }
       s = listaIdentificadores();
+AnalisadorSemantico.verificaTiposParametrosRW(s,token.beginLine,token.beginColumn,1);
 Gerador.listaVariaveisWrite(s);
       try {
         jj_consume_token(PARENTESES_FECHA);
@@ -1080,17 +1082,17 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
     finally { jj_save(14, xla); }
   }
 
-  static private boolean jj_3_11()
- {
-    if (jj_scan_token(WRITE)) return true;
-    return false;
-  }
-
   static private boolean jj_3R_34()
  {
     if (jj_scan_token(PARENTESES_ABRE)) return true;
     if (jj_3R_16()) return true;
     if (jj_scan_token(PARENTESES_FECHA)) return true;
+    return false;
+  }
+
+  static private boolean jj_3_11()
+ {
+    if (jj_scan_token(WRITE)) return true;
     return false;
   }
 
@@ -1225,14 +1227,6 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
     return false;
   }
 
-  static private boolean jj_3R_18()
- {
-    if (jj_scan_token(IDENTIFICADOR)) return true;
-    if (jj_3R_16()) return true;
-    if (jj_scan_token(DO)) return true;
-    return false;
-  }
-
   static private boolean jj_3_13()
  {
     Token xsp;
@@ -1241,6 +1235,14 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
     jj_scanpos = xsp;
     if (jj_scan_token(3)) return true;
     }
+    return false;
+  }
+
+  static private boolean jj_3R_18()
+ {
+    if (jj_scan_token(IDENTIFICADOR)) return true;
+    if (jj_3R_16()) return true;
+    if (jj_scan_token(DO)) return true;
     return false;
   }
 
@@ -1257,16 +1259,16 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
     return false;
   }
 
+  static private boolean jj_3R_31()
+ {
+    if (jj_scan_token(OP_SUBTRACAO)) return true;
+    return false;
+  }
+
   static private boolean jj_3R_12()
  {
     if (jj_scan_token(IDENTIFICADOR)) return true;
     if (jj_scan_token(VIRGULA)) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_31()
- {
-    if (jj_scan_token(OP_SUBTRACAO)) return true;
     return false;
   }
 
@@ -1295,17 +1297,6 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
     return false;
   }
 
-  static private boolean jj_3_8()
- {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_scan_token(17)) {
-    jj_scanpos = xsp;
-    if (jj_3R_17()) return true;
-    }
-    return false;
-  }
-
   static private boolean jj_3R_27()
  {
     Token xsp;
@@ -1313,6 +1304,17 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
     if (jj_scan_token(29)) {
     jj_scanpos = xsp;
     if (jj_3R_31()) return true;
+    }
+    return false;
+  }
+
+  static private boolean jj_3_8()
+ {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_scan_token(17)) {
+    jj_scanpos = xsp;
+    if (jj_3R_17()) return true;
     }
     return false;
   }
@@ -1483,6 +1485,13 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
     return false;
   }
 
+  static private boolean jj_3R_24()
+ {
+    if (jj_3R_26()) return true;
+    if (jj_3R_23()) return true;
+    return false;
+  }
+
   static private boolean jj_3_5()
  {
     Token xsp;
@@ -1498,13 +1507,6 @@ showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn,
  {
     if (jj_scan_token(PONTO_VIRGULA)) return true;
     if (jj_scan_token(PONTO)) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_24()
- {
-    if (jj_3R_26()) return true;
-    if (jj_3R_23()) return true;
     return false;
   }
 

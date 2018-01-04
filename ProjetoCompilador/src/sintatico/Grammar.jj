@@ -631,7 +631,8 @@ void comando() throws ParseException:
             showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Abre parenteses esperado", Grammar.descricao);
         }
         
-        s = listaIdentificadores() 
+        s = listaIdentificadores()
+        {AnalisadorSemantico.verificaTiposParametrosRW(s,token.beginLine,token.beginColumn,0);}
 
         {
             Gerador.listaVariaveisRead(s);
@@ -661,7 +662,8 @@ void comando() throws ParseException:
         
             showMessageError(e.currentToken.next.beginLine, e.currentToken.next.beginColumn, "Abre parenteses esperado", Grammar.descricao);
         }
-        s = listaIdentificadores() 
+        s = listaIdentificadores()
+        {AnalisadorSemantico.verificaTiposParametrosRW(s,token.beginLine,token.beginColumn,1);} 
         {
             Gerador.listaVariaveisWrite(s);
         }

@@ -7,6 +7,7 @@ package semantico;
 
 import java.util.HashMap;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -62,6 +63,27 @@ public class AnalisadorSemantico {
                 conjunto.get(chave).verificarVariaveisNaoUtilizadas();
             }
         }        
+    }
+    
+    public static void verificaTiposParametrosRW(String s, int linha, int coluna, int RW){
+        
+        String[] expressoes = s.split (Pattern.quote (","));
+        
+        String tipo = "";
+        for (int i = 0; i < expressoes.length; i++) {
+            
+            tipo = tabelaAtual.tabelaVariaveis.get(expressoes[i]).tipo;
+            
+            for (int j = 0; j < expressoes.length; j++) {
+                
+                if(!tipo.equals(tabelaAtual.tabelaVariaveis.get(expressoes[j]).tipo)){
+                    if(RW == 0) TabelaErrosSemantico.add("ERRO - Parametros de tipos diferentes passados ao READ", linha, coluna);
+                    else TabelaErrosSemantico.add("ERRO - Parametros de tipos diferentes passados ao WRITE", linha, coluna);
+                    return;
+                }
+            }
+        }
+
     }
     
     public static void visualizar(){
