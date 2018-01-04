@@ -17,6 +17,7 @@ begin
 	b:=10;
 	c:=z;
 	a:=b+c;
+	proc2(b);
 	d:=true;
 	e:=false;
 	f:=true;

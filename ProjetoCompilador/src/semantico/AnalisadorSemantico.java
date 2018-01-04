@@ -5,6 +5,7 @@
  */
 package semantico;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.regex.Pattern;
@@ -17,6 +18,7 @@ import java.util.regex.Pattern;
 public class AnalisadorSemantico {
     
     public static HashMap<String, Tabela> conjunto = new HashMap<>();
+    public static ArrayList<String> procedimentosUtilizados = new ArrayList();
     
     public static Tabela tabelaAtual; 
     public static String programaPrincipal;
@@ -98,6 +100,37 @@ public class AnalisadorSemantico {
             }
         }
 
+    }
+    
+    public static void verificaProcedimentoFoiDeclarado(String s, int linha, int coluna){
+        
+        Set<String> chaves = conjunto.keySet();
+        int verif = 0;
+        
+        for (String chave : chaves){
+        
+            if(chave != null){
+                if(chave.equals(s)){
+                    verif = 1;
+                }
+            }
+        }
+        
+        if(verif == 0) TabelaErrosSemantico.add("ERRO - Procedimento " + s + " foi utilizado porem não foi declarado", linha, coluna);
+        
+    }
+    
+    public static void verificaProcedimentosNaoUtilizados(){
+        
+        Set<String> chaves = conjunto.keySet();
+        for (String chave : chaves){
+            if(chave != null && !chave.equals(programaPrincipal)){
+                
+                if(!procedimentosUtilizados.contains(chave)){
+                    TabelaErrosSemantico.add("WARNING - Procedimento " + chave + " foi declarado porem não foi utilizado", 0, 0);
+                }
+            }
+        }
     }
     
     public static void visualizar(){

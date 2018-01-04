@@ -176,6 +176,7 @@ void compilationUnit() :
     try{
         <PONTO>
         {AnalisadorSemantico.verificaVariaveisNaoUtilizadas();}
+        {AnalisadorSemantico.verificaProcedimentosNaoUtilizados();}
         {Gerador.finalizarPrograma();}
     }
     catch(ParseException e){
@@ -722,12 +723,15 @@ void atribuicao() throws ParseException:
 }
 
 void chamadaProcedimento() :
-{}
+{Token t = null; String s = "";}
 {
-
+    
     ( 
         try{
-            <IDENTIFICADOR> 
+           t = <IDENTIFICADOR>
+           {s = t.image;}
+           {AnalisadorSemantico.verificaProcedimentoFoiDeclarado(s,token.beginLine,token.beginColumn);}
+           {AnalisadorSemantico.procedimentosUtilizados.add(s);}
         }
         catch(ParseException e){
         
