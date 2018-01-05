@@ -14,6 +14,8 @@ end;
 procedure proc1(var a1, a2 : int);
 int a, b;
 begin
+
+	a := a + 1
 	//DEU ERRO AQUI NO GERADOR AO DESCOMENTAR A ATRIBUIÇÃO
 	//a:=a1 + a2;
 	//b:=a1 - a2
@@ -25,7 +27,7 @@ begin
 	c:=z;
 	a:=b+c;
 	proc(a);
-	proc1(a,b); //DEU ERRO AQUI, AQUELA PARTE DO SINTATICO
+	proc1(a,d); {DEU ERRO AQUI, AQUELA PARTE DO SINTATICO}
 	proc2(b);
 	d:=true;
 	e:=false;

@@ -594,7 +594,7 @@ void comandoComposto():
 void comando() throws ParseException:
 {String s; }
 {   
-    LOOKAHEAD(<IDENTIFICADOR> <PARENTESES_ABRE> expressao() <PARENTESES_FECHA> <PONTO_VIRGULA>)
+    LOOKAHEAD(<IDENTIFICADOR> <PARENTESES_ABRE> listaExpressoes() <PARENTESES_FECHA> <PONTO_VIRGULA>)
     (
         
         chamadaProcedimento() 
