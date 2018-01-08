@@ -65,6 +65,7 @@ public class JavaCCTest {
             }
         }
         
+        System.out.println("\n");
         TabelaErrosSemantico.visualizar();
     }
 

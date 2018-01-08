@@ -219,12 +219,12 @@ public class Tabela {
         
         if(v.tipo.equals("INT")){
             
-            this.verificaAtribuicaoINT(v,linha,coluna,0);
+            this.verificaAtribuicaoINT(v,linha,coluna,msg);
             
         }
         else if(v.tipo.equals("BOOLEAN")){
             
-            this.verificaAtribuicaoBOOLEAN(v,linha,coluna,0);
+            this.verificaAtribuicaoBOOLEAN(v,linha,coluna,msg);
         }
         
     }
@@ -237,13 +237,13 @@ public class Tabela {
         String valor = v.valor;
         
         if(valor.contains("true") || valor.contains("false")){ //Inteiro não pode receber true ou false
-            if(msg == 0) TabelaErrosSemantico.add("ERRO: Atribuindo valor BOOLEAN em uma variável do tipo INT.", linha, coluna);
-            else if(msg == 1) TabelaErrosSemantico.add("ERRO: Parâmetro esperado do tipo INT recebendo um tipo BOOLEAN.", linha, coluna); 
+            if(msg == 0) TabelaErrosSemantico.add("ERRO - Atribuindo valor BOOLEAN em uma variável do tipo INT.", linha, coluna);
+            else if(msg == 1) TabelaErrosSemantico.add("ERRO - Parâmetro esperado do tipo INT recebendo um tipo BOOLEAN.", linha, coluna); 
             return;
         }
         else if(this.existeOperadorLogico(valor)){ //Inteiro não pode receber uma expressão lógica
-            if(msg == 0) TabelaErrosSemantico.add("ERRO: Atribuindo valor BOOLEAN em uma variável do tipo INT.", linha, coluna);
-            else if(msg == 1) TabelaErrosSemantico.add("ERRO: Parâmetro esperado do tipo INT recebendo um tipo BOOLEAN.", linha, coluna); 
+            if(msg == 0) TabelaErrosSemantico.add("ERRO - Atribuindo valor BOOLEAN em uma variável do tipo INT.", linha, coluna);
+            else if(msg == 1) TabelaErrosSemantico.add("ERRO - Parâmetro esperado do tipo INT recebendo um tipo BOOLEAN.", linha, coluna); 
             return;
         }
         
@@ -257,9 +257,9 @@ public class Tabela {
             if(!this.isNumber(valores[i])){
                 
                 Variaveis aux = tabelaVariaveis.get(valores[i]);
-                if(!aux.tipo.equals("INT")){
-                    if(msg == 0) TabelaErrosSemantico.add("ERRO: Atribuindo valor BOOLEAN em uma variável do tipo INT.", linha, coluna);
-                    else if(msg == 1) TabelaErrosSemantico.add("ERRO: Parâmetro esperado do tipo INT recebendo um tipo BOOLEAN.", linha, coluna); 
+                if(aux != null && !aux.tipo.equals("INT")){
+                    if(msg == 0) TabelaErrosSemantico.add("ERRO - Atribuindo valor BOOLEAN em uma variável do tipo INT.", linha, coluna);
+                    else if(msg == 1) TabelaErrosSemantico.add("ERRO - Parâmetro esperado do tipo INT recebendo um tipo BOOLEAN.", linha, coluna); 
                     break;
                 }//Fim do if
                 
@@ -295,8 +295,8 @@ public class Tabela {
                 
                 //Verificando se ambas as expressoes contém apenas valores ou variaveis inteiras
                 if(!this.isInteiros(valores1) || !this.isInteiros(valores2)){
-                    if(msg == 0) TabelaErrosSemantico.add("ERRO: Atribuindo uma expressão de resultando INT a uma variável do tipo BOOLEAN.", linha, coluna);
-                    else if(msg == 1) TabelaErrosSemantico.add("ERRO: Parâmetro esperado do tipo BOOLEAN recebendo expressão de resultando INT.", linha, coluna); 
+                    if(msg == 0) TabelaErrosSemantico.add("ERRO - Atribuindo uma expressão de resultando INT a uma variável do tipo BOOLEAN.", linha, coluna);
+                    else if(msg == 1) TabelaErrosSemantico.add("ERRO - Parâmetro esperado do tipo BOOLEAN recebendo expressão de resultando INT.", linha, coluna); 
                 }
                 
             }
