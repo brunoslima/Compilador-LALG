@@ -22,6 +22,7 @@ public class Interpretador {
 
     private ArrayList<String[]> codigo;
     private Stack<Integer> pilha;
+    private String texto;
     
     private int contadorInstrucao;
     private boolean flagIncrementarInstrucao;
@@ -29,6 +30,7 @@ public class Interpretador {
     
     public Interpretador() {
         
+        this.texto = "";
         this.codigo = new ArrayList<>();
         this.pilha = new Stack<>();
         this.contadorInstrucao = 0;
@@ -77,12 +79,22 @@ public class Interpretador {
         while (arquivo.hasNextLine()) {
             
             String linha = arquivo.nextLine();
-            
+            this.texto += linha + "\n";
             codigo.add(linha.split(Pattern.quote(" ")));
         }
         
         arquivo.close();
     }
+
+    public String getTexto() {
+        return texto;
+    }
+
+    public void setTexto(String texto) {
+        this.texto = texto;
+    }
+    
+    
     
     public void executar() {
         

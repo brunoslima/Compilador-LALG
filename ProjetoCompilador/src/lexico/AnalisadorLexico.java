@@ -27,11 +27,19 @@ public class AnalisadorLexico {
     private static final ArrayList<String> palavrasReservadas  = new ArrayList<>();
     private static final ArrayList<String> operadores  = new ArrayList<>();
 
+    private static boolean temErro;
+    public static boolean foiExecutado;
+
+    
+
+    public static boolean isFoiExecutado() {
+        return foiExecutado;
+    }
 
     public AnalisadorLexico() {
 
         this.tabela = new ArrayList<>();
-
+        foiExecutado = false;
         //this.gerarLexico();
         
         palavrasReservadas.addAll(Arrays.asList(new String[]{
@@ -45,6 +53,16 @@ public class AnalisadorLexico {
             "+", "-", "*", "div", "and", "or", "not"
         }));
     }
+
+    public static boolean isTemErro() {
+        return temErro;
+    }
+
+    public static void setTemErro(boolean temErro) {
+        AnalisadorLexico.temErro = temErro;
+    }
+    
+    
 
     /**
      *
@@ -76,6 +94,10 @@ public class AnalisadorLexico {
 
                 if (item == null) {
                     return;
+                }
+                
+                if (item.getTipo() == Simbolo.ERROR) {
+                    this.setTemErro(true);
                 }
 
                 if (       item.getTipo() != Simbolo.NOVA_LINHA
