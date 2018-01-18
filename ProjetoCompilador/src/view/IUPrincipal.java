@@ -511,7 +511,7 @@ public class IUPrincipal extends javax.swing.JFrame {
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
         // TODO add your handling code here:
 
-        if(this.arq.getTexto().isEmpty()){
+        if(this.path.equals("")){
             JFileChooser salvar = new JFileChooser();
             if (JFileChooser.APPROVE_OPTION == salvar.showSaveDialog(this)) {
                 
