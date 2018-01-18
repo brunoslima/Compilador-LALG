@@ -6,6 +6,7 @@
 package semantico;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  *
@@ -14,7 +15,7 @@ import java.util.ArrayList;
  */
 public class TabelaErrosSemantico {
     
-    private static ArrayList<ErroSemantico> lista = new ArrayList<>();
+    public static ArrayList<Erro> lista = new ArrayList<>();
 
     
     public static void init(){
@@ -24,35 +25,45 @@ public class TabelaErrosSemantico {
     
     public static void add (String message, int linha, int coluna) {
         
-        lista.add(new ErroSemantico(message, linha, coluna));
+        lista.add(new Erro(message, linha, coluna));
     }
     
     public static void add (String message) {
         
-        lista.add(new ErroSemantico(message));
+        lista.add(new Erro(message));
+    }
+    
+    public static String getErros(){
+        
+        String listaString = "";
+        for (Erro e : lista) {
+            listaString += e.getString();
+        }        
+        
+        return listaString;
     }
     
     public static void visualizar(){
             
         System.out.println("Lista de erros semanticos: ");
-        for (ErroSemantico e : lista) {
+        for (Erro e : lista) {
             e.visualizar();
         }
     }
 
-    private static class ErroSemantico {
+    private static class Erro {
         
         private String message;
         private int linha;
         private int coluna;
 
-        public ErroSemantico(String message, int linha, int coluna) {
+        public Erro(String message, int linha, int coluna) {
             this.message = message;
             this.linha = linha;
             this.coluna = coluna;
         }
         
-        public ErroSemantico(String message) {
+        public Erro(String message) {
             this.message = message;
         }        
 
@@ -83,6 +94,11 @@ public class TabelaErrosSemantico {
         public void visualizar(){
             
             System.out.println(getMessage() + " - Linha: " + getLinha() + " Coluna: " + getColuna());
+        }
+        
+        public String getString(){
+            
+            return getMessage() + " - Linha: " + getLinha() + " Coluna: " + getColuna() + "\n";
         }
     }
     
