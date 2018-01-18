@@ -51,6 +51,7 @@ public class IUPrincipal extends javax.swing.JFrame {
     public AnalisadorLexico analisador;
     public static String sistema;
     public Grammar g;
+    public String path;
 
     /**
      * Creates new form IUPrincipal
@@ -77,6 +78,7 @@ public class IUPrincipal extends javax.swing.JFrame {
 
         //Inicializando variaveis
         this.arq = new Arquivo();
+        this.path = "";
         this.lexico = null;
         this.fonte = "";
 
@@ -301,7 +303,8 @@ public class IUPrincipal extends javax.swing.JFrame {
             file = jFileChooser1.getSelectedFile();
             String localizacao = file.getAbsolutePath();
             String nomeArquivo = file.getName();
-
+            this.path = localizacao;
+            
             try {
 
                 arq = new Arquivo(localizacao);
@@ -376,6 +379,7 @@ public class IUPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
 
         this.arq = null;
+        this.path = "";
         this.lexico = null;
         this.jTextPane.setText("");
         this.Aba.setTitleAt(0, "Inicio");
@@ -455,7 +459,16 @@ public class IUPrincipal extends javax.swing.JFrame {
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
         // TODO add your handling code here:
 
-        this.arq.salvarArquivo(this.Aba.getTitleAt(0), this.jTextPane.getText());
+        if(this.arq.getTexto().isEmpty()){
+            JFileChooser salvar = new JFileChooser();
+            if (JFileChooser.APPROVE_OPTION == salvar.showSaveDialog(this)) {
+                
+                this.path = salvar.getSelectedFile().getAbsolutePath();
+                System.out.println(salvar.getSelectedFile().getAbsolutePath());
+                this.arq.salvarArquivo(salvar.getSelectedFile().getAbsolutePath(), this.jTextPane.getText());
+            }
+        }
+        else this.arq.salvarArquivo(this.path, this.jTextPane.getText());
 
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 

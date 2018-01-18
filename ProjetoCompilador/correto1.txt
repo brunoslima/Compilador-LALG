@@ -16,9 +16,6 @@ int a, b;
 begin
 
 	a := a + 1
-	//DEU ERRO AQUI NO GERADOR AO DESCOMENTAR A ATRIBUIÇÃO
-	//a:=a1 + a2;
-	//b:=a1 - a2
 end;
 
 begin
@@ -27,7 +24,7 @@ begin
 	c:=z;
 	a:=b+c;
 	proc(a);
-	proc(a,d); {DEU ERRO AQUI, AQUELA PARTE DO SINTATICO}
+	proc(a,d);
 	proc2(b);
 	d:=true;
 	e:=false;

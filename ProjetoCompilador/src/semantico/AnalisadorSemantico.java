@@ -75,6 +75,9 @@ public class AnalisadorSemantico {
         for (int i = 0; i < expressoes.length; i++) {
             
             tipo = tabelaAtual.tabelaVariaveis.get(expressoes[i]).tipo;
+            if(RW == 0){
+                tabelaAtual.tabelaVariaveis.get(expressoes[i]).valor = "ler";
+            }
             
             for (int j = 0; j < expressoes.length; j++) {
                 

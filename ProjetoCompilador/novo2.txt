@@ -11,10 +11,4 @@ begin
 	
 	end;
 
-	while(a > 0) do
-	begin
-		b:=b+1;
-		write(b);
-		a:=a-1
-	end
 end.
