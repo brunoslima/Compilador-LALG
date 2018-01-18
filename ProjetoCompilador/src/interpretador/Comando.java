@@ -201,13 +201,17 @@ public class Comando {
     static void impr() {
         
         //imprime numero inteiro
-        System.out.println(interpretador.getPilha().pop());
+        int valor = interpretador.getPilha().pop();
+        System.out.println(valor);
+        JOptionPane.showMessageDialog(null, "Saída: " + valor , "Saída padrão", JOptionPane.INFORMATION_MESSAGE);
     }
 
     static void impc() {
         
         //imprime o caracter, lembrar de fazer cast
-        System.out.println(interpretador.getPilha().pop());
+        char valor = (char) (int) interpretador.getPilha().pop();
+        System.out.println(valor);
+        JOptionPane.showMessageDialog(null, "Saída: " + valor , "Saída padrão", JOptionPane.INFORMATION_MESSAGE);
     }
 
     static void impe() {
