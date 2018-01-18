@@ -1,0 +1,58 @@
+program correto; //Erro program escrito errado - OK
+int a, b, c; //Erro tipo escrito errado - OK
+boolean d, e, f; //Erro faltando uma , - OK
+
+procedure proc(var a1 : int); //Erro procedure escrito errado - OK
+int a, b, c;
+boolean d, e, f;
+begin
+	a:=1;
+	b:=2;
+	read(a); //Erro faltou um abre parenteses - Não OK -> (Acusando erro de ;)
+	write(c);
+	if (a<=1) then
+	begin
+		a:=2;
+		c:=3
+	//Erro faltou um end - Não ok -> (Não acusou erro)
+	end;
+
+	begin
+	
+		if a= 0 then a:=1; //Erro faltou abre parenteses - ok 
+		if (a <> 0) then a:=0; //Erro faltou fecha parenteses - OK
+		if (a) then a:=10; //Erro faltou condição do if - OK
+		if (a>2) then a:=21; //Erro expressão errada na condição do if - OK
+		if (a>3) then a:=4; //Erro then escrito errado - Não ok -> (lança o erro da falta do then, porem lança um erro de operador logigo ou aritmetico esperado)
+
+		b:=10;
+		c:=11; //Erro faltou um ;
+		a:=b+a;
+		b:=b +c; //Erro faltou informar a operação
+		c:= c div 2; //Erro div escrito errado
+		d:=true;
+		e:=false;
+		f:=true;
+
+		read(a);
+		write(b); //Erro faltou um fecha parenteses
+
+		if (d) then
+		begin
+			a:=20;
+			b:=10*c;
+			c:=a div b
+	end;
+
+	while (a>1) do
+	begin
+		if (b>=10) then
+			b:=2;
+		a:=a-1
+	end;
+	c:= 20;
+	while (c>1) do
+	begin
+		c:=c-1
+	end
+end.

@@ -1,0 +1,14 @@
+program semantico1;
+int a, b;
+
+begin
+	a:= 5;
+	read(b);
+	if(b > 0) then
+	begin
+	
+		write(b)
+	
+	end
+
+end.
