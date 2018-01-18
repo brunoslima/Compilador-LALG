@@ -15,6 +15,25 @@ import java.util.Iterator;
 public class RecuperacaoErros {
     
     public static ArrayList<String> listaErros = new ArrayList();
+    public static boolean foiExecutado = false;
+
+    public static ArrayList<String> getListaErros() {
+        return listaErros;
+    }
+
+    public static void setListaErros(ArrayList<String> listaErros) {
+        RecuperacaoErros.listaErros = listaErros;
+    }
+
+    public static boolean isFoiExecutado() {
+        return foiExecutado;
+    }
+
+    public static void setFoiExecutado(boolean foiExecutado) {
+        RecuperacaoErros.foiExecutado = foiExecutado;
+    }
+    
+    
     
     public static void adicionarErro(String erro){
         

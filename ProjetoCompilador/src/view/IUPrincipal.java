@@ -51,7 +51,9 @@ public class IUPrincipal extends javax.swing.JFrame {
     public AnalisadorLexico analisador;
     public static String sistema;
     public Grammar g;
-
+    
+    
+    private Interpretador interpretador;
     /**
      * Creates new form IUPrincipal
      */
@@ -117,12 +119,15 @@ public class IUPrincipal extends javax.swing.JFrame {
         jMenuItem6 = new javax.swing.JMenuItem();
         MenuFechar = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        jMenuItem13 = new javax.swing.JMenuItem();
         MenuAnalisar = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jMenuItem9 = new javax.swing.JMenuItem();
+        jMenuItem12 = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         jMenuItem11 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
@@ -187,7 +192,7 @@ public class IUPrincipal extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuItem1);
 
-        jMenuItem10.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F9, 0));
+        jMenuItem10.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F10, 0));
         jMenuItem10.setText("Código intermediário");
         jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -224,6 +229,18 @@ public class IUPrincipal extends javax.swing.JFrame {
         MenuAbrir.add(jMenuItem4);
 
         jMenuBar1.add(MenuAbrir);
+
+        jMenu2.setText("Executar");
+
+        jMenuItem13.setText("Interpretar código intermediário externo");
+        jMenuItem13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem13ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem13);
+
+        jMenuBar1.add(jMenu2);
 
         MenuAnalisar.setText("Analisar");
 
@@ -263,6 +280,15 @@ public class IUPrincipal extends javax.swing.JFrame {
             }
         });
         MenuAnalisar.add(jMenuItem9);
+
+        jMenuItem12.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F9, 0));
+        jMenuItem12.setText("Interpretar código intermediário");
+        jMenuItem12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem12ActionPerformed(evt);
+            }
+        });
+        MenuAnalisar.add(jMenuItem12);
         MenuAnalisar.add(jSeparator2);
 
         jMenuItem11.setText("Compilar e Executar");
@@ -381,6 +407,7 @@ public class IUPrincipal extends javax.swing.JFrame {
         }
 
         jConsolePanel.setSelectedIndex(0);
+        AnalisadorLexico.foiExecutado = true;
 
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
@@ -431,6 +458,12 @@ public class IUPrincipal extends javax.swing.JFrame {
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
         //executa analise sintatica
 
+        if (!AnalisadorLexico.foiExecutado) {
+
+            JOptionPane.showMessageDialog(this, "Você deve executar o analisador léxico antes!!", "Analisador Léxico", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
         String result = "ANÁLISE SINTÁTICA...\n\n";
         RecuperacaoErros.listaErros.clear();
         StyledDocument doc = jTextPaneConsole.getStyledDocument();
@@ -470,7 +503,7 @@ public class IUPrincipal extends javax.swing.JFrame {
         } catch (BadLocationException e) {
         }
 
-
+        RecuperacaoErros.foiExecutado = true;
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
@@ -496,20 +529,35 @@ public class IUPrincipal extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Há erros semânticos, você deve corrigí-los antes!", "Analisador Semântico", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
-
-        JFileChooser salvar = new JFileChooser();
-        if (JFileChooser.APPROVE_OPTION == salvar.showSaveDialog(this)) {
-
+        
+        /*JFileChooser salvar = new JFileChooser();
+            if (JFileChooser.APPROVE_OPTION == salvar.showSaveDialog(this)) {
+            
             try {
-                System.out.println(salvar.getSelectedFile().getAbsolutePath());
-                Gerador.gerarArquivo(salvar.getSelectedFile().getAbsolutePath());
-
-                Gerador.foiExecutado = true;
-
+            System.out.println(salvar.getSelectedFile().getAbsolutePath());
+            Gerador.gerarArquivo(salvar.getSelectedFile().getAbsolutePath());
+            
+            Gerador.foiExecutado = true;
+            
             } catch (FileNotFoundException ex) {
-                Logger.getLogger(IUPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(IUPrincipal.class.getName()).log(Level.SEVERE, null, ex);
             }
+            }*/
+        
+        try {
+            
+            
+            Gerador.gerarArquivo("intermediario.in");
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(IUPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+        Gerador.foiExecutado = true;
+
+        AnalisadorSemantico.foiExecutado = false;
+        AnalisadorLexico.foiExecutado = false;
+        RecuperacaoErros.foiExecutado = false;
+
     }//GEN-LAST:event_jMenuItem9ActionPerformed
 
     private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
@@ -523,12 +571,13 @@ public class IUPrincipal extends javax.swing.JFrame {
 
         if (JFileChooser.APPROVE_OPTION == abrir.showOpenDialog(this)) {
 
-            Interpretador in = new Interpretador();
+            this.interpretador = new Interpretador();
             try {
 
-                in.lerArquivo(abrir.getSelectedFile().getAbsolutePath());
-
-                in.executar();
+                interpretador.lerArquivo(abrir.getSelectedFile().getAbsolutePath());
+                jTextPane.setText(interpretador.getTexto());
+                
+                //in.executar();
 
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(TesteInterpretador.class.getName()).log(Level.SEVERE, null, ex);
@@ -558,12 +607,11 @@ public class IUPrincipal extends javax.swing.JFrame {
         }
 
         //executar análise semântica
-        
-        
-        
+        this.jMenuItem7ActionPerformed(evt);
+
         if (AnalisadorSemantico.temErro) {
 
-            JOptionPane.showMessageDialog(this, "Há erros semânticos, você deve corrigí-los antes!", "Gerador de Código", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Há erros semânticos, você deve corrigí-los antes!", "Analisador Semântico", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
 
@@ -592,6 +640,12 @@ public class IUPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
         // TODO add your handling code here:
 
+        if (!RecuperacaoErros.foiExecutado) {
+
+            JOptionPane.showMessageDialog(this, "Você deve executar o analisador sintático antes!!", "Analisador Sintático", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
         String result = "ANÁLISE SEMÂNTICA...\n\n";
         TabelaErrosSemantico.lista.clear();
         StyledDocument doc = jTextPaneConsole.getStyledDocument();
@@ -600,7 +654,7 @@ public class IUPrincipal extends javax.swing.JFrame {
         this.fonte = this.jTextPane.getText();
 
         Gerador.init();
-        
+
         //this.g = new Grammar(new StringReader(this.fonte));
         Grammar.ReInit(new StringReader(this.fonte));
 
@@ -614,7 +668,7 @@ public class IUPrincipal extends javax.swing.JFrame {
 
             StyleConstants.setForeground(style, Color.GREEN);
             result += "Análise Semântica concluida com sucesso, sem erros!";
-            
+
             AnalisadorSemantico.temErro = false;
         } else {
 
@@ -633,11 +687,29 @@ public class IUPrincipal extends javax.swing.JFrame {
             doc.insertString(doc.getLength(), result, style);
         } catch (BadLocationException e) {
         }
-        
+
         AnalisadorSemantico.foiExecutado = true;
-        
+
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
+    private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed
+        
+        Interpretador in = new Interpretador();
+            try {
+
+                in.lerArquivo("intermediario.in");
+
+                in.executar();
+
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(TesteInterpretador.class.getName()).log(Level.SEVERE, null, ex);
+            }
+    }//GEN-LAST:event_jMenuItem12ActionPerformed
+
+    private void jMenuItem13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem13ActionPerformed
+        
+        this.interpretador.executar();
+    }//GEN-LAST:event_jMenuItem13ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -685,11 +757,14 @@ public class IUPrincipal extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jConsolePanel;
     private javax.swing.JFileChooser jFileChooser1;
     private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
     private javax.swing.JMenuItem jMenuItem11;
+    private javax.swing.JMenuItem jMenuItem12;
+    private javax.swing.JMenuItem jMenuItem13;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;

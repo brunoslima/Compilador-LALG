@@ -28,11 +28,18 @@ public class AnalisadorLexico {
     private static final ArrayList<String> operadores  = new ArrayList<>();
 
     private static boolean temErro;
+    public static boolean foiExecutado;
+
+    
+
+    public static boolean isFoiExecutado() {
+        return foiExecutado;
+    }
 
     public AnalisadorLexico() {
 
         this.tabela = new ArrayList<>();
-
+        foiExecutado = false;
         //this.gerarLexico();
         
         palavrasReservadas.addAll(Arrays.asList(new String[]{
