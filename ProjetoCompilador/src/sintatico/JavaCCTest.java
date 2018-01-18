@@ -67,6 +67,7 @@ public class JavaCCTest {
         
         System.out.println("\n");
         TabelaErrosSemantico.visualizar();
+
     }
 
     public static List<Token> tokenize(Grammar parser) throws FileNotFoundException {

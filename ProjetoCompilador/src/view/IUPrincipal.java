@@ -247,6 +247,11 @@ public class IUPrincipal extends javax.swing.JFrame {
 
         jMenuItem7.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F7, 0));
         jMenuItem7.setText("Análise Semântica");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
         MenuAnalisar.add(jMenuItem7);
         MenuAnalisar.add(jSeparator1);
 
@@ -426,7 +431,7 @@ public class IUPrincipal extends javax.swing.JFrame {
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
         //executa analise sintatica
 
-        String result = "";
+        String result = "ANÁLISE SINTÁTICA...\n\n";
         RecuperacaoErros.listaErros.clear();
         StyledDocument doc = jTextPaneConsole.getStyledDocument();
         Style style = jTextPaneConsole.addStyle("I'm a Style", null);
@@ -530,8 +535,8 @@ public class IUPrincipal extends javax.swing.JFrame {
             }
         }
 
-
     }//GEN-LAST:event_jMenuItem10ActionPerformed
+
 
     private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
 
@@ -582,6 +587,57 @@ public class IUPrincipal extends javax.swing.JFrame {
             Logger.getLogger(TesteInterpretador.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jMenuItem11ActionPerformed
+
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+        // TODO add your handling code here:
+        // TODO add your handling code here:
+
+        String result = "ANÁLISE SEMÂNTICA...\n\n";
+        TabelaErrosSemantico.lista.clear();
+        StyledDocument doc = jTextPaneConsole.getStyledDocument();
+        Style style = jTextPaneConsole.addStyle("I'm a Style", null);
+
+        this.fonte = this.jTextPane.getText();
+
+        Gerador.init();
+        
+        //this.g = new Grammar(new StringReader(this.fonte));
+        Grammar.ReInit(new StringReader(this.fonte));
+
+        try {
+            Grammar.compilationUnit();
+        } catch (sintatico.ParseException ex) {
+            Logger.getLogger(JavaCCTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        if (TabelaErrosSemantico.getErros().isEmpty()) {
+
+            StyleConstants.setForeground(style, Color.GREEN);
+            result += "Análise Semântica concluida com sucesso, sem erros!";
+            
+            AnalisadorSemantico.temErro = false;
+        } else {
+
+            result += TabelaErrosSemantico.getErros();
+            StyleConstants.setForeground(style, Color.RED);
+
+            result += "\nAnálise Semântica concluida com sucesso, porém há erros...";
+            AnalisadorSemantico.temErro = true;
+        }
+
+        jTextPaneConsole.setText("");
+
+        jConsolePanel.setSelectedIndex(1);
+
+        try {
+            doc.insertString(doc.getLength(), result, style);
+        } catch (BadLocationException e) {
+        }
+        
+        AnalisadorSemantico.foiExecutado = true;
+        
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
+
 
     /**
      * @param args the command line arguments
